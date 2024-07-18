@@ -4,7 +4,7 @@ const cors = require("cors");
 require("./models/db");
 
 //routers
-
+const usersRouter = require("./route/users");
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 // router middleware
-
+app.use("/users",usersRouter);
 
 const PORT = process.env.PORT || 5000;
 
