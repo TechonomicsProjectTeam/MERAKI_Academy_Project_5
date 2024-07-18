@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+.App {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+input,
+textarea {
+  width: 350px;
+  margin-top: 5px;
+  height: 40px;
+  padding: 2px;
+  font-size: 15px;
+  border: solid 1px rgba(128, 128, 128, 0.376);
+  resize: none;
+}
+
+button {
+  width: 350px;
+  margin: 5px;
+  height: 40px;
+  background-color: rgb(95, 95, 253);
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  color: seashell;
+  font-size: large;
+}
