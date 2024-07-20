@@ -1,6 +1,11 @@
 const pool = require("../models/db");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const saltRounds = parseInt(process.env.SALT);
 
-const createShops = (req, res) => {};
+const createShops = (req, res) => {
+  
+};
 
 const deleteShopsById = (req, res) => {};
 
