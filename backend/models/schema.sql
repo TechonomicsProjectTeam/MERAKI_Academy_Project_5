@@ -12,9 +12,10 @@ CREATE TABLE permissions
 
 CREATE TABLE role_permissions
 (
+  id SERIAL PRIMARY KEY,
   role_id INT NOT NULL,
   permission_id INT NOT NULL,
-  PRIMARY KEY (role_id, permission_id),
+  
   FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE,
   FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE
 );
@@ -36,7 +37,7 @@ CREATE TABLE categories
   category_id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   description TEXT,
-  images TEXT
+  images TEXT1
 );
 
 CREATE TABLE shops
@@ -70,9 +71,10 @@ CREATE TABLE orders
 
 CREATE TABLE order_products
 (
+  id SERIAL PRIMARY KEY,
   order_id INT NOT NULL,
   product_id INT NOT NULL,
-  PRIMARY KEY (order_id, product_id),
+  
   FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
@@ -86,27 +88,16 @@ CREATE TABLE cart
 
 CREATE TABLE cart_products
 (
+  id SERIAL PRIMARY KEY,
   cart_id INT NOT NULL,
   product_id INT NOT NULL,
   quantity INT NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
-  PRIMARY KEY (cart_id, product_id),
+ 
   FOREIGN KEY (cart_id) REFERENCES cart(cart_id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
 
-CREATE TABLE store_users
-(
-  store_user_id SERIAL PRIMARY KEY,
-  first_name VARCHAR(255) NOT NULL,
-  last_name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  username VARCHAR(255) UNIQUE NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  phone_number VARCHAR(20),
-  shop_id INT NOT NULL,
-  FOREIGN KEY (shop_id) REFERENCES shops(shop_id) ON DELETE CASCADE
-);
 CREATE TABLE reviews
 (
   review_id SERIAL PRIMARY KEY,
