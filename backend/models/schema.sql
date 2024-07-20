@@ -107,6 +107,17 @@ CREATE TABLE store_users
   shop_id INT NOT NULL,
   FOREIGN KEY (shop_id) REFERENCES shops(shop_id) ON DELETE CASCADE
 );
+CREATE TABLE reviews
+(
+  review_id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  product_id INT NOT NULL,
+  rating INT CHECK (rating >= 1 AND rating <= 5) NOT NULL,
+  review_text TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+);
 
 
 
