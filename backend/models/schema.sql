@@ -95,18 +95,7 @@ CREATE TABLE cart_products
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
 
-CREATE TABLE store_users
-(
-  store_user_id SERIAL PRIMARY KEY,
-  first_name VARCHAR(255) NOT NULL,
-  last_name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  username VARCHAR(255) UNIQUE NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  phone_number VARCHAR(20),
-  shop_id INT NOT NULL,
-  FOREIGN KEY (shop_id) REFERENCES shops(shop_id) ON DELETE CASCADE
-);
+
 CREATE TABLE reviews
 (
   review_id SERIAL PRIMARY KEY,
