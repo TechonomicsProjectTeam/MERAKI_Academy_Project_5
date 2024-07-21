@@ -1,6 +1,6 @@
 const pool = require("../models/db");
 
-const createCategory = async (req, res) => {
+const createCategory = (req, res) => {
   const { name, description, images } = req.body;
   const query = `INSERT INTO categories (name,description,images) VALUES ($1,$2,$3) RETURNING *`;
   const values = [name, description, images];
@@ -77,7 +77,7 @@ const getAllCategory = (req, res) => {
         res.status(200).json({
             success:true,
             message:"All the categories",
-            category:result.rows[0]
+            category:result.rows
         })
     })
     .catch((error)=>{
