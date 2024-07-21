@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const saltRounds = parseInt(process.env.SALT);
 
 const createShops = async(req, res) => {
+   const role_id = 3
   //collecting the shop data from the body
   const {
     category_id,
@@ -26,9 +27,10 @@ const createShops = async(req, res) => {
       hashedPassword,
       phone_number,
       category_id,
+      role_id
     ];
     //the query
-    const query = `INSERT INTO shops (name,description,images,email,password,phone_number,category_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`;
+    const query = `INSERT INTO shops (name,description,images,email,password,phone_number,category_id,role_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
     pool
       .query(query, values)
       .then((response) => {
