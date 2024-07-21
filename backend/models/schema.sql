@@ -15,7 +15,7 @@ CREATE TABLE role_permissions
   id SERIAL PRIMARY KEY,
   role_id INT NOT NULL,
   permission_id INT NOT NULL,
-  
+
   FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE,
   FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE
 );
@@ -28,6 +28,7 @@ CREATE TABLE users
   username VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   phone_number VARCHAR(20),
+  images TEXT,
   role_id INT NOT NULL,
   FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE
 );
@@ -37,17 +38,23 @@ CREATE TABLE categories
   category_id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   description TEXT,
-  images TEXT1
+  images TEXT
 );
 
-CREATE TABLE shops
-(
+  CREATE TABLE shops
+  (
   shop_id SERIAL PRIMARY KEY,
   category_id INT NOT NULL,
+  role_id INT NOT NULL,
   name VARCHAR(255) NOT NULL,
   description TEXT,
   images TEXT,
-  FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE SET NULL
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  phone_number VARCHAR(20),
+  is_deleted INT DEFAULT 0,
+  FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE SET NULL,
+  FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE SET NULL
 );
 
 CREATE TABLE products
@@ -74,7 +81,7 @@ CREATE TABLE order_products
   id SERIAL PRIMARY KEY,
   order_id INT NOT NULL,
   product_id INT NOT NULL,
-  
+
   FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
@@ -83,6 +90,7 @@ CREATE TABLE cart
 (
   cart_id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -92,8 +100,8 @@ CREATE TABLE cart_products
   cart_id INT NOT NULL,
   product_id INT NOT NULL,
   quantity INT NOT NULL,
-  price DECIMAL(10, 2) NOT NULL,
- 
+  
+
   FOREIGN KEY (cart_id) REFERENCES cart(cart_id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
