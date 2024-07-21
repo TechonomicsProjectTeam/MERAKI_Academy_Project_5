@@ -7,11 +7,14 @@ const {
   getAllProducts,
 } = require("../controllers/Product");
 
+const authorization = require("../middlewares/authorization")
+const authentication = require("../middlewares/authentication")
+
 const productRouter = express.Router();
 
-productRouter.post("/", createProducts);
+productRouter.post("/",authentication,authorization("CREATE_PRODUCTS"), createProducts);
 productRouter.get("/", getAllProducts);
-productRouter.put("/:id", updateProductsById);
+productRouter.put("/:id",authentication,authorization("CREATE_PRODUCTS"), updateProductsById);
 productRouter.delete("/:id", deleteProductsById);
 
 module.exports = productRouter;

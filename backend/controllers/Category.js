@@ -77,14 +77,14 @@ const getAllCategory = (req, res) => {
         res.status(200).json({
             success:true,
             message:"All the categories",
-            category:result.rows[0]
+            category:result.rows
         })
     })
     .catch((error)=>{
         res.status(500).json({
-            success:true,
-            message:"All the categories",
-            category:error.message
+            success:false,
+            message:"Server Error",
+            error:error.message
         })
     })
 };
