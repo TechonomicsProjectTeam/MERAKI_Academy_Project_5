@@ -3,10 +3,27 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const saltRounds = parseInt(process.env.SALT);
 
+//========================================================REGISTER=========================================================
 const register = async (req, res) => {
-  const { first_name, last_name, username, phone_number, email, password, images } =
+  const { first_name, last_name, username, phone_number, email, password, images,role_id } =
     req.body;
-  const role_id = '1'// edit the value of role_id depend on role id in role table .
+    if(![1,2].includes(role_id)){
+      return res.status(400).json({
+        success:false,
+        message:"Invalid role ID"
+      })
+    }
+
+  pool.query(`SELECT * FROM users WHERE username = $1`,[username])
+  .then((result)=>{
+    if(result.rowCount>0){
+      return res.status(400).json({
+        success:false,
+        message:"Username already axists"
+      })
+    }
+  })
+
   const encryptedPassword = await bcrypt.hash(password, saltRounds);
   const query = `INSERT INTO users (first_name, last_name, username, phone_number, email, password, role_id , images) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) returning *`;
   const data = [
@@ -25,8 +42,8 @@ const register = async (req, res) => {
       console.log("fisrt result is ok", result);
       if(result.rowCount){
       const users_id = result.rows[0].user_id;
-      const newCart = `INSERT INTO cart (user_id) VALUES ($1) RETURNING *`
-      pool.query(newCart, [users_id])
+      const newCart = `INSERT INTO cart (user_id,price) VALUES ($1,$2) RETURNING *`
+      pool.query(newCart, [users_id,0])//total price = 0
         .then((result) => {
           console.log("second result is ok");
           res.status(200).json({
@@ -59,7 +76,7 @@ const register = async (req, res) => {
     });
 };
 
-
+//===========================================================LOGIN========================================================
 const login = (req, res) => {
   const password = req.body.password;
   const email = req.body.email;
@@ -113,6 +130,7 @@ const login = (req, res) => {
     });
 };
 
+//=======================================================UPDATE USER BY ID=====================================================
 const updateUserById = (req, res) => {
   const user_id = req.params.user_id;
   const { first_name, last_name, username, phone_number, email, password, images } =
@@ -140,6 +158,7 @@ const updateUserById = (req, res) => {
     });
 };
 
+//=============================================================DELETE USER BY ID========================================================
 const deleteUserById = (req, res) => {
   const user_id = req.params.user_id;
   pool.query(`DELETE FROM users WHERE user_id = $1 RETURNING *`, [user_id])
