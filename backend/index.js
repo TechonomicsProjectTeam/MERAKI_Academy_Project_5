@@ -9,7 +9,7 @@ const usersRouter = require("./routes/Users");
 const categoryRouter = require("./routes/Category");
 const shopRouter=require("./routes/Shop")
 const productRouter=require("./routes/Product")
-const storeUserRouter=require("./routes/StoreUser")
+const cartRouter=require("./routes/Cart")
 const reviewRouter=require("./routes/Review")
 const app = express();
 
@@ -23,7 +23,7 @@ app.use("/users", usersRouter);
 app.use("/categories", categoryRouter);
 app.use("/shop",shopRouter)
 app.use("/product",productRouter)
-app.use("/storeUser",storeUserRouter)
+app.use("/carts",cartRouter)
 app.use("/review",reviewRouter)
 
 const PORT = process.env.PORT || 5000;

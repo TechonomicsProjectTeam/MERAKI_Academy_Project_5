@@ -7,6 +7,7 @@ const {
   deleteUserById,
 } = require("../controllers/Users");
 
+
 const usersRouter = express.Router();
 
 usersRouter.post("/register", register);
