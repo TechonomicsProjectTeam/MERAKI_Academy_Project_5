@@ -16,9 +16,9 @@ const authentication = require("../middlewares/authentication")
   
   authorization("CREATE_CATEGORY"),
 */
-categoryRouter.post("/",createCategory)
-categoryRouter.get("/",getAllCategory)
-categoryRouter.put("/:id",updateCategoryById)
-categoryRouter.delete("/:id",deleteCategoryById)
+categoryRouter.post("/",authentication,createCategory)
+categoryRouter.get("/",authentication,getAllCategory)
+categoryRouter.put("/:id",authentication,updateCategoryById)
+categoryRouter.delete("/:id",authentication,deleteCategoryById)
 
 module.exports=categoryRouter

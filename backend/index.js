@@ -11,6 +11,7 @@ const shopRouter=require("./routes/Shop")
 const productRouter=require("./routes/Product")
 const cartRouter=require("./routes/Cart")
 const reviewRouter=require("./routes/Review")
+const orderRouter = require("./routes/orders")
 const app = express();
 
 //built-in middleware
@@ -25,6 +26,7 @@ app.use("/shop",shopRouter)
 app.use("/product",productRouter)
 app.use("/carts",cartRouter)
 app.use("/review",reviewRouter)
+app.use("/orders",orderRouter)
 
 const PORT = process.env.PORT || 5000;
 
