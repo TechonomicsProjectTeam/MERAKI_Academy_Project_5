@@ -13,8 +13,9 @@ const register = async (req, res) => {
         message:"Invalid role ID"
       })
     }
+    const lowerCaseUserName=username.toLowerCase()
 
-  pool.query(`SELECT * FROM users WHERE username = $1`,[username])
+  pool.query(`SELECT * FROM users WHERE username = $1`,[lowerCaseUserName])
   .then((result)=>{
     if(result.rowCount>0){
       return res.status(400).json({
@@ -29,7 +30,7 @@ const register = async (req, res) => {
   const data = [
     first_name,
     last_name,
-    username,
+    lowerCaseUserName,
     phone_number,
     email.toLowerCase(),
     encryptedPassword,
@@ -136,7 +137,7 @@ const updateUserById = (req, res) => {
   const { first_name, last_name, username, phone_number, email, password, images } =
     req.body;
 
-  pool.query(`UPDATE users SET  first_name = $1, last_name= $2, username = $3, phone_number =$4, email =$5, password =$6 , images =$7 WHERE user_id =$8 RETURNING * `,
+  pool.query(`UPDATE users SET  first_name = COALESCE($1,first_name), last_name= COALESCE($2,last_name), username = COALESCE($3,username), phone_number= COALESCE($4,phone_number), email = COALESCE($5,email), password = COALESCE($6,password) , images = COALESCE($7,images) WHERE user_id =$8 RETURNING * `,
     [first_name, last_name, username, phone_number, email, password, images, user_id])
     .then((result) => {
       if (result.rows.length === 0) {

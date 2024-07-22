@@ -24,7 +24,7 @@ const createProducts = (req, res) => {
 const updateProductsById = (req, res) => {
   const {name,description,price,images}=req.body
   const {id}=req.params
-  const query=`UPDATE products SET name=$1 , description=$2, price=$3, images=$4 WHERE product_id=$5 RETURNING * `
+  const query=`UPDATE products SET name= COALESCE($1,name) , description= COALESCE($2,description), price= COALESCE($3,price), images=COALESCE($4,images) WHERE product_id=$5 RETURNING * `
   pool
   .query(query,[name,description,price,images,id])
   .then((result) => {
