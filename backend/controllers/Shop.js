@@ -15,12 +15,13 @@ const createShops = async(req, res) => {
     password,
     phone_number,
   } = req.body;
+  
   try {
     //Hashing the password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     //Values of the query
     const values = [
-      name,
+      name.toLowerCase(),
       description,
       images,
       email.toLowerCase(),

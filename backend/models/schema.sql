@@ -19,8 +19,8 @@ CREATE TABLE role_permissions
   role_id INT NOT NULL,
   permission_id INT NOT NULL,
   is_deleted INT DEFAULT 0,
-  FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE,
-  FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE
+  FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE users
 (
@@ -34,7 +34,7 @@ CREATE TABLE users
   images TEXT,
   is_deleted INT DEFAULT 0,
   role_id INT NOT NULL,
-  FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE
+  FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE categories
@@ -43,7 +43,7 @@ CREATE TABLE categories
   name VARCHAR(255) NOT NULL,
   description TEXT,
   images TEXT,
-  is_deleted INT DEFAULT 0,
+  is_deleted INT DEFAULT 0
 );
 
   CREATE TABLE shops
@@ -51,15 +51,15 @@ CREATE TABLE categories
   shop_id SERIAL PRIMARY KEY,
   category_id INT NOT NULL,
   role_id INT NOT NULL,
-  name VARCHAR(255) NOT NULL,
+  name VARCHAR(255) UNIQUE NOT NULL ,
   description TEXT,
   images TEXT,
   email VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   phone_number VARCHAR(20),
   is_deleted INT DEFAULT 0,
-  FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE SET NULL,
-  FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE SET NULL
+  FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE ON UPDATE CASCADE ,
+  FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE products
@@ -71,7 +71,7 @@ CREATE TABLE products
   images TEXT,
   shop_id INT NOT NULL,
   is_deleted INT DEFAULT 0,
-  FOREIGN KEY (shop_id) REFERENCES shops(shop_id) ON DELETE SET NULL
+  FOREIGN KEY (shop_id) REFERENCES shops(shop_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE orders
@@ -80,7 +80,7 @@ CREATE TABLE orders
   user_id INT NOT NULL,
   status VARCHAR(20) DEFAULT 'In progress' CHECK (status IN ('In progress', 'ACCEPTED', 'REJECTED')),
   is_deleted INT DEFAULT 0,
-  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE order_products
@@ -89,8 +89,8 @@ CREATE TABLE order_products
   order_id INT NOT NULL,
   product_id INT NOT NULL,
 is_deleted INT DEFAULT 0,
-  FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
-  FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+  FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE cart
@@ -99,7 +99,7 @@ CREATE TABLE cart
   user_id INT NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
   is_deleted INT DEFAULT 0,
-  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE cart_products
@@ -110,8 +110,8 @@ CREATE TABLE cart_products
   quantity INT NOT NULL,
   is_deleted INT DEFAULT 0,
 
-  FOREIGN KEY (cart_id) REFERENCES cart(cart_id) ON DELETE CASCADE,
-  FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+  FOREIGN KEY (cart_id) REFERENCES cart(cart_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE reviews
@@ -123,8 +123,8 @@ CREATE TABLE reviews
   review_text TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   is_deleted INT DEFAULT 0,
-  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-  FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE ON UPDATE CASCADE
   
 );
 

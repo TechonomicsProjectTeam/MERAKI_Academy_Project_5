@@ -47,7 +47,7 @@ const getReviewByProductId = (req, res) => {
 const updateReview = (req, res) => {
   const {id}=req.params
   const {rating,review_text}=req.body
-  const query=`UPDATE reviews SET rating=$1, review_text=$2 WHERE review_id=$3 RETURNING *`
+  const query=`UPDATE reviews SET rating= COALESCE($1,rating), review_text= COALESCE($2,review_text) WHERE review_id=$3 RETURNING *`
   pool
   .query(query,[rating,review_text,id])
   .then((result) => {
