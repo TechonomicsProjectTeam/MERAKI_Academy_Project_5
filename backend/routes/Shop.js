@@ -9,10 +9,12 @@ const {
 
 
 const shopRouter=express.Router()
+const authorization = require("../middlewares/authorization")
+const authentication = require("../middlewares/authentication")
 
-shopRouter.post("/",createShops)
-shopRouter.get("/",getAllShops)
-shopRouter.put("/:id",updateShopById)
-shopRouter.delete("/:id",deleteShopsById)
+shopRouter.post("/",authentication,createShops)
+shopRouter.get("/",authentication,getAllShops)
+shopRouter.put("/:id",authentication,updateShopById)
+shopRouter.delete("/:id",authentication,deleteShopsById)
 
 module.exports=shopRouter
