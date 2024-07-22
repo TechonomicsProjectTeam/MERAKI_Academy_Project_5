@@ -1,13 +1,16 @@
 CREATE TABLE roles
 (
   role_id SERIAL PRIMARY KEY,
+  is_deleted INT DEFAULT 0,
   role_name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE permissions
 (
+  is_deleted INT DEFAULT 0,
   permission_id SERIAL PRIMARY KEY,
   permission_name VARCHAR(255) NOT NULL
+  
 );
 
 CREATE TABLE role_permissions
@@ -15,7 +18,7 @@ CREATE TABLE role_permissions
   id SERIAL PRIMARY KEY,
   role_id INT NOT NULL,
   permission_id INT NOT NULL,
-
+  is_deleted INT DEFAULT 0,
   FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE,
   FOREIGN KEY (permission_id) REFERENCES permissions(permission_id) ON DELETE CASCADE
 );
@@ -29,6 +32,7 @@ CREATE TABLE users
   password VARCHAR(255) NOT NULL,
   phone_number VARCHAR(20),
   images TEXT,
+  is_deleted INT DEFAULT 0,
   role_id INT NOT NULL,
   FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE
 );
@@ -38,7 +42,8 @@ CREATE TABLE categories
   category_id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   description TEXT,
-  images TEXT
+  images TEXT,
+  is_deleted INT DEFAULT 0,
 );
 
   CREATE TABLE shops
@@ -65,6 +70,7 @@ CREATE TABLE products
   price DECIMAL(10, 2) NOT NULL,
   images TEXT,
   shop_id INT NOT NULL,
+  is_deleted INT DEFAULT 0,
   FOREIGN KEY (shop_id) REFERENCES shops(shop_id) ON DELETE SET NULL
 );
 
@@ -72,7 +78,8 @@ CREATE TABLE orders
 (
   order_id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  status VARCHAR(255) NOT NULL,
+  status VARCHAR(20) DEFAULT 'In progress' CHECK (status IN ('In progress', 'ACCEPTED', 'REJECTED')),
+  is_deleted INT DEFAULT 0,
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -81,7 +88,7 @@ CREATE TABLE order_products
   id SERIAL PRIMARY KEY,
   order_id INT NOT NULL,
   product_id INT NOT NULL,
-
+is_deleted INT DEFAULT 0,
   FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
@@ -91,6 +98,7 @@ CREATE TABLE cart
   cart_id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
+  is_deleted INT DEFAULT 0,
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -100,7 +108,7 @@ CREATE TABLE cart_products
   cart_id INT NOT NULL,
   product_id INT NOT NULL,
   quantity INT NOT NULL,
-  
+  is_deleted INT DEFAULT 0,
 
   FOREIGN KEY (cart_id) REFERENCES cart(cart_id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
@@ -114,8 +122,10 @@ CREATE TABLE reviews
   rating INT CHECK (rating >= 1 AND rating <= 5) NOT NULL,
   review_text TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  is_deleted INT DEFAULT 0,
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+  
 );
 
 

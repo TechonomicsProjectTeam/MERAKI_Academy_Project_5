@@ -7,7 +7,10 @@ const {
   deleteReview,
 } = require("../controllers/Review");
 
-reviewRouter.post("/", createNewReview);
+const authorization = require("../middlewares/authorization")
+const authentication = require("../middlewares/authentication")
+
+reviewRouter.post("/:id",authentication,authorization("CREATE_REVIEW"), createNewReview);
 reviewRouter.get("/:id", getReviewByProductId);
 reviewRouter.put("/:id", updateReview);
 reviewRouter.delete("/:id", deleteReview);
