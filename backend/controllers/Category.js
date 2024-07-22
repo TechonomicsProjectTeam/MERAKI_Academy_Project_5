@@ -70,7 +70,7 @@ const deleteCategoryById = (req, res) => {
 };
 
 const getAllCategory = (req, res) => {
-    const query = `SELECT * FROM categories`
+    const query = `SELECT * FROM categories WHERE is_deleted=0`
 
     pool.query(query)
     .then((result)=>{

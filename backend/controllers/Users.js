@@ -182,9 +182,29 @@ const deleteUserById = (req, res) => {
     });
 };
 
+//=============================================================GET ALL USERS========================================================
+const getAllUsers= (req,res)=>{
+  pool.query(`SELECT * FROM  users WHERE is_deleted = 0`)
+  .then((result)=>{
+    res.status(200).json({
+        success:true,
+        message:`All Users`,
+        users:result.rows
+    })
+})
+.catch((error)=>{
+    res.status(500).json({
+        success:false,
+        message:"Server error",
+        Error:error.message
+    })
+})
+}
+
 module.exports = {
   register,
   login,
   updateUserById,
   deleteUserById,
+  getAllUsers
 };
