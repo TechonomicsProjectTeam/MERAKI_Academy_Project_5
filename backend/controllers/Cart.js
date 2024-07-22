@@ -62,7 +62,7 @@ const getAllCart = (req, res) => {
   const {cart_id} = req.params;
   const user_id = req.token.userId;
 
-  pool.query(`SELECT * FROM cart WHERE cart_id = $1 AND user_id = $2`,[cart_id,user_id])
+  pool.query(`SELECT * FROM cart WHERE cart_id = $1 AND user_id = $2 AND is_deleted = 0`,[cart_id,user_id])
   .then((result)=>{
     if(result.rows.length === 0){
       res.status(403).json({

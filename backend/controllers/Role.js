@@ -96,7 +96,7 @@ const getRole_Permissions = (req, res) => {
   const query = ` SELECT role_permissions.id, roles.role_name, permissions.permission_name 
     FROM role_permissions 
     JOIN roles  ON role_permissions.role_id = roles.role_id
-    JOIN permissions  ON role_permissions.permission_id = permissions.permission_id`;
+    JOIN permissions  ON role_permissions.permission_id = permissions.permission_id WHERE role_permissions.is_deleted = 0`;
   pool.query(query)
     .then((result) => {
       res.status(200).json({

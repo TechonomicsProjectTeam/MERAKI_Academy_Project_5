@@ -62,7 +62,7 @@ const deleteProductsById = (req, res) => {
 };
 
 const getAllProducts = (req, res) => {
-  pool.query(`SELECT * FROM products`)
+  pool.query(`SELECT * FROM products WHERE is_deleted=0`)
   .then((result)=>{
     res.status(200).json({
         success:true,
