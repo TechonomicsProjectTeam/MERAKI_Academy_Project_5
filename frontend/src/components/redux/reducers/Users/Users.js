@@ -14,7 +14,11 @@ export const userSlice = createSlice({
             state.users.push(action.payload);
         },
         updateUserById:(state , action)=>{
-            //الرحوع لها 
+            state.users=state.users.map((user)=>{
+                if (user.user_id==action.payload.user_id){
+                user=action.payload
+                }
+            })
            },
         deleteUserById:(state , action)=>{
             const {user_id} = action.payload;
