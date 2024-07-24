@@ -47,7 +47,7 @@ const updateProductsById = (req, res) => {
 const deleteProductsById = (req, res) => {
   const { id } = req.params;
   pool
-    .query(`DELETE FROM products WHERE product_id=$1`, [id])
+    .query(`UPDATE products SET is_deleted=1 WHERE product_id=$1`, [id])
     .then((result) => {
       res.status(200).json({
         success: true,
