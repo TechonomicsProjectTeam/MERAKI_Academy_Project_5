@@ -7,11 +7,11 @@ require("./models/db");
 const rolesRouter = require("./routes/Role");
 const usersRouter = require("./routes/Users");
 const categoryRouter = require("./routes/Category");
-const shopRouter=require("./routes/Shop")
-const productRouter=require("./routes/Product")
-const cartRouter=require("./routes/Cart")
-const reviewRouter=require("./routes/Review")
-const orderRouter = require("./routes/orders")
+const shopRouter = require("./routes/Shop");
+const productRouter = require("./routes/Product");
+const cartRouter = require("./routes/Cart");
+const reviewRouter = require("./routes/Review");
+const orderRouter = require("./routes/orders");
 const app = express();
 
 //built-in middleware
@@ -22,11 +22,11 @@ app.use(cors());
 app.use("/roles", rolesRouter);
 app.use("/users", usersRouter);
 app.use("/categories", categoryRouter);
-app.use("/shop",shopRouter)
-app.use("/product",productRouter)
-app.use("/carts",cartRouter)
-app.use("/review",reviewRouter)
-app.use("/orders",orderRouter)
+app.use("/shop", shopRouter);
+app.use("/product", productRouter);
+app.use("/carts", cartRouter);
+app.use("/review", reviewRouter);
+app.use("/orders", orderRouter);
 
 const PORT = process.env.PORT || 5000;
 

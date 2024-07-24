@@ -5,18 +5,17 @@ const {
   deleteShopsById,
   getAllShops,
   updateShopById,
-  loginShop
+  loginShop,
 } = require("../controllers/Shop");
 
+const shopRouter = express.Router();
+const authorization = require("../middlewares/authorization");
+const authentication = require("../middlewares/authentication");
 
-const shopRouter=express.Router()
-const authorization = require("../middlewares/authorization")
-const authentication = require("../middlewares/authentication")
+shopRouter.post("/", authentication, createShops);
+shopRouter.get("/", authentication, getAllShops);
+shopRouter.put("/:id", authentication, updateShopById);
+shopRouter.delete("/:id", authentication, deleteShopsById);
+shopRouter.post("/shop_login", loginShop);
 
-shopRouter.post("/",authentication,createShops)
-shopRouter.get("/",authentication,getAllShops)
-shopRouter.put("/:id",authentication,updateShopById)
-shopRouter.delete("/:id",authentication,deleteShopsById)
-shopRouter.post("/shop_login",loginShop)
-
-module.exports=shopRouter
+module.exports = shopRouter;

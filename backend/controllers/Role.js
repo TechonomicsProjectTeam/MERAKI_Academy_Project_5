@@ -1,44 +1,45 @@
 const pool = require("../models/db");
 
 const createRole = (req, res) => {
-const {role_name} = req.body
-const query=`INSERT INTO roles (role_name) VALUES ($1) RETURNING *`
-pool.query(query,[role_name])
-.then((result) => {
-  res.status(201).json({
-    success: true,
-    message: "Role created successfully",
-    result: result.rows,
-  });
-})
-.catch((err) => {
-  res.status(500).json({
-    success: false,
-    message: `Server error`,
-    err: err,
-  });
-});
+  const { role_name } = req.body;
+  const query = `INSERT INTO roles (role_name) VALUES ($1) RETURNING *`;
+  pool
+    .query(query, [role_name])
+    .then((result) => {
+      res.status(201).json({
+        success: true,
+        message: "Role created successfully",
+        result: result.rows,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: `Server error`,
+        err: err,
+      });
+    });
 };
 
 const createPermission = (req, res) => {
-  const {permission_name}=req.body
-  const query = `INSERT INTO permissions (permission_name) VALUES ($1) RETURNING *`
+  const { permission_name } = req.body;
+  const query = `INSERT INTO permissions (permission_name) VALUES ($1) RETURNING *`;
   pool
-  .query(query,[permission_name])
-  .then((result) => {
-    res.status(201).json({
-      success: true,
-      message: `Permission created successfully`,
-      result: result.rows,
+    .query(query, [permission_name])
+    .then((result) => {
+      res.status(201).json({
+        success: true,
+        message: `Permission created successfully`,
+        result: result.rows,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: `Server error`,
+        err: err,
+      });
     });
-  })
-  .catch((err) => {
-    res.status(500).json({
-      success: false,
-      message: `Server error`,
-      err: err,
-    });
-  });
 };
 
 const createRole_Permissions = (req, res) => {
@@ -68,7 +69,8 @@ const createRole_Permissions = (req, res) => {
 const deleteRole_PermissionsById = (req, res) => {
   const { id } = req.params;
   const query = `DELETE FROM role_permissions WHERE id = $1 RETURNING *`;
-  pool.query(query, [id])
+  pool
+    .query(query, [id])
     .then((result) => {
       if (result.rowCount === 0) {
         res.status(404).json({
@@ -97,7 +99,8 @@ const getRole_Permissions = (req, res) => {
     FROM role_permissions 
     JOIN roles  ON role_permissions.role_id = roles.role_id
     JOIN permissions  ON role_permissions.permission_id = permissions.permission_id WHERE role_permissions.is_deleted = 0`;
-  pool.query(query)
+  pool
+    .query(query)
     .then((result) => {
       res.status(200).json({
         success: true,

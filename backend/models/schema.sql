@@ -10,7 +10,7 @@ CREATE TABLE permissions
   is_deleted INT DEFAULT 0,
   permission_id SERIAL PRIMARY KEY,
   permission_name VARCHAR(255) NOT NULL
-  
+
 );
 
 CREATE TABLE role_permissions
@@ -46,8 +46,8 @@ CREATE TABLE categories
   is_deleted INT DEFAULT 0
 );
 
-  CREATE TABLE shops
-  (
+CREATE TABLE shops
+(
   shop_id SERIAL PRIMARY KEY,
   category_id INT NOT NULL,
   role_id INT NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE order_products
   id SERIAL PRIMARY KEY,
   order_id INT NOT NULL,
   product_id INT NOT NULL,
-is_deleted INT DEFAULT 0,
+  is_deleted INT DEFAULT 0,
   FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -125,7 +125,7 @@ CREATE TABLE reviews
   is_deleted INT DEFAULT 0,
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE ON UPDATE CASCADE
-  
+
 );
 
 
