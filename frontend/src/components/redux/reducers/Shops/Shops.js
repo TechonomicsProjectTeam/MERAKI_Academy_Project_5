@@ -18,7 +18,7 @@ export const shopsSlice = createSlice({
         },
         updateShopById: (state,action)=>{
             state.shops= state.shops.map((shop,index)=>{
-                if (shop.id === action.payload.id){
+                if (shop.shop_id === action.payload.shop_id){
                     shop = action.payload
                 }
                 return shop
