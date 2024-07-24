@@ -191,7 +191,7 @@ const updateUserById = (req, res) => {
 const deleteUserById = (req, res) => {
   const user_id = req.params.user_id;
   pool
-    .query(`DELETE FROM users WHERE user_id = $1 RETURNING *`, [user_id])
+    .query(`UPDATE users SET is_deleted=1 WHERE user_id = $1 RETURNING *`, [user_id])
     .then((result) => {
       if (result.rows.length === 0) {
         return res.status(403).json("user not found");
