@@ -79,9 +79,38 @@ const getAllProducts = (req, res) => {
 })
 };
 
+const getProductByShopOwner = (req, res) => {
+  const { id } = req.params;
+  const query = `SELECT * FROM products WHERE shop_id = $1 AND is_deleted = 0`;
+  pool
+    .query(query, [id])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        res.status(404).json({
+          success: false,
+          message: `No products found for shop owner with shop_id: ${id}`,
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: `Products for shop owner with shop_id: ${id}`,
+          products: result.rows,
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
 module.exports = {
   createProducts,
   updateProductsById,
   deleteProductsById,
   getAllProducts,
+  getProductByShopOwner
 };
