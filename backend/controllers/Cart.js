@@ -57,7 +57,7 @@ const addProductToCart = (req, res) => {
         });
       });
 };
-//===============================================================GET ALL PRODUCT FROM CART ==============================================
+//===============================================================GET ALL PRODUCT FROM CART==============================================
 const getAllCart = (req, res) => {
   const {cart_id} = req.params;
   const user_id = req.token.userId;
@@ -93,92 +93,79 @@ const getAllCart = (req, res) => {
 
 //===========================================================DELETE ALL PRODUCT FROM CART ============================================
 const deleteAllProductFromCart = (req, res) => {
-  const {cart_id}=req.params;
+  const { cart_id } = req.params;
   const user_id = req.token.userId;
 
   pool.query(`SELECT * FROM cart WHERE cart_id = $1 AND user_id = $2`, [cart_id, user_id])
-  .then((result) => {
-    if (result.rows.length === 0) {
-      return res.status(403).json({
-        success: false,
-        message: "Unauthorized access to this cart",
-      });
-    }
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(403).json({
+          success: false,
+          message: "Unauthorized access to this cart",
+        });
+      }
 
-    pool.query(`DELETE FROM cart_products WHERE cart_id = $1 RETURNING *`, [cart_id])
+      return pool.query(`DELETE FROM cart_products WHERE cart_id = $1 RETURNING *`, [cart_id]);
+    })
     .then((result) => {
       res.status(200).json({
         success: true,
         message: "All products removed from the cart",
         deletedProducts: result.rows
       });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message
+      });
     });
-})
-.catch((error) => {
-  res.status(500).json({
-    success: false,
-    message: "Server error",
-    error: error.message
-  });
-});
 };
+
 
 //=======================================================DELETE PRODUCT CART BY ID=================================================
 const deleteProductCartById = (req, res) => {
-  const {cart_id , product_id} = req.params;
+  const { cart_id, product_id } = req.params;
   const user_id = req.token.userId;
 
   pool.query(`SELECT * FROM cart WHERE cart_id = $1 AND user_id = $2`, [cart_id, user_id])
-  .then((result) => {
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message:"unauthorized access to this cart",
-      });
-    }
-  })
-  .catch((err) => {
-    res.status(500).json({
-      success: false,
-      message: "cart not available",
-      err: err.message,
-    });
-  });
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Unauthorized access to this cart",
+        });
+      }
 
-  pool.query(`SELECT * FROM cart_products WHERE cart_id = $1 AND product_id = $2`, [cart_id, product_id])
-  .then((result) => {
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message:"product not found in the cart" ,
-      });
-    }
-  })
-  .catch((error) => {
-    res.status(500).json({
-      success: false,
-      message: "the product is not in the cart",
-      error: error.message
-    });
-  });
+      return pool.query(`SELECT * FROM cart_products WHERE cart_id = $1 AND product_id = $2`, [cart_id, product_id]);
+    })
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Product not found in the cart",
+        });
+      }
 
-  pool.query(`DELETE FROM cart_products WHERE cart_id = $1 AND product_id = $2 RETURNING *`, 
-    [cart_id, product_id])
+      return pool.query(`DELETE FROM cart_products WHERE cart_id = $1 AND product_id = $2 RETURNING *`, [cart_id, product_id]);
+    })
     .then((result) => {
       res.status(200).json({
         success: true,
-        message: "deleted product",
+        message: "Deleted product",
         deletedProduct: result.rows[0]
       });
     })
     .catch((error) => {
       res.status(500).json({
         success: false,
-        message: "server error",
+        message: "Server error",
         error: error.message
       });
     });
 };
+
 
 module.exports = {
   addProductToCart,

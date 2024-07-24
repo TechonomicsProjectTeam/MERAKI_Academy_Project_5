@@ -49,7 +49,7 @@ const updateCategoryById = (req, res) => {
 
 const deleteCategoryById = (req, res) => {
   const category_id = req.params.id;
-  const query = `DELETE FROM categories WHERE category_id = $1`;
+  const query = `UPDATE categories SET is_deleted=1 WHERE category_id = $1`;
   const values = [category_id];
 
   pool
