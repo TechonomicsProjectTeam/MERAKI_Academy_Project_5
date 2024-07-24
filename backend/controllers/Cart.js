@@ -173,11 +173,69 @@ const deleteProductCartById = (req, res) => {
     });
 };
 
+//===========================================================DECREASE PRODUCT QUANTITY==================================================
+const decreaseProductQuantity = (req, res) => {
+  const { cart_id, product_id } = req.params;
+  const user_id = req.token.userId;
+ // Verify cart ownership
+  pool.query(`SELECT * FROM cart WHERE cart_id = $1 AND user_id = $2`, [cart_id, user_id])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(403).json({
+          success: false,
+          message: "Unauthorized access to this cart",
+        });
+      }
+// Check if the product exists
+      return pool.query(`SELECT * FROM cart_products WHERE cart_id = $1 AND product_id = $2`, [cart_id, product_id]);
+    })
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Product not found in the cart",
+        });
+      }
+
+      const currentQuantity = result.rows[0].quantity;
+//Decrease Quantity
+      if (currentQuantity > 1) {
+        return pool.query(`UPDATE cart_products SET quantity = quantity - 1 WHERE cart_id = $1 AND product_id = $2 RETURNING *`, [cart_id, product_id])
+          .then((updateResult) => {
+            res.status(200).json({
+              success: true,
+              message: "Product quantity decreased by 1",
+              result: updateResult.rows[0],
+            });
+          });
+      } else {
+        //Remove Product once the quantity reach 0
+        return pool.query(`DELETE FROM cart_products WHERE cart_id = $1 AND product_id = $2 RETURNING *`, [cart_id, product_id])
+          .then((deleteResult) => {
+            res.status(200).json({
+              success: true,
+              message: "Product removed from the cart as quantity reached 0",
+              
+            });
+          });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message
+      });
+    });
+};
+
+
 
 module.exports = {
   addProductToCart,
   getAllCart,
   deleteAllProductFromCart,
   deleteProductCartById,
+  decreaseProductQuantity
 };
  
