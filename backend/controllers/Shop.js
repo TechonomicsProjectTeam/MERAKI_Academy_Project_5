@@ -64,7 +64,7 @@ const createShops = async (req, res) => {
 
 const deleteShopsById = (req, res) => {
   const shop_id = req.params.id;
-  const query = `Update shops SET is_delete=1 WHERE shop_id = $1 returning *`;
+  const query = `Update shops SET is_deleted=1 WHERE shop_id = $1 returning *`;
 
   pool
     .query(query, [shop_id])
