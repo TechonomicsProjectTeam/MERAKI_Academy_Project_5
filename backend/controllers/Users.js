@@ -5,25 +5,34 @@ const saltRounds = parseInt(process.env.SALT);
 
 //========================================================REGISTER=========================================================
 const register = async (req, res) => {
-  const { first_name, last_name, username, phone_number, email, password, images,role_id } =
-    req.body;
-    if(![1,2].includes(role_id)){
-      return res.status(400).json({
-        success:false,
-        message:"Invalid role ID"
-      })
-    }
-    const lowerCaseUserName=username.toLowerCase()
+  const {
+    first_name,
+    last_name,
+    username,
+    phone_number,
+    email,
+    password,
+    images,
+    role_id,
+  } = req.body;
+  if (![1, 2].includes(role_id)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid role ID",
+    });
+  }
+  const lowerCaseUserName = username.toLowerCase();
 
-  pool.query(`SELECT * FROM users WHERE username = $1`,[lowerCaseUserName])
-  .then((result)=>{
-    if(result.rowCount>0){
-      return res.status(400).json({
-        success:false,
-        message:"Username already axists"
-      })
-    }
-  })
+  pool
+    .query(`SELECT * FROM users WHERE username = $1`, [lowerCaseUserName])
+    .then((result) => {
+      if (result.rowCount > 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Username already axists",
+        });
+      }
+    });
 
   const encryptedPassword = await bcrypt.hash(password, saltRounds);
   const query = `INSERT INTO users (first_name, last_name, username, phone_number, email, password, role_id , images) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) returning *`;
@@ -41,32 +50,33 @@ const register = async (req, res) => {
     .query(query, data)
     .then((result) => {
       console.log("fisrt result is ok", result);
-      if(result.rowCount){
-      const users_id = result.rows[0].user_id;
-      const newCart = `INSERT INTO cart (user_id,price) VALUES ($1,$2) RETURNING *`
-      pool.query(newCart, [users_id,0])//total price = 0
-        .then((result) => {
-          console.log("second result is ok");
-          res.status(200).json({
-            success: true,
-            message: "Account Cart created successfully",
-            cart: result.rows
-          });
-        })
-        .catch((error) => {
-          res.status(409).json({
-            success: false,
-            message: "error in creating cart",
-            error: error.message
+      if (result.rowCount) {
+        const users_id = result.rows[0].user_id;
+        const newCart = `INSERT INTO cart (user_id,price) VALUES ($1,$2) RETURNING *`;
+        pool
+          .query(newCart, [users_id, 0]) //total price = 0
+          .then((result) => {
+            console.log("second result is ok");
+            res.status(200).json({
+              success: true,
+              message: "Account Cart created successfully",
+              cart: result.rows,
+            });
           })
-        })
+          .catch((error) => {
+            res.status(409).json({
+              success: false,
+              message: "error in creating cart",
+              error: error.message,
+            });
+          });
 
-      res.status(201).json({
-        success: true,
-        message: "Account Created Successfully",
-        user: result.rows[0]
-      })
-    }
+        res.status(201).json({
+          success: true,
+          message: "Account Created Successfully",
+          user: result.rows[0],
+        });
+      }
     })
     .catch((err) => {
       res.status(409).json({
@@ -107,7 +117,7 @@ const login = (req, res) => {
                 token,
                 success: true,
                 message: `Valid login credentials`,
-                userId: result.rows[0].user_id
+                userId: result.rows[0].user_id,
               });
             } else {
               throw Error;
@@ -134,26 +144,44 @@ const login = (req, res) => {
 //=======================================================UPDATE USER BY ID=====================================================
 const updateUserById = (req, res) => {
   const user_id = req.params.user_id;
-  const { first_name, last_name, username, phone_number, email, password, images } =
-    req.body;
+  const {
+    first_name,
+    last_name,
+    username,
+    phone_number,
+    email,
+    password,
+    images,
+  } = req.body;
 
-  pool.query(`UPDATE users SET  first_name = COALESCE($1,first_name), last_name= COALESCE($2,last_name), username = COALESCE($3,username), phone_number= COALESCE($4,phone_number), email = COALESCE($5,email), password = COALESCE($6,password) , images = COALESCE($7,images) WHERE user_id =$8 RETURNING * `,
-    [first_name, last_name, username, phone_number, email, password, images, user_id])
+  pool
+    .query(
+      `UPDATE users SET  first_name = COALESCE($1,first_name), last_name= COALESCE($2,last_name), username = COALESCE($3,username), phone_number= COALESCE($4,phone_number), email = COALESCE($5,email), password = COALESCE($6,password) , images = COALESCE($7,images) WHERE user_id =$8 RETURNING * `,
+      [
+        first_name,
+        last_name,
+        username,
+        phone_number,
+        email,
+        password,
+        images,
+        user_id,
+      ]
+    )
     .then((result) => {
       if (result.rows.length === 0) {
-        return res.status(403).json("user not found")
+        return res.status(403).json("user not found");
       }
       res.status(200).json({
         success: true,
         message: "Account updated successfully",
-        updateUser: result.rows[0]
+        updateUser: result.rows[0],
       });
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        message:
-          "server error",
+        message: "server error",
         err,
       });
     });
@@ -162,50 +190,51 @@ const updateUserById = (req, res) => {
 //=============================================================DELETE USER BY ID========================================================
 const deleteUserById = (req, res) => {
   const user_id = req.params.user_id;
-  pool.query(`DELETE FROM users WHERE user_id = $1 RETURNING *`, [user_id])
+  pool
+    .query(`DELETE FROM users WHERE user_id = $1 RETURNING *`, [user_id])
     .then((result) => {
       if (result.rows.length === 0) {
-        return res.status(403).json("user not found")
+        return res.status(403).json("user not found");
       }
       res.status(200).json({
         success: true,
         message: "Account deleted successfully",
-        updateUser: result.rows[0]
+        updateUser: result.rows[0],
       });
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        message:
-          "server error",
+        message: "server error",
         err,
       });
     });
 };
 
 //=============================================================GET ALL USERS========================================================
-const getAllUsers= (req,res)=>{
-  pool.query(`SELECT * FROM  users WHERE is_deleted = 0`)
-  .then((result)=>{
-    res.status(200).json({
-        success:true,
-        message:`All Users`,
-        users:result.rows
+const getAllUsers = (req, res) => {
+  pool
+    .query(`SELECT * FROM  users WHERE is_deleted = 0`)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: `All Users`,
+        users: result.rows,
+      });
     })
-})
-.catch((error)=>{
-    res.status(500).json({
-        success:false,
-        message:"Server error",
-        Error:error.message
-    })
-})
-}
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        Error: error.message,
+      });
+    });
+};
 
 module.exports = {
   register,
   login,
   updateUserById,
   deleteUserById,
-  getAllUsers
+  getAllUsers,
 };

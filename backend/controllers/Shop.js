@@ -122,7 +122,7 @@ const updateShopById = (req, res) => {
     email,
     password,
     phone_number,
-    shop_id
+    shop_id,
   ];
   const query = `UPDATE shops SET category_id = COALESCE($1,category_id), name = COALESCE($2,name),description = COALESCE($3,description),images = COALESCE($4,images), email = COALESCE($5,email),password = COALESCE($6,password),phone_number = COALESCE($7,phone_number) WHERE shop_id = $8 RETURNING *`;
 
@@ -162,9 +162,9 @@ const loginShop = (req, res) => {
           if (response) {
             const payload = {
               shopId: result.rows[0].shop_id,
-              roleId:result.rows[0].role_id,
-              shopName:result.rows[0].name,
-              roleName:result.rows[0].role_name
+              roleId: result.rows[0].role_id,
+              shopName: result.rows[0].name,
+              roleName: result.rows[0].role_name,
             };
             const options = { expiresIn: "1d" };
             const secret = process.env.SECRET;
@@ -182,7 +182,8 @@ const loginShop = (req, res) => {
           } else {
             res.status(403).json({
               success: false,
-              message: "The email doesn’t exist or the password you’ve entered is incorrect",
+              message:
+                "The email doesn’t exist or the password you’ve entered is incorrect",
             });
           }
         });
@@ -193,12 +194,12 @@ const loginShop = (req, res) => {
     .catch((err) => {
       res.status(403).json({
         success: false,
-        message: "The email doesn’t exist or the password you’ve entered is incorrect",
+        message:
+          "The email doesn’t exist or the password you’ve entered is incorrect",
         err,
       });
     });
 };
-
 
 module.exports = {
   createShops,

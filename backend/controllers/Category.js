@@ -22,12 +22,13 @@ const createCategory = (req, res) => {
       });
     });
 };
+
 const updateCategoryById = (req, res) => {
   const { name, description, images } = req.body;
   const category_id = req.params.id;
 
   const query = `UPDATE categories SET name = COALESCE($1,name), description = COALESCE($2,description), images = COALESCE($3,images) WHERE category_id = $4`;
-  const values = [name, description, images,category_id];
+  const values = [name, description, images, category_id];
 
   pool
     .query(query, values)
@@ -70,23 +71,24 @@ const deleteCategoryById = (req, res) => {
 };
 
 const getAllCategory = (req, res) => {
-    const query = `SELECT * FROM categories WHERE is_deleted=0`
+  const query = `SELECT * FROM categories WHERE is_deleted=0`;
 
-    pool.query(query)
-    .then((result)=>{
-        res.status(200).json({
-            success:true,
-            message:"All the categories",
-            category:result.rows
-        })
+  pool
+    .query(query)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: "All the categories",
+        category: result.rows,
+      });
     })
-    .catch((error)=>{
-        res.status(500).json({
-            success:false,
-            message:"Server Error",
-            error:error.message
-        })
-    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: error.message,
+      });
+    });
 };
 
 module.exports = {
