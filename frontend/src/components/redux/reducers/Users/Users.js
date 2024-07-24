@@ -12,7 +12,16 @@ export const userSlice = createSlice({
         },
         addUsers:(state , action)=>{
             state.users.push(action.payload);
-        }
+        },
+        updateUserById:(state , action)=>{
+            //الرحوع لها 
+           },
+        deleteUserById:(state , action)=>{
+            const {user_id} = action.payload;
+            state.users = state.users.filter((user)=>{
+                return user.user_id !== user_id
+            })
+           }
     }
 })
 export const {setUsers , addUsers} = userSlice.actions;
