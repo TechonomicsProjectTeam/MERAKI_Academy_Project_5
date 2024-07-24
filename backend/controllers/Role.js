@@ -68,7 +68,7 @@ const createRole_Permissions = (req, res) => {
 
 const deleteRole_PermissionsById = (req, res) => {
   const { id } = req.params;
-  const query = `DELETE FROM role_permissions WHERE id = $1 RETURNING *`;
+  const query = `Update role_permissions SET is_deleted=1 WHERE id = $1 RETURNING *`;
   pool
     .query(query, [id])
     .then((result) => {
