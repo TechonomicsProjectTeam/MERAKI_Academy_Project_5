@@ -1,10 +1,11 @@
 const pool = require("../models/db");
 
 const createProducts = (req, res) => {
-  const {name,description,price,images,shop_id} =req.body
+  const {shopId}=req.token
+  const {name,description,price,images} =req.body
   const query=`INSERT INTO products (name,description,price,images,shop_id) VALUES ($1,$2,$3,$4,$5) RETURNING *`
   pool
-  .query(query,[name,description,price,images,shop_id])
+  .query(query,[name,description,price,images,shopId])
   .then((result) => {
     res.status(201).json({
       success: true,

@@ -3,9 +3,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const saltRounds = parseInt(process.env.SALT);
 
-const createShops = async(req, res) => {
-   const role_id = 3
-  //collecting the shop data from the body
+const createShops = async (req, res) => {
+  const role_id = 3;
+  // Collecting the shop data from the body
   const {
     category_id,
     name,
@@ -15,11 +15,24 @@ const createShops = async(req, res) => {
     password,
     phone_number,
   } = req.body;
-  
+
   try {
-    //Hashing the password
+    // Check if email or name already exists
+    const checkQuery = `SELECT * FROM shops WHERE email = $1 OR name = $2`;
+    const checkValues = [email.toLowerCase(), name.toLowerCase()];
+    const checkResult = await pool.query(checkQuery, checkValues);
+
+    if (checkResult.rowCount > 0) {
+      return res.status(409).json({
+        success: false,
+        message: "Email or shop name already exists",
+      });
+    }
+
+    // Hashing the password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    //Values of the query
+
+    // Values of the query
     const values = [
       name.toLowerCase(),
       description,
@@ -28,26 +41,18 @@ const createShops = async(req, res) => {
       hashedPassword,
       phone_number,
       category_id,
-      role_id
+      role_id,
     ];
-    //the query
+
+    // The query
     const query = `INSERT INTO shops (name,description,images,email,password,phone_number,category_id,role_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
-    pool
-      .query(query, values)
-      .then((response) => {
-        res.status(201).json({
-          success: true,
-          message: "Shop created successfully",
-          result: response.rows[0],
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error",
-          error: error.message,
-        });
-      });
+    const response = await pool.query(query, values);
+
+    res.status(201).json({
+      success: true,
+      message: "Shop created successfully",
+      result: response.rows[0],
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -140,9 +145,65 @@ const updateShopById = (req, res) => {
     });
 };
 
+const loginShop = (req, res) => {
+  const { email, password } = req.body;
+  const query = `SELECT shops.*,roles.role_name
+  FROM shops
+  JOIN roles ON shops.role_id=roles.role_id
+  WHERE email = $1`;
+  const data = [email.toLowerCase()];
+
+  pool
+    .query(query, data)
+    .then((result) => {
+      if (result.rows.length) {
+        bcrypt.compare(password, result.rows[0].password, (err, response) => {
+          if (err) res.json(err);
+          if (response) {
+            const payload = {
+              shopId: result.rows[0].shop_id,
+              roleId:result.rows[0].role_id,
+              shopName:result.rows[0].name,
+              roleName:result.rows[0].role_name
+            };
+            const options = { expiresIn: "1d" };
+            const secret = process.env.SECRET;
+            const token = jwt.sign(payload, secret, options);
+            if (token) {
+              return res.status(200).json({
+                token,
+                success: true,
+                message: "Valid login credentials",
+                shopId: result.rows[0].shop_id,
+              });
+            } else {
+              throw new Error();
+            }
+          } else {
+            res.status(403).json({
+              success: false,
+              message: "The email doesn’t exist or the password you’ve entered is incorrect",
+            });
+          }
+        });
+      } else {
+        throw new Error();
+      }
+    })
+    .catch((err) => {
+      res.status(403).json({
+        success: false,
+        message: "The email doesn’t exist or the password you’ve entered is incorrect",
+        err,
+      });
+    });
+};
+
+
 module.exports = {
   createShops,
   deleteShopsById,
   getAllShops,
   updateShopById,
+  loginShop,
 };
