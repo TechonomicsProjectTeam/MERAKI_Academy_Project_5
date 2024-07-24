@@ -12,5 +12,16 @@ export const categoriesSlice = createSlice({
         addCategories: (state, action)=>{
             state.categories.push(action.payload);
         },
+        deleteCategoryByid: (state,action) =>{
+            state.categories.splice(action.payload.category_id,1);
+        },
+        updateCategoryById: (state,action)=>{
+            state.categories= state.categories.map((category)=>{
+                if (category.category_id === action.payload.category_id){
+                    category = action.payload
+                }
+                return category
+            })
+        }
     }
 })
