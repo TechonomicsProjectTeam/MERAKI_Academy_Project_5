@@ -28,12 +28,19 @@ const createOrder = (req, res) => {
             .then((transferResult) => {
               // Clear the cart
               return pool.query(`DELETE FROM cart_products WHERE cart_id IN (SELECT cart_id FROM cart WHERE user_id = $1)`, [user_id])
-                .then(() => {
-                  res.status(201).json({
-                    success: true,
-                    message: 'Order created successfully',
-                    order: orderResult.rows[0],
-                    orderProducts: transferResult.rows
+              .then(() => {
+                return pool.query(`
+                  SELECT products.* FROM products 
+                  JOIN order_products  ON products.product_id = order_products.product_id
+                  WHERE order_products.order_id = $1`, [order_id])
+                  .then((productDetails) => {
+                    res.status(201).json({
+                      success: true,
+                      message: 'Order created successfully',
+                      order: orderResult.rows[0],
+                      orderProducts: transferResult.rows,
+                      productDetails: productDetails.rows
+                    });
                   });
                 });
             });
