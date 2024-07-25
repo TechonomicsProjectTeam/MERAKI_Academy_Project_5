@@ -15,7 +15,7 @@ export const userSlice = createSlice({
         },
         updateUserById:(state , action)=>{
             state.users=state.users.map((user)=>{
-                if (user.user_id==action.payload.user_id){
+                if (user.user_id===action.payload.user_id){
                 user=action.payload
                 }
             })
