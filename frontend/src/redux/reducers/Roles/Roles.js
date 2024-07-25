@@ -26,5 +26,8 @@ export const roleSlice = createSlice({
         addRolePermission: (state, action)=>{
             state.rolePermissions.push(action.payload);
         },
+        deleteRolePermissionByid: (state,action) =>{
+            state.rolePermissions.splice(action.payload.id,1);
+        },
     }
 })
