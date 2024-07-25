@@ -31,3 +31,7 @@ export const roleSlice = createSlice({
         },
     }
 })
+
+export const {getRoles,getPermissions,getRolePermissions,addRole,addPermission,addRolePermission,deleteRolePermissionByid} = roleSlice.actions;
+
+export default roleSlice.reducer;
