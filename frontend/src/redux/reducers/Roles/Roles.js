@@ -17,5 +17,8 @@ export const roleSlice = createSlice({
         getRolePermissions : (state,action) =>{
             state.rolePermissions = action.payload
         },
+        addRole: (state, action)=>{
+            state.roles.push(action.payload);
+        },
     }
 })
