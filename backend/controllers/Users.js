@@ -231,10 +231,31 @@ const getAllUsers = (req, res) => {
     });
 };
 
+const getUserById= (req,res)=>{
+  const {id}=req.params
+  const query =`SELECT * FROM users WHERE is_deleted =0 AND user_id=$1`
+  pool.query(query,[id])
+  .then((result) => {
+    res.status(200).json({
+      success: true,
+      message: `Users info for id ${id}`,
+      users: result.rows,
+    });
+  })
+  .catch((error) => {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      Error: error.message,
+    });
+  });
+}
+
 module.exports = {
   register,
   login,
   updateUserById,
   deleteUserById,
   getAllUsers,
+  getUserById
 };
