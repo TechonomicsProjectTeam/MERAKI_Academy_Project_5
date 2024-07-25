@@ -9,6 +9,9 @@ export const ordersSlice= createSlice({
         getOrders: (state,action) =>{
             state.orders = action.payload
         },
+        addOrders: (state, action)=>{
+            state.orders.push(action.payload);
+        },
         
     }
 })
