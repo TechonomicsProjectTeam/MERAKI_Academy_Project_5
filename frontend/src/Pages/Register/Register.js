@@ -5,7 +5,7 @@ import { addUsers } from "../../redux/reducers/Users/Users";
 
 const Register = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,6 +15,7 @@ const Register = () => {
   const [image, setImage] = useState("");
   const [roleId, setRoleId] = useState(1);
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(false);
 
   const createNewUser = async (e) => {
     e.preventDefault();
@@ -100,7 +101,9 @@ const Register = () => {
       </div>
       <button>Register</button>
       </form>
-      {message && <p>{message}</p>}
+      {status
+              ? message && <div className="SuccessMessage">{message}</div>
+              : message && <div className="ErrorMessage">{message}</div>}
     </div>
   );
 };
