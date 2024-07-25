@@ -1,20 +1,14 @@
+import React from "react";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
-
-
-
-//===============================================================
+import { RouterProvider } from 'react-router-dom';
+import { router } from "./Routers/Router";
 
 const App = () => {
   return (
-    <div className="App">
-      <Routes>
-        {/* <Route path={"/"} element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/newArticle" element={<NewArticle />} /> */}
-      </Routes>
-    </div>
+    <>
+      <div className="App"></div>
+      <RouterProvider router={router} />
+    </>
   );
 };
 
