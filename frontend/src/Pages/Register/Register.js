@@ -14,13 +14,23 @@ const Register = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [roleId, setRoleId] = useState(1);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(false);
 
   const createNewUser = async (e) => {
     e.preventDefault();
+    let imageUrl = "";
+    if (image) {
+      imageUrl = await uploadImageToCloudinary();
+      if (!imageUrl) {
+        setMessage("Image upload failed");
+        setTimeout(() => setMessage(""), 3000);
+        return;
+      }
+    }
+
     try {
       const result = await axios.post("http://localhost:5000/users/register", {
         first_name: firstName,
@@ -29,7 +39,7 @@ const Register = () => {
         username: userName,
         password,
         phone_number: phoneNumber,
-        images: image,
+        images: imageUrl,
         role_id: roleId,
       });
 
@@ -38,13 +48,11 @@ const Register = () => {
         setMessage(result.data.message);
         setFirstName("");
         setLastName("");
-        setImage("");
         setEmail("");
         setPassword("");
         setUserName("");
         setPhoneNumber("");
         setStatus(true);
-        
         setTimeout(() => navigate("/login"), 2000); 
       } else {
         setMessage(result.data.message);
@@ -57,6 +65,29 @@ const Register = () => {
         setMessage("An unexpected error occurred. Please try again.");
       }
       setStatus(false);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const uploadImageToCloudinary = async () => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "rgtsukxl");
+    data.append("cloud_name", "dqefjpmuo");
+
+    try {
+      const response = await fetch("https://api.cloudinary.com/v1_1/dqefjpmuo/image/upload", {
+        method: "post",
+        body: data
+      });
+      const result = await response.json();
+      return result.url;
+    } catch (error) {
+      console.error("Error uploading image to Cloudinary:", error);
+      return null;
     }
   };
 
@@ -99,12 +130,10 @@ const Register = () => {
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
+        <div className="file-input-container">
+          <label htmlFor="image">Upload an Image:</label>
+          <input type="file" id="image" name="image" accept="image/*" onChange={handleFileChange} />
+        </div>
         <div>
           <label>
             <input
