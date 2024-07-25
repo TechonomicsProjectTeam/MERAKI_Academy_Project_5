@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
+import "../NavBar/Style.css"
 const NavBar = () => {
   const username = useSelector((state) => state.auth.username);
   const imageUrl = useSelector((state) => state.auth.images);
