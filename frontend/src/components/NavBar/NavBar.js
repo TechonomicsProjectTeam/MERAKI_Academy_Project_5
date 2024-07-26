@@ -6,12 +6,14 @@ import "../NavBar/Style.css";
 
 const NavBar = () => {
   const dispatch = useDispatch();
-
+  const shopName = useSelector((state) => state.shops.name);
+  const shopImages = useSelector((state) => state.shops.images);
   const username = useSelector((state) => state.auth.username);
-  const imageUrl = useSelector((state) => state.auth.imageUrl);
+  const imageUrl = useSelector((state) => state.auth.images);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const roleId = useSelector((state) => state.auth.roleId);
-
+  
+  
   const handleLogout = () => {
     dispatch(setLogout());
   };
@@ -22,6 +24,12 @@ const NavBar = () => {
         {imageUrl && <img src={imageUrl} alt="User" className="user-image" />}
         {username && <span className="user-name">Welcome {username} !!</span>}
       </div>
+      {isLoggedIn && roleId === 3 && (
+        <div className="user-info">
+          {shopImages && <img src={shopImages} alt="Shop" className="user-image" />}
+          {shopName && <span className="shop-name">{shopName}</span>}
+        </div>
+      )}
       <nav>
         {isLoggedIn && roleId === 2 ? (
           <>
