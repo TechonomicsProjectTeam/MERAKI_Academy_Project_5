@@ -12,7 +12,7 @@ export const shopsSlice = createSlice({
         addShops: (state, action)=>{
             state.shops.push(action.payload);
         },
-        deleteShopByid: (state,action) =>{
+        deleteShopById: (state,action) =>{
             //the id is sent from the payload
             state.shops.splice(action.payload.shop_id,1);
         },
@@ -27,6 +27,6 @@ export const shopsSlice = createSlice({
     }
 })
 
-export const {getShops,updateShopById,addShops,deleteShopByid} = shopsSlice.actions;
+export const {getShops,updateShopById,addShops,deleteShopById} = shopsSlice.actions;
 
 export default shopsSlice.reducer;
