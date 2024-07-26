@@ -6,13 +6,13 @@ export const categoriesSlice = createSlice({
         categories:[]
     },
     reducers:{
-        getCatogories: (state,action) =>{
+        getCategories: (state,action) =>{
             state.categories = action.payload
         },
         addCategories: (state, action)=>{
             state.categories.push(action.payload);
         },
-        deleteCategoryByid: (state,action) =>{
+        deleteCategoryById: (state,action) =>{
             state.categories.splice(action.payload.category_id,1);
         },
         updateCategoryById: (state,action)=>{
@@ -26,6 +26,6 @@ export const categoriesSlice = createSlice({
     }
 })
 
-export const {getCatogories,addCategories,addShops,deleteCategoryByid} = categoriesSlice.actions;
+export const {getCategories,addCategories,addShops,updateCategoryById} = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;
