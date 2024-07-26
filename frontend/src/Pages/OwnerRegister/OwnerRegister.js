@@ -46,6 +46,7 @@ const OwnerRegister = () => {
         dispatch(addShops(result.data.result));
         setMessage(result.data.message)
         setStatus(true);
+        setTimeout(() => navigate("/owner-login"), 2000); 
       } else {
         setMessage(result.data.message);
         setStatus(true);
@@ -162,7 +163,12 @@ const OwnerRegister = () => {
         </div>
         <button type="submit">Create Shop</button>
       </form>
-    
+      <div className="login-link">
+          <p>Already have an account? <a href="/owner-login">Login here</a></p>
+        </div>
+      <div className="register-link">
+          <p>Register as an user? <a href="/">Register here</a></p>
+        </div>
     </div>
   );
 };
