@@ -1,11 +1,78 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import {jwtDecode} from "jwt-decode";
+import { setLogin} from "../../redux/reducers/Auth/Auth";
+import {setShopInfo} from "../../redux/reducers/Shops/Shops"
 
 const OwnerLogin = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  
+  const login = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await axios.post("http://localhost:5000/shop/shop_login", {
+        email,
+        password,
+      });
+
+      const token = result.data.token;
+      const decodedToken = jwtDecode(token);
+      const roleId = decodedToken.roleId; 
+
+      dispatch(setLogin({
+        token,
+        userId: result.data.shopsId,
+        roleId,
+      }));
+
+      getUserInfo(result.data.shopId);
+      navigate("/shop-owner-dashboard")
+    } catch (error) {
+      setMessage("Error occurred during login.");
+    }
+  };
+  const getUserInfo = async (shopId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/shop/${shopId}`);
+      const userInfo = response.data.shops;
+      console.log(response.data);
+      console.log(userInfo[0].name);
+      console.log(userInfo[0].images);
+      dispatch(setShopInfo({
+        name: userInfo[0].name,
+        images: userInfo[0].images
+      }));
+      
+    } catch (error) {
+      console.error("Error fetching user information", error);
+    }
+  };
   return (
-    <div className='OwnerLogin'>
-     OwnerLogin Component
+    <div className="Form">
+      <p className="Title">Login:</p>
+      <form onSubmit={login}>
+        <input
+          type="email"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+       
+      </form>
+      {message && <div className="ErrorMessage">{message}</div>}
     </div>
-  )
+  );
 };
 
 export default OwnerLogin
