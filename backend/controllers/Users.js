@@ -142,49 +142,72 @@ const login = (req, res) => {
 };
 
 //=======================================================UPDATE USER BY ID=====================================================
-const updateUserById = (req, res) => {
+const updateUserById = async (req, res) => {
   const user_id = req.params.user_id;
-  const {
-    first_name,
-    last_name,
-    username,
-    phone_number,
-    email,
-    password,
-    images,
-  } = req.body;
+  const { first_name, last_name, username, phone_number, email, password, images } = req.body;
 
-  pool
-    .query(
-      `UPDATE users SET  first_name = COALESCE($1,first_name), last_name= COALESCE($2,last_name), username = COALESCE($3,username), phone_number= COALESCE($4,phone_number), email = COALESCE($5,email), password = COALESCE($6,password) , images = COALESCE($7,images) WHERE user_id =$8 RETURNING * `,
-      [
-        first_name,
-        last_name,
-        username,
-        phone_number,
-        email,
-        password,
-        images,
-        user_id,
-      ]
-    )
-    .then((result) => {
-      if (result.rows.length === 0) {
-        return res.status(403).json("user not found");
+  try {
+    // Ensure email and username are unique
+    if (email) {
+      const emailCheck = await pool.query(`SELECT * FROM users WHERE email = $1 AND user_id != $2`, [email.toLowerCase(), user_id]);
+      if (emailCheck.rowCount > 0) {
+        return res.status(400).json({ success: false, message: "Email already exists" });
       }
-      res.status(200).json({
-        success: true,
-        message: "Account updated successfully",
-        updateUser: result.rows[0],
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        success: false,
-        message: "server error",
-        err,
-      });
+    }
+    if (username) {
+      const usernameCheck = await pool.query(`SELECT * FROM users WHERE username = $1 AND user_id != $2`, [username.toLowerCase(), user_id]);
+      if (usernameCheck.rowCount > 0) {
+        return res.status(400).json({ success: false, message: "Username already exists" });
+      }
+    }
+
+    // Hash password if it is being updated
+    let encryptedPassword = null;
+    if (password) {
+      encryptedPassword = await bcrypt.hash(password, saltRounds);
+    }
+
+    const query = `
+      UPDATE users SET 
+        first_name = COALESCE($1, first_name),
+        last_name = COALESCE($2, last_name),
+        username = COALESCE($3, username),
+        phone_number = COALESCE($4, phone_number),
+        email = COALESCE($5, email),
+        password = COALESCE($6, password),
+        images = COALESCE($7, images)
+        WHERE user_id = $8
+        RETURNING *
+    `;
+    const data = [
+      first_name,
+      last_name,
+      username ? username.toLowerCase() : null,
+      phone_number,
+      email ? email.toLowerCase() : null,
+      encryptedPassword,
+      images,
+      user_id,
+    ];
+
+    const result = await pool.query(query, data);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Account updated successfully",
+      updateUser: result.rows[0],
     });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      err: err.message,
+    });
+  }
 };
 
 //=============================================================DELETE USER BY ID========================================================
