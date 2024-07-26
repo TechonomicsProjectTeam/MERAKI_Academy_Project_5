@@ -201,10 +201,31 @@ const loginShop = (req, res) => {
     });
 };
 
+const getShopById= (req,res)=>{
+const {id}=req.params
+const query=`SELECT * FROM shops WHERE is_deleted=0 AND shop_id = $1`
+pool.query(query,[id])
+.then((result) => {
+  res.status(200).json({
+    success: true,
+    message: `Shops info for id ${id}`,
+    shops: result.rows,
+  });
+})
+.catch((error) => {
+  res.status(500).json({
+    success: false,
+    message: "Server error",
+    Error: error.message,
+  });
+});
+}
+
 module.exports = {
   createShops,
   deleteShopsById,
   getAllShops,
   updateShopById,
   loginShop,
+  getShopById
 };
