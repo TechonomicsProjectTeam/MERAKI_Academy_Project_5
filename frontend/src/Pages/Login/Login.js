@@ -74,7 +74,7 @@ const Login = () => {
         />
         <button type="submit">Login</button>
         <div className="register-link">
-          <p>Create new account? <a href="/register">Register here</a></p>
+          <p>Create new account? <a href="/">Register here</a></p>
         </div>
       </form>
       {message && <div className="ErrorMessage">{message}</div>}

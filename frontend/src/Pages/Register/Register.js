@@ -148,6 +148,9 @@ const Register = () => {
         <div className="login-link">
           <p>Already have an account? <a href="/login">Login here</a></p>
         </div>
+        <div className="owner_register-link">
+          <p>Register as an owner? <a href="/owner-register">Register here</a></p>
+        </div>
       </form>
       {status ? (
         <div className="SuccessMessage">{message}</div>

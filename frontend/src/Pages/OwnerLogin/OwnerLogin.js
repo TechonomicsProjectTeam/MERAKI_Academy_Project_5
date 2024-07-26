@@ -55,7 +55,7 @@ const OwnerLogin = () => {
   };
   return (
     <div className="Form">
-      <p className="Title">Login:</p>
+      <p className="Title">Owner Login:</p>
       <form onSubmit={login}>
         <input
           type="email"
@@ -70,6 +70,9 @@ const OwnerLogin = () => {
         <button type="submit">Login</button>
        
       </form>
+      <div className="owner_register-link">
+          <p>Register as an owner? <a href="owner-register">Register here</a></p>
+        </div>
       {message && <div className="ErrorMessage">{message}</div>}
     </div>
   );
