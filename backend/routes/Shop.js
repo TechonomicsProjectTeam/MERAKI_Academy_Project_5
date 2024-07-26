@@ -12,7 +12,7 @@ const shopRouter = express.Router();
 const authorization = require("../middlewares/authorization");
 const authentication = require("../middlewares/authentication");
 
-shopRouter.post("/", authentication, createShops);
+shopRouter.post("/",  createShops);
 shopRouter.get("/", authentication, getAllShops);
 shopRouter.put("/:id", authentication, updateShopById);
 shopRouter.delete("/:id", authentication, deleteShopsById);
