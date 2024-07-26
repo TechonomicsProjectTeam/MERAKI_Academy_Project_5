@@ -23,10 +23,15 @@ export const shopsSlice = createSlice({
                 }
                 return shop
             })
+        },
+        setShopInfo: (state,action)=>{
+            state.name=action.payload.name
+            state.images=action.payload.images
+            
         }
     }
 })
 
-export const {getShops,updateShopById,addShops,deleteShopById} = shopsSlice.actions;
+export const {getShops,updateShopById,addShops,deleteShopById,setShopInfo} = shopsSlice.actions;
 
 export default shopsSlice.reducer;
