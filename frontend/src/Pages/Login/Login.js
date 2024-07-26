@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
-import { setLogin, setUserId,setUserInfo } from "../../redux/reducers/Auth/Auth";
+import { setLogin,setUserInfo } from "../../redux/reducers/Auth/Auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const Login = () => {
     try {
       const response = await axios.get(`http://localhost:5000/users/${userId}`);
       const userInfo = response.data.users;
-      
+      console.log(userInfo[0].images);
       console.log(userInfo[0].username);
       dispatch(setUserInfo({
         username: userInfo[0].username,
