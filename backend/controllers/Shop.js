@@ -221,11 +221,34 @@ pool.query(query,[id])
 });
 }
 
+const getShopsByCategoryId = (req, res) => {
+  const { id } = req.params;
+  const query = `SELECT * FROM shops WHERE category_id = $1 AND is_deleted = 0`;
+
+  pool
+    .query(query, [id])
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: `Shops in category ${id}`,
+        shops: response.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
 module.exports = {
   createShops,
   deleteShopsById,
   getAllShops,
   updateShopById,
   loginShop,
-  getShopById
+  getShopById,
+  getShopsByCategoryId
 };
