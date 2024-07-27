@@ -23,7 +23,7 @@ const OwnerLogin = () => {
 
       const token = result.data.token;
       const decodedToken = jwtDecode(token);
-      const roleId = decodedToken.roleId; 
+      const roleId = decodedToken.role; 
 
       dispatch(setLogin({
         token,
