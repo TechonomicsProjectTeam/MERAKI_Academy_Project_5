@@ -54,6 +54,26 @@ const Products = () => {
     }
   }
 
+  const handelUpdateProduct = async (id) =>{
+    console.log(id);
+   try{
+    const response = await axios.put(`http://localhost:5000/product/${id}`,
+      {name , description , price },
+      { headers: {
+      Authorization: `Bearer ${token}`
+  
+    }})
+    console.log(token);
+    
+    dispatch(updateProductsById(response.data.products));
+    setMessage("product update successfully");
+    setStatus(true)
+    setSelectedProductId(null)
+   }catch (error) {
+    console.log(error);
+   }
+  }
+
 
   return (
     <div className='Products'>
