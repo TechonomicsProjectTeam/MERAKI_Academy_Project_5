@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const shopsSlice = createSlice({
     name:"shops",
     initialState:{
-        shops:[]
+        shops:[],
+        images: localStorage.getItem("ShopImage") || null,
+        name: localStorage.getItem("name")|| null,
     },
     reducers:{
         getShops: (state,action) =>{
@@ -25,9 +27,11 @@ export const shopsSlice = createSlice({
             })
         },
         setShopInfo: (state,action)=>{
-            state.name=action.payload.name
-            state.images=action.payload.images
-            
+            const {name,images}=action.payload
+            state.name = name;
+            state.images = images;
+            localStorage.setItem("ShopImage",images)
+            localStorage.setItem("name",name)
         }
     }
 })
