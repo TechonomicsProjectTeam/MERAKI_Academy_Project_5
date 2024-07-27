@@ -6,7 +6,8 @@ const {
   getAllShops,
   updateShopById,
   loginShop,
-  getShopById
+  getShopById,
+  getShopsByCategoryId
 } = require("../controllers/Shop");
 
 const shopRouter = express.Router();
@@ -18,6 +19,7 @@ shopRouter.get("/", authentication, getAllShops);
 shopRouter.put("/:id", authentication, updateShopById);
 shopRouter.delete("/:id", authentication, deleteShopsById);
 shopRouter.post("/shop_login", loginShop);
-shopRouter.get("/:id",getShopById)
+shopRouter.get("/:id",getShopById);
+shopRouter.get("/category/:id",getShopsByCategoryId);
 
 module.exports = shopRouter;
