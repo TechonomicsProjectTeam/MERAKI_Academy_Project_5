@@ -41,6 +41,19 @@ const Products = () => {
     getAllProduct()
   }, [])
 
+  const deleteProductById = async (id) =>{
+    console.log(id);
+    try{
+      const response = await axios.delete(`http://localhost:5000/product/${id}`,{ headers: {
+        Authorization: `Bearer ${token}`
+      }})
+      console.log(token);
+      dispatch(deleteProductsById({product_id:id}))
+    }catch(error){
+      console.log(error);
+    }
+  }
+
 
   return (
     <div className='Products'>
