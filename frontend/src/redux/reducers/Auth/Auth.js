@@ -6,9 +6,9 @@ export const authSlice = createSlice({
         token: localStorage.getItem("token") || null,
         userId: localStorage.getItem("userId") || null,
         roleId: localStorage.getItem("roleId") || null,
-        isLoggedIn : localStorage.getItem("token")?false:true,
-        images: null,
-        username: null,
+        isLoggedIn : localStorage.getItem("token")?true:false,
+        images: localStorage.getItem("image") || null,
+        username: localStorage.getItem("username")|| null,
     },
     reducers: {
         setLogin: (state, action) => {
@@ -20,6 +20,7 @@ export const authSlice = createSlice({
             localStorage.setItem("token", token);
             localStorage.setItem("userId", userId);
             localStorage.setItem("roleId", roleId);
+            localStorage.setItem("isLoggedIn",state.isLoggedIn)
         },
         setUserId: (state, action) => {
             state.userId = action.payload;
@@ -33,8 +34,11 @@ export const authSlice = createSlice({
             localStorage.clear();
         },
         setUserInfo: (state, action) => {
-            state.username = action.payload.username;
-            state.images = action.payload.images;
+            const {username,images}=action.payload
+            state.username = username;
+            state.images = images;
+            localStorage.setItem("image",images)
+            localStorage.setItem("username",username)
           }
     }
 });

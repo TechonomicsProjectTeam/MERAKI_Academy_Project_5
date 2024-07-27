@@ -18,21 +18,19 @@ import UserDashboard from "../Pages/UserDashboard/UserDashboard";
 import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ element, role }) => {
+
   const { isLoggedIn, roleId } = useSelector((state) => state.auth);
   console.log(roleId);
+  console.log(isLoggedIn);
 
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />;
-  }
 
-  if (role && role !== roleId) {
-    return <Navigate to="/" />;
-  }
+  
 
   return element;
 };
 
 export const router = createBrowserRouter([
+
   {
     path: "/",
     element: <Register />,
@@ -53,32 +51,16 @@ export const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />,
     children: [
-      {
-        path: "user-dashboard",
-        element: <ProtectedRoute element={<UserDashboard />} role={1} />,
-      },
-    ],
-  },
-  {
-    path: "/",
-    element: <MainLayout />,
-    children: [
-      {
-        path: "/driver-dashboard",
-        element: <ProtectedRoute element={<DriverDashboard />} role={2} />,
-      },
-    ],
-  },
-  {
-    path: "/",
-    element: <MainLayout />,
-    children: [
       { path: "carts", element: <ProtectedRoute element={<Carts />} /> },
       { path: "orders", element: <ProtectedRoute element={<Orders />} /> },
       { path: "reviews", element: <ProtectedRoute element={<Reviews />} /> },
       {
         path: "user-settings",
         element: <ProtectedRoute element={<UserSettings />} />,
+      },
+      {
+        path: "user-dashboard",
+        element: <ProtectedRoute element={<UserDashboard />} role={1} />,
       },
       {
         path: "admin-dashboard",
@@ -88,11 +70,15 @@ export const router = createBrowserRouter([
         path: "driver-dashboard",
         element: <ProtectedRoute element={<DriverDashboard />} />,
       },
-
+      {
+        path: "/driver-dashboard",
+        element: <ProtectedRoute element={<DriverDashboard />} role={2} />,
+      },
       { path: "products", element: <Products /> },
 
       { path: "shop-owner-dashboard", element: <ShopOwnerDashboard /> },
       { path: "user-dashboard", element: <UserDashboard /> },
     ],
   },
+
 ]);
