@@ -60,6 +60,45 @@ const UserSettings = () => {
 
   return (
     <div className="editUser">
+      {console.log(first_name)}
+      <form onSubmit={editUser}>
+        <input
+          placeholder="FirstName"
+          value={first_name}
+          onChange={(e) => setFirst_name(e.target.value)}
+        />
+        <input
+          placeholder="LastName"
+          value={last_name}
+          onChange={(e) => setLast_name(e.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Phone Number"
+          value={phone_number}
+          onChange={(e) => setPhone_number(e.target.value)}
+        />
+        <button type="submit">Update User</button>
+      </form>
+      {message && <p>{message}</p>}
     </div>
   );
 };
