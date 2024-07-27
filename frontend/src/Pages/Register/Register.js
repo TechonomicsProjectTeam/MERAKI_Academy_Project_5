@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUsers } from "../../redux/reducers/Users/Users";
 import { useNavigate } from "react-router-dom";
-
+import "../Register/Style.css"
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -92,6 +92,7 @@ const Register = () => {
   };
 
   return (
+    <div className="bodyRegister">
     <div className="Register">
       <form onSubmit={createNewUser}>
         <input
@@ -157,6 +158,7 @@ const Register = () => {
       ) : (
         message && <div className="ErrorMessage">{message}</div>
       )}
+    </div>
     </div>
   );
 };
