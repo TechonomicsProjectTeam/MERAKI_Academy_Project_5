@@ -5,6 +5,7 @@ import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 import { setLogin} from "../../redux/reducers/Auth/Auth";
 import {setShopInfo} from "../../redux/reducers/Shops/Shops"
+import "../OwnerLogin/Style.css";
 
 const OwnerLogin = () => {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ const OwnerLogin = () => {
     }
   };
   return (
+    <div className="Oner">
     <div className="Form">
       <p className="Title">Owner Login:</p>
       <form onSubmit={login}>
@@ -67,13 +69,14 @@ const OwnerLogin = () => {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button className="buttonLogin" type="submit">Login</button>
        
       </form>
       <div className="owner_register-link">
           <p>Register as an owner? <a href="owner-register">Register here</a></p>
         </div>
       {message && <div className="ErrorMessage">{message}</div>}
+    </div>
     </div>
   );
 };
