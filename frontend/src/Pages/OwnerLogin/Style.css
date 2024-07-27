@@ -1,0 +1,74 @@
+.Oner {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(120deg, #aaecb4, #6dfa87, #ffffff);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
+  
+.Form {
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+  
+  .Title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+  width: calc(100% - 20px);
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.buttonLogin {
+  width:50% ;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 50px;
+}
+
+.buttonLogin:hover {
+    background-color: #45a049;
+  }
+  
+  .ErrorMessage {
+    margin-top: 20px;
+    color: red;
+    text-align: center;
+  }
+  
+  .owner_register-link {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .owner_register-link a {
+    color: #4CAF50;
+    text-decoration: none;
+  }
+  
+  .owner_register-link a:hover {
+    text-decoration: underline;
+  }
