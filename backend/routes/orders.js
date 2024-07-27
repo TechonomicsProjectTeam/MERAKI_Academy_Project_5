@@ -5,6 +5,7 @@ const {
   createOrderProducts,
   getOrderProducts,
   deleteOrderProducts,
+  getOrderProductsByUserId
 } = require("../controllers/orders");
 const authorization = require("../middlewares/authorization");
 const authentication = require("../middlewares/authentication");
@@ -15,5 +16,6 @@ orderRouter.post("/", authentication, createOrder);
 orderRouter.post("/order-products", createOrderProducts);
 orderRouter.get("/order-products", authentication, getOrderProducts);
 orderRouter.delete("/order-products/:id", authentication, deleteOrderProducts);
+orderRouter.get("/order-products/:id",getOrderProductsByUserId)
 
 module.exports = orderRouter;
