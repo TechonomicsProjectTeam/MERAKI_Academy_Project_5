@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 import { setLogin,setUserInfo } from "../../redux/reducers/Auth/Auth";
+import "../Login/Style.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ const Login = () => {
   
 
   return (
+    <div className="body">
     <div className="Form">
       <p className="Title">Login:</p>
       <form onSubmit={login}>
@@ -72,12 +74,13 @@ const Login = () => {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button className="button" type="submit">Login</button>
         <div className="register-link">
           <p>Create new account? <a href="/">Register here</a></p>
         </div>
       </form>
       {message && <div className="ErrorMessage">{message}</div>}
+    </div>
     </div>
   );
 };

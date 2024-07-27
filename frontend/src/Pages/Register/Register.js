@@ -145,7 +145,7 @@ const Register = () => {
             Register as Driver
           </label>
         </div>
-        <button type="submit">Register</button>
+        <button className="regButton" type="submit">Register</button>
         <div className="login-link">
           <p>Already have an account? <a href="/login">Login here</a></p>
         </div>
