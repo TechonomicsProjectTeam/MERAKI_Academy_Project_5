@@ -14,7 +14,12 @@ export const productSlice = createSlice({
             state.products.push(action.payload);
         },
         updateProductsById:(state , action)=>{
-            //الرحوع لها 
+            state.products = state.products.map((product) => {
+                if (product.product_id === action.payload.product_id) {
+                  return action.payload;
+                }
+                return product;
+              });
            },
         deleteProductsById:(state , action)=>{
             const {product_id} = action.payload;
