@@ -138,9 +138,37 @@ const getOrderProducts = (req, res) => {
     });
 };
 
+const getOrderProductsByUserId = (req,res) =>{
+  const user_id = req.params.id
+  const query = `SELECT *
+    FROM order_products
+    JOIN orders ON order_products.order_id = orders.order_id
+    JOIN products ON order_products.product_id = products.product_id
+    WHERE order_products.is_deleted = 0 AND user_id = $1
+    `;
+
+  pool
+    .query(query,[user_id])
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "Order Products By UserId retrieved successfully",
+        result: response.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+}
+
 module.exports = {
   createOrder,
   createOrderProducts,
   getOrderProducts,
   deleteOrderProducts,
+  getOrderProductsByUserId
 };
