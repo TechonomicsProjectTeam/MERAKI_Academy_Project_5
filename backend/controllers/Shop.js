@@ -162,7 +162,7 @@ const loginShop = (req, res) => {
           if (response) {
             const payload = {
               shopId: result.rows[0].shop_id,
-              roleId: result.rows[0].role_id,
+              role: result.rows[0].role_id,
               shopName: result.rows[0].name,
               roleName: result.rows[0].role_name,
             };
