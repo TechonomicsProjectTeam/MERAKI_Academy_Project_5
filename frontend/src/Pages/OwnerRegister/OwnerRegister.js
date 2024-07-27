@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../redux/reducers/Categories/Categories"; 
 import { addShops } from "../../redux/reducers/Shops/Shops";
 import { useNavigate } from "react-router-dom";
+import "../OwnerRegister/Style.css";
 
 const OwnerRegister = () => {
   const dispatch = useDispatch();
@@ -101,12 +102,13 @@ const OwnerRegister = () => {
       });
   }, [dispatch]);
 
-  const handleCategoryClick = (id) => {
-    setCategory_id(id);
-    console.log(id);
-  };
+  // const handleCategoryClick = (id) => {
+  //   setCategory_id(id);
+  //   console.log(id);
+  // };
 
   return (
+    <div className="onerRegisters">
     <div className="OwnerRegister">
           {status ? (
         <div className="SuccessMessage">{message}</div>
@@ -114,7 +116,7 @@ const OwnerRegister = () => {
         message && <div className="ErrorMessage">{message}</div>
       )}
       <h1>Owner Register</h1>
-    
+      <div className="test">
       <form onSubmit={createNewShop}>
         <input
           type="text"
@@ -147,20 +149,22 @@ const OwnerRegister = () => {
         />
         <input type="file" onChange={handleFileChange} />
         <div className="categories">
-          <h2>Select Category</h2>
-          {categories.map((category) => (
-            <button
-              key={category.category_id}
-              type="button"
-              onClick={() => handleCategoryClick(category.category_id)}
-              style={{
-                background: category_id === category.category_id ? "blue" : "red",
-              }}
+            <h2>Select Category</h2>
+            <select
+              value={category_id}
+              onChange={(e) => setCategory_id(e.target.value)}
             >
-              {category.name}
-            </button>
-          ))}
-        </div>
+              <option value="" disabled>Select a category</option>
+              {categories.map((category) => (
+                <option
+                  key={category.category_id}
+                  value={category.category_id}
+                >
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
         <button type="submit">Create Shop</button>
       </form>
       <div className="login-link">
@@ -169,6 +173,8 @@ const OwnerRegister = () => {
       <div className="register-link">
           <p>Register as an user? <a href="/">Register here</a></p>
         </div>
+        </div>
+    </div>
     </div>
   );
 };

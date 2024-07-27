@@ -1,0 +1,154 @@
+.onerRegisters {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(120deg, #aaecb4, #6dfa87, #ffffff);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.OwnerRegister {
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    
+}
+
+
+.OwnerRegister h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.OwnerRegister input,
+.OwnerRegister textarea {
+    margin-left: 20%;
+    width: calc(100% - 20px);
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 10px;
+    height: 30px;
+}
+
+.OwnerRegister textarea {
+    height: 45px; /* Adjust height for textarea */
+    resize: vertical; /* Allow vertical resize */
+    font-size: medium;
+}
+/* 
+.buttonCategory {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6dfa87;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 30px;
+} */
+
+.OwnerRegister button[type="submit"] {
+    margin-left: 13%;
+    width: 70%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 40px;
+}
+
+.OwnerRegister button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.OwnerRegister .categories {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 340px;
+    
+}
+
+.OwnerRegister .categories h2 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: medium;
+    
+}
+
+.OwnerRegister .categories button {
+    margin: 5px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6dfa87;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+}
+
+.OwnerRegister .categories button:hover {
+    opacity: 0.8;
+}
+
+.OwnerRegister .SuccessMessage,
+.OwnerRegister .ErrorMessage {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.OwnerRegister .SuccessMessage {
+    border: 1px solid #d4edda;
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.OwnerRegister .ErrorMessage {
+    border: 1px solid #f8d7da;
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.OwnerRegister .login-link,
+.OwnerRegister .register-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: small;
+    margin-right: 5%;
+}
+
+.OwnerRegister .login-link a,
+.OwnerRegister .register-link a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease
+
+}
+
+.OwnerRegister .login-link a:hover,
+.OwnerRegister .register-link a:hover {
+    color: #0056b3;
+}
