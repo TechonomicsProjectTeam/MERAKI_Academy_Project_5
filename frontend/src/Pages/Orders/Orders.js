@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import {getOrders} from "../../redux/reducers/Orders/Orders"
+import {getOrderProductsByUserId} from "../../redux/reducers/Orders/Orders"
+import {jwtDecode} from "jwt-decode"; 
 
 const Orders = () => {
-
   const dispatch = useDispatch();
-  const orders = useSelector(state => state.orders.orders)
+  const userOrders = useSelector(state => state.orders.userOrders)
+
   const token = localStorage.getItem("token");
+  const decodedToken = jwtDecode(token);
+  const user_id = decodedToken.userId;
 
   useEffect(()=>{
-    axios.get("http://localhost:5000/orders/order-products",
+    axios.get(`http://localhost:5000/orders/order-products/${user_id}`,
       {
         headers: {
           authorization: `Bearer ${token}`,
@@ -20,7 +23,7 @@ const Orders = () => {
     .then((response)=>{
       if(response.data.success){
         console.log(response.data.result);
-        dispatch(getOrders(response.data.result))
+        dispatch(getOrderProductsByUserId(response.data.result))
         //result = orders 
       }
     })
@@ -31,7 +34,7 @@ const Orders = () => {
   return (
     <div className='Orders'>
      <ul>
-      {orders.map((order,key)=> (
+      {userOrders.map((order,key)=> (
         <li key={order.order_id}>Order id : {order.order_id} Product id : {order.product_id}</li>
       ))}
      </ul>
