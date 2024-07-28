@@ -283,10 +283,32 @@ const decreaseProductQuantity = (req, res) => {
     });
 };
 
+const getCartByUserId= (req,res)=>{
+  const {userId}=req.token
+  console.log(userId);
+  pool.query(`SELECT * FROM cart WHERE is_deleted= 0 AND user_id=$1`,[userId])
+  .then((result) => {
+    res.status(200).json({
+      success: true,
+      message: `cart info for user_id ${userId}`,
+      cart: result.rows,
+    });
+  })
+  .catch((error) => {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      Error: error.message,
+    });
+  });
+}
+
+
 module.exports = {
   addProductToCart,
   getAllCart,
   deleteAllProductFromCart,
   deleteProductCartById,
   decreaseProductQuantity,
+  getCartByUserId
 };
