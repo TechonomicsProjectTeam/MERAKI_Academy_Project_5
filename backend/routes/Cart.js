@@ -6,6 +6,8 @@ const {
   deleteAllProductFromCart,
   deleteProductCartById,
   decreaseProductQuantity,
+  getCartByUserId,
+  getCartProductsByUserId
 } = require("../controllers/Cart");
 
 const authentication = require("../middlewares/authentication");
@@ -30,5 +32,7 @@ cartRouter.post(
   authentication,
   decreaseProductQuantity
 );
+cartRouter.get("/userCart",authentication,getCartByUserId) // ask the ta about it 
+
 
 module.exports = cartRouter;
