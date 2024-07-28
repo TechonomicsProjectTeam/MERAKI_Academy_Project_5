@@ -303,6 +303,42 @@ const getCartByUserId= (req,res)=>{
   });
 }
 
+const getCartProductsByUserId = (req, res) => {
+  const { userId } = req.token;
+
+  pool.query(`SELECT cart_id FROM cart WHERE is_deleted = 0 AND user_id = $1`, [userId])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: `No active cart found for user_id ${userId}`,
+        });
+      }
+
+      const cartId = result.rows[0].cart_id;
+
+      pool.query(
+        `SELECT cart_products.*, products.name, products.price, products.images
+         FROM cart_products
+         JOIN products ON cart_products.product_id = products.product_id
+         WHERE cart_products.cart_id = $1`,
+        [cartId]
+      ).then((productResult) => {
+        res.status(200).json({
+          success: true,
+          message: `All products in the cart for user_id ${userId}`,
+          products: productResult.rows,
+        });
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+}
 
 module.exports = {
   addProductToCart,
@@ -310,5 +346,6 @@ module.exports = {
   deleteAllProductFromCart,
   deleteProductCartById,
   decreaseProductQuantity,
-  getCartByUserId
+  getCartByUserId,
+  getCartProductsByUserId
 };

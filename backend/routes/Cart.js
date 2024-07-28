@@ -33,6 +33,6 @@ cartRouter.post(
   decreaseProductQuantity
 );
 cartRouter.get("/userCart",authentication,getCartByUserId) // ask the ta about it 
-
+cartRouter.get("/", authentication, getCartProductsByUserId);
 
 module.exports = cartRouter;
