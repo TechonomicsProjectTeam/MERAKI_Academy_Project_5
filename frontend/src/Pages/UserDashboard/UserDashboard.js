@@ -14,12 +14,13 @@ const UserDashboard = () => {
   const [showCategories, setShowCategories] = useState(true);
   const [showShops, setShowShops] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const productsPerPage = 5;
 
   useEffect(() => {
     axios.get('http://localhost:5000/categories/')
       .then(response => {
         if (response.data.success) {
-          console.log(response.data);
           dispatch(getCategories(response.data.category));
         }
       })
@@ -31,7 +32,6 @@ const UserDashboard = () => {
   const handleCategoryClick = (categoryId) => {
     axios.get(`http://localhost:5000/shop/category/${categoryId}`)
       .then(response => {
-        console.log(response.data);
         if (response.data.success) {
           dispatch(setShopsByCategory(response.data.shops));
           setShowCategories(false);
@@ -46,11 +46,11 @@ const UserDashboard = () => {
   const handleShopClick = (shopId) => {
     axios.get(`http://localhost:5000/product/${shopId}`)
       .then(response => {
-        console.log(response.data);
         if (response.data.success) {
           dispatch(setProducts(response.data.products));
           setShowShops(false);
           setShowProducts(true);
+          setCurrentPage(0); // Reset to the first page when loading new products
         }
       })
       .catch(error => {
@@ -67,6 +67,12 @@ const UserDashboard = () => {
       setShowCategories(true);
     }
   };
+
+  const handleShowMoreProducts = () => {
+    setCurrentPage(prevPage => prevPage + 1);
+  };
+
+  const displayedProducts = products.slice(0, (currentPage + 1) * productsPerPage);
 
   return (
     <div className='UserDashboard'>
@@ -100,7 +106,7 @@ const UserDashboard = () => {
           <button className='back-button' onClick={handleBackClick}>Back to Shops</button>
           <h2>Products</h2>
           <ul className='product-list'>
-            {products.map(product => (
+            {displayedProducts.map(product => (
               <li key={product.product_id}>
                 <h3>{product.name}</h3>
                 <p>{product.description}</p>
@@ -108,6 +114,11 @@ const UserDashboard = () => {
               </li>
             ))}
           </ul>
+          {displayedProducts.length < products.length && (
+            <button className='show-more-button' onClick={handleShowMoreProducts}>
+              Show More Products
+            </button>
+          )}
         </div>
       )}
     </div>
