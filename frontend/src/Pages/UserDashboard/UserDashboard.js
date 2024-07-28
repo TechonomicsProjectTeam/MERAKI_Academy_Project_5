@@ -4,7 +4,7 @@ import axios from 'axios';
 import { getCategories } from '../../redux/reducers/Categories/Categories';
 import { setShopsByCategory } from '../../redux/reducers/Shops/Shops';
 import { setProducts } from '../../redux/reducers/Products/Products';
-
+import "../UserDashboard/UserDashboard.css";
 
 const UserDashboard = () => {
   const dispatch = useDispatch();
@@ -14,7 +14,8 @@ const UserDashboard = () => {
   const [showCategories, setShowCategories] = useState(true);
   const [showShops, setShowShops] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [to, setTo] = useState(5);
+  const [from, setFrom] = useState(0);
   const productsPerPage = 5;
 
   useEffect(() => {
@@ -50,7 +51,8 @@ const UserDashboard = () => {
           dispatch(setProducts(response.data.products));
           setShowShops(false);
           setShowProducts(true);
-          setCurrentPage(0); // Reset to the first page when loading new products
+          setFrom(0);
+          setTo(productsPerPage);
         }
       })
       .catch(error => {
@@ -69,10 +71,10 @@ const UserDashboard = () => {
   };
 
   const handleShowMoreProducts = () => {
-    setCurrentPage(prevPage => prevPage + 1);
+    setTo(to + productsPerPage);
   };
 
-  const displayedProducts = products.slice(0, (currentPage + 1) * productsPerPage);
+  const displayedProducts = products.slice(from, to);
 
   return (
     <div className='UserDashboard'>
@@ -114,7 +116,7 @@ const UserDashboard = () => {
               </li>
             ))}
           </ul>
-          {displayedProducts.length < products.length && (
+          {to < products.length && (
             <button className='show-more-button' onClick={handleShowMoreProducts}>
               Show More Products
             </button>
