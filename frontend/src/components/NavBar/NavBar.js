@@ -6,7 +6,7 @@ import {
   setProductFromCart,
   addProductFromCart,
   decreaseProductQuantityById,
-  SetCartId
+  SetCartId,
 } from "../../redux/reducers/Carts/Carts";
 import "../NavBar/Style.css";
 import axios from "axios";
@@ -39,10 +39,12 @@ const NavBar = () => {
       },
     });
     console.log(result.data);
-    dispatch(SetCartId({
-      cartId: result.data.cart[0].cart_id
-    }));
-  }
+    dispatch(
+      SetCartId({
+        cartId: result.data.cart[0].cart_id,
+      })
+    );
+  };
 
   const getCartProductByCartId = async () => {
     try {
@@ -63,14 +65,14 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && parseInt(roleId) === 1) {
       getCartProductByCartId();
       getCartIdByUserId();
     }
   }, [userId, token, isLoggedIn]);
 
   useEffect(() => {
-    console.log('Cart updated:', cart);
+    console.log("Cart updated:", cart);
   }, [cart]);
 
   const handleLogout = () => {
@@ -129,6 +131,46 @@ const NavBar = () => {
         {imageUrl && <img src={imageUrl} alt="User" className="user-image" />}
         {username && <span className="user-name">Welcome {username} !!</span>}
       </div>
+      {isLoggedIn && parseInt(roleId) === 1 && (
+        <div>
+          <div className="cart-icon">
+            <FontAwesomeIcon icon={faShoppingCart} />
+            <span className="cart-count">{cart?.length}</span>
+            <div className="cart-dropdown">
+              {cart?.length > 0 ? (
+                <ul>
+                  {cart.map((item, index) => (
+                    <li key={index}>
+                      <img
+                        src={item.images}
+                        alt={item.name}
+                        className="cart-item-image"
+                      />
+                      <p>
+                        {item.name} - {item.quantity} x ${item.price}
+                      </p>
+                      <div className="icon-container">
+                        <FontAwesomeIcon
+                          icon={faPlus}
+                          onClick={() => increaseQuantity(item.product_id)}
+                          className="icon"
+                        />
+                        <FontAwesomeIcon
+                          icon={faMinus}
+                          onClick={() => decreaseQuantity(item.product_id)}
+                          className="icon"
+                        />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span>No items in cart</span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       {isLoggedIn && parseInt(roleId) === 3 && (
         <div className="user-info">
           {shopImages && (
@@ -191,42 +233,6 @@ const NavBar = () => {
             <NavLink to="/login" onClick={handleLogout}>
               Logout
             </NavLink>
-            <div className="cart-icon">
-              <FontAwesomeIcon icon={faShoppingCart} />
-              <span className="cart-count">{cart?.length}</span>
-              <div className="cart-dropdown">
-                {cart?.length > 0 ? (
-                  <ul>
-                    {cart.map((item, index) => (
-                      <li key={index}>
-                        <img
-                          src={item.images}
-                          alt={item.name}
-                          className="cart-item-image"
-                        />
-                        <p>
-                          {item.name} - {item.quantity} x ${item.price}
-                        </p>
-                        <div className="icon-container">
-                          <FontAwesomeIcon
-                            icon={faPlus}
-                            onClick={() => increaseQuantity(item.product_id)}
-                            className="icon"
-                          />
-                          <FontAwesomeIcon
-                            icon={faMinus}
-                            onClick={() => decreaseQuantity(item.product_id)}
-                            className="icon"
-                          />
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <span>No items in cart</span>
-                )}
-              </div>
-            </div>
           </>
         ) : (
           <NavLink to="/login" onClick={handleLogout}>
