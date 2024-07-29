@@ -7,11 +7,11 @@ const {
   deleteProductCartById,
   decreaseProductQuantity,
   getCartByUserId,
-  getCartProductsByUserId
+  getCartProductsByUserId,
+  getCartIdByUserId
 } = require("../controllers/Cart");
 
 const authentication = require("../middlewares/authentication");
-const authorization = require("../middlewares/authorization");
 
 const cartRouter = express.Router();
 
@@ -28,11 +28,11 @@ cartRouter.delete(
   deleteProductCartById
 );
 cartRouter.post(
-  "/cart/:cart_id/product/:product_id",
+  "/decrease/:cart_id/products/:product_id",
   authentication,
   decreaseProductQuantity
 );
-cartRouter.get("/userCart",authentication,getCartByUserId) // ask the ta about it 
+cartRouter.get("/userCart", authentication, getCartByUserId); //ask the TA about the path
 cartRouter.get("/", authentication, getCartProductsByUserId);
-
+cartRouter.get("/cart/userId",authentication,getCartIdByUserId)
 module.exports = cartRouter;
