@@ -15,77 +15,70 @@ const register = async (req, res) => {
     images,
     role_id,
   } = req.body;
+
   if (![1, 2].includes(role_id)) {
     return res.status(400).json({
       success: false,
       message: "Invalid role ID",
     });
   }
+
   const lowerCaseUserName = username.toLowerCase();
 
-  pool
-    .query(`SELECT * FROM users WHERE username = $1`, [lowerCaseUserName])
-    .then((result) => {
-      if (result.rowCount > 0) {
-        return res.status(400).json({
-          success: false,
-          message: "Username already axists",
-        });
-      }
-    });
-
-  const encryptedPassword = await bcrypt.hash(password, saltRounds);
-  const query = `INSERT INTO users (first_name, last_name, username, phone_number, email, password, role_id , images) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) returning *`;
-  const data = [
-    first_name,
-    last_name,
-    lowerCaseUserName,
-    phone_number,
-    email.toLowerCase(),
-    encryptedPassword,
-    role_id,
-    images,
-  ];
-  pool
-    .query(query, data)
-    .then((result) => {
-      console.log("fisrt result is ok", result);
-      if (result.rowCount) {
-        const users_id = result.rows[0].user_id;
-        const newCart = `INSERT INTO cart (user_id,price) VALUES ($1,$2) RETURNING *`;
-        pool
-          .query(newCart, [users_id, 0]) //total price = 0
-          .then((result) => {
-            console.log("second result is ok");
-            res.status(200).json({
-              success: true,
-              message: "Account Cart created successfully",
-              cart: result.rows,
-            });
-          })
-          .catch((error) => {
-            res.status(409).json({
-              success: false,
-              message: "error in creating cart",
-              error: error.message,
-            });
-          });
-
-        res.status(201).json({
-          success: true,
-          message: "Account Created Successfully",
-          user: result.rows[0],
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(409).json({
+  try {
+    const userResult = await pool.query(`SELECT * FROM users WHERE username = $1`, [lowerCaseUserName]);
+    if (userResult.rowCount > 0) {
+      return res.status(400).json({
         success: false,
-        message: "The email already exists",
-        err: err.message,
+        message: "Username already exists",
       });
+    }
+
+    const encryptedPassword = await bcrypt.hash(password, saltRounds);
+    const query = `INSERT INTO users (first_name, last_name, username, phone_number, email, password, role_id, images) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
+    const data = [
+      first_name,
+      last_name,
+      lowerCaseUserName,
+      phone_number,
+      email.toLowerCase(),
+      encryptedPassword,
+      role_id,
+      images,
+    ];
+
+    const result = await pool.query(query, data);
+
+    if (result.rowCount > 0) {
+      const user_id = result.rows[0].user_id;
+
+      if (role_id === 1) {
+        const newCartQuery = `INSERT INTO cart (user_id, price) VALUES ($1, $2) RETURNING *`;
+        const cartResult = await pool.query(newCartQuery, [user_id, 0]); // total price = 0
+        return res.status(200).json({
+          success: true,
+          message: "Account and cart created successfully",
+          user: result.rows[0],
+          cart: cartResult.rows[0],
+        });
+      }
+
+      return res.status(201).json({
+        success: true,
+        message: "Account created successfully",
+        user: result.rows[0],
+      });
+    }
+
+  } catch (error) {
+    res.status(409).json({
+      success: false,
+      message: "An error occurred",
+      error: error.message,
     });
+  }
 };
+
 
 //===========================================================LOGIN========================================================
 const login = (req, res) => {
