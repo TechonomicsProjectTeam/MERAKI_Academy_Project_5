@@ -2,11 +2,20 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { setLogout } from "../../redux/reducers/Auth/Auth";
-import { setProductFromCart } from "../../redux/reducers/Carts/Carts";
+import {
+  setProductFromCart,
+  addProductFromCart,
+  decreaseProductQuantityById,
+  SetCartId
+} from "../../redux/reducers/Carts/Carts";
 import "../NavBar/Style.css";
 import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faShoppingCart,
+  faPlus,
+  faMinus,
+} from "@fortawesome/free-solid-svg-icons";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -19,8 +28,23 @@ const NavBar = () => {
   const roleId = useSelector((state) => state.auth.roleId);
   const userId = useSelector((state) => state.auth.userId);
   const cart = useSelector((state) => state.cart.carts);
+  const cartId = useSelector((state) => state.cart.cartId);
 
-  const getCartByUserId = async () => {
+  console.log(cartId);
+
+  const getCartIdByUserId = async () => {
+    const result = await axios.get(`http://localhost:5000/carts/cart/userId`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(result.data);
+    dispatch(SetCartId({
+      cartId: result.data.cart[0].cart_id
+    }));
+  }
+
+  const getCartProductByCartId = async () => {
     try {
       const result = await axios.get(`http://localhost:5000/carts/`, {
         headers: {
@@ -28,10 +52,11 @@ const NavBar = () => {
         },
       });
       console.log(result.data);
-      dispatch(setProductFromCart({
-        cartId: result.data.products[0].cart_id,
-        products: result.data.products,
-      }));
+      dispatch(
+        setProductFromCart({
+          products: result.data.products,
+        })
+      );
     } catch (error) {
       console.error("Error fetching cart data:", error);
     }
@@ -39,12 +64,63 @@ const NavBar = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      getCartByUserId();
+      getCartProductByCartId();
+      getCartIdByUserId();
     }
   }, [userId, token, isLoggedIn]);
 
+  useEffect(() => {
+    console.log('Cart updated:', cart);
+  }, [cart]);
+
   const handleLogout = () => {
     dispatch(setLogout());
+  };
+
+  const increaseProductQuantity = async (productId, quantity) => {
+    try {
+      await axios.post(
+        `http://localhost:5000/carts/${productId}`,
+        {
+          cart_id: cartId,
+          quantity,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(cartId);
+      dispatch(addProductFromCart({ product_id: productId, quantity }));
+    } catch (error) {
+      console.error("Error increasing product quantity:", error);
+    }
+  };
+
+  const decreaseProductQuantity = async (productId) => {
+    try {
+      await axios.post(
+        `http://localhost:5000/carts/decrease/${cartId}/products/${productId}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(decreaseProductQuantityById({ product_id: productId }));
+    } catch (error) {
+      console.error("Error decreasing product quantity:", error);
+    }
+  };
+
+  const increaseQuantity = (productId) => {
+    increaseProductQuantity(productId, 1);
+  };
+
+  const decreaseQuantity = (productId) => {
+    decreaseProductQuantity(productId);
   };
 
   return (
@@ -117,16 +193,32 @@ const NavBar = () => {
             </NavLink>
             <div className="cart-icon">
               <FontAwesomeIcon icon={faShoppingCart} />
-              {console.log(cart)}
               <span className="cart-count">{cart?.length}</span>
               <div className="cart-dropdown">
                 {cart?.length > 0 ? (
                   <ul>
                     {cart.map((item, index) => (
                       <li key={index}>
-                        {console.log(item.price)}
-                        <img src={item.images} alt={item.name} className="cart-item-image" />
-                        <p>{item.name} - {item.quantity} x ${item.price}</p>
+                        <img
+                          src={item.images}
+                          alt={item.name}
+                          className="cart-item-image"
+                        />
+                        <p>
+                          {item.name} - {item.quantity} x ${item.price}
+                        </p>
+                        <div className="icon-container">
+                          <FontAwesomeIcon
+                            icon={faPlus}
+                            onClick={() => increaseQuantity(item.product_id)}
+                            className="icon"
+                          />
+                          <FontAwesomeIcon
+                            icon={faMinus}
+                            onClick={() => decreaseQuantity(item.product_id)}
+                            className="icon"
+                          />
+                        </div>
                       </li>
                     ))}
                   </ul>

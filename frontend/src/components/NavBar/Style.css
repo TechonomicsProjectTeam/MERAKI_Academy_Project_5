@@ -113,6 +113,21 @@ nav a:hover {
   display: block;
   padding: 8px 12px;
 }
+.icon-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.icon-container .icon {
+  cursor: pointer;
+  color: #000; 
+  transition: color 0.3s;
+}
+
+.icon-container .icon:hover {
+  color: #007bff; 
+}
 p {
   color: black;
 }
