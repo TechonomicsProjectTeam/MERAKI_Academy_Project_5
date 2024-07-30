@@ -58,6 +58,7 @@ nav a:hover {
   position: relative;
   display: inline-block;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .cart-count {
@@ -113,6 +114,7 @@ nav a:hover {
   display: block;
   padding: 8px 12px;
 }
+
 .icon-container {
   display: flex;
   gap: 10px;
@@ -128,6 +130,23 @@ nav a:hover {
 .icon-container .icon:hover {
   color: #007bff; 
 }
+
+.clear-cart-button {
+  display: block;
+  background-color: #dc3545;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.clear-cart-button:hover {
+  background-color: #c82333;
+}
+
 p {
   color: black;
 }

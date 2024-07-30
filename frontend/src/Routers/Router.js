@@ -11,7 +11,7 @@ import DriverDashboard from "../Pages/DriverDashboard/DriverDashboard";
 import Login from "../Pages/Login/Login";
 import OwnerLogin from "../Pages/OwnerLogin/OwnerLogin";
 import OwnerRegister from "../Pages/OwnerRegister/OwnerRegister";
-import Products from "../Pages/Products/Products";
+import Products from "../Pages/AddProducts/AddProducts";
 import Register from "../Pages/Register/Register";
 import ShopOwnerDashboard from "../Pages/ShopOwnerDashboard/ShopOwnerDashboard";
 import UserDashboard from "../Pages/UserDashboard/UserDashboard";
