@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { formatDistanceToNow } from "date-fns";
 import { getCategories } from "../../redux/reducers/Categories/Categories";
 import { setShopsByCategory } from "../../redux/reducers/Shops/Shops";
 import { setProducts } from "../../redux/reducers/Products/Products";
@@ -21,6 +22,7 @@ const UserDashboard = () => {
   const reviews = useSelector((state) => state.reviews.reviews);
   const cartId = useSelector((state) => state.cart.cartId);
   const token = useSelector((state) => state.auth.token);
+  const userId = useSelector((state) => state.auth.userId);
 
   const [showCategories, setShowCategories] = useState(true);
   const [showShops, setShowShops] = useState(false);
@@ -341,7 +343,6 @@ const UserDashboard = () => {
           {shopDetails[products[0]?.shop_id] && (
             <div className="shop-description">
               <h3>Shop Description</h3>
-
               <p>{shopDetails[products[0].shop_id].description}</p>
             </div>
           )}
@@ -373,68 +374,86 @@ const UserDashboard = () => {
                 <div>
                   {reviews[product.product_id] &&
                     reviews[product.product_id].map((review) => (
-                      <div key={review.review_id}>
+                      <div key={review.review_id} className="review-container">
+                        <div className="reviewer-info">
+                          <img
+                            src={review.images}
+                            alt={`${review.username}'s avatar`}
+                            className="reviewer-image"
+                          />
+                          <p className="reviewer-name">{review.user_name}</p>
+                        </div>
                         <p>
                           {review.review_text} - {review.rating} stars
                         </p>
-                        {editingReview === review.review_id ? (
-                          <div>
+                        {console.log(review.created_at)}
+                        <p>
+                          {formatDistanceToNow(new Date(review.created_at))} ago
+                        </p>
+                        {review.user_id === userId ? (
+                          editingReview === review.review_id ? (
                             <div>
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                <span
-                                  key={star}
-                                  onClick={() => handleEditStarClick(star)}
-                                  style={{
-                                    cursor: "pointer",
-                                    color:
-                                      star <= editReviewData.rating
-                                        ? "#ffc107"
-                                        : "#e4e5e9",
-                                  }}
-                                >
-                                  ★
-                                </span>
-                              ))}
+                              <div>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <span
+                                    key={star}
+                                    onClick={() => handleEditStarClick(star)}
+                                    style={{
+                                      cursor: "pointer",
+                                      color:
+                                        star <= editReviewData.rating
+                                          ? "#ffc107"
+                                          : "#e4e5e9",
+                                    }}
+                                  >
+                                    ★
+                                  </span>
+                                ))}
+                              </div>
+                              <input
+                                type="text"
+                                value={editReviewData.review_text}
+                                onChange={(e) =>
+                                  handleEditReviewChange(
+                                    "review_text",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              <button
+                                onClick={() =>
+                                  handleUpdateReview(
+                                    review.review_id,
+                                    product.product_id
+                                  )
+                                }
+                              >
+                                Submit Update
+                              </button>
                             </div>
-                            <input
-                              type="text"
-                              value={editReviewData.review_text}
-                              onChange={(e) =>
-                                handleEditReviewChange(
-                                  "review_text",
-                                  e.target.value
-                                )
-                              }
-                            />
-                            <button
-                              onClick={() =>
-                                handleUpdateReview(
-                                  review.review_id,
-                                  product.product_id
-                                )
-                              }
-                            >
-                              Submit Update
-                            </button>
-                          </div>
+                          ) : (
+                            <div>
+                              <button
+                                onClick={() =>
+                                  setEditingReview(review.review_id)
+                                }
+                              >
+                                Update
+                              </button>
+                              <button
+                                onClick={() =>
+                                  handleDeleteReview(
+                                    review.review_id,
+                                    product.product_id
+                                  )
+                                }
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          )
                         ) : (
-                          <div>
-                            <button
-                              onClick={() => setEditingReview(review.review_id)}
-                            >
-                              Update
-                            </button>
-                            <button
-                              onClick={() =>
-                                handleDeleteReview(
-                                  review.review_id,
-                                  product.product_id
-                                )
-                              }
-                            >
-                              Delete
-                            </button>
-                          </div>
+                          <></>
                         )}
                       </div>
                     ))}
