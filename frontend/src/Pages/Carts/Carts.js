@@ -75,7 +75,30 @@ const Carts = () => {
       console.error("Error decreasing product quantity:", error);
     }
   };
-  
+
+  const deleteProductFromCart = async (productId) => {
+    try {
+      await axios.delete(
+        `http://localhost:5000/carts/cart/${cartId}/product/${productId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      dispatch(deleteProductCartById({ product_id: productId }));
+    } catch (error) {
+      console.error("Error deleting product from cart:", error);
+    }
+  };
+
+  const deleteAllProductsFromCart = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/carts/${cartId}/products`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(deleteAllProductFromCart());
+    } catch (error) {
+      console.error("Error deleting all products from cart:", error);
+    }
+  };
+
   return (
     <div className="Cart">
       <h2>Shopping Cart</h2>
