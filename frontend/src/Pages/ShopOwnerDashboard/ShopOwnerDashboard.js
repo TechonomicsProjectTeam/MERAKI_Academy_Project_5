@@ -81,7 +81,28 @@ const ShopOwnerDashboard = () => {
     }
   };
 
-  
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const uploadImageToCloudinary = async () => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "rgtsukxl");
+    data.append("cloud_name", "dqefjpmuo");
+
+    try {
+      const response = await fetch("https://api.cloudinary.com/v1_1/dqefjpmuo/image/upload", {
+        method: "post",
+        body: data
+      });
+      const result = await response.json();
+      return result.url;
+    } catch (error) {
+      console.error("Error uploading image to Cloudinary:", error);
+      return null;
+    }
+  };
 
   return (
     <div className='Products'>
