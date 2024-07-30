@@ -2,8 +2,108 @@ const pool = require("../models/db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const saltRounds = parseInt(process.env.SALT);
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client({
+  clientId: process.env.clientId,
+  clientSecret: process.env.clientSecret,
+  redirectUri: process.env.redirectUri,
+});
 
-//========================================================REGISTER=========================================================
+const googleLogin = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    const { tokens } = await client.getToken({
+      code: token,
+      clientId: client._clientId,
+      clientSecret: client._clientSecret,
+      redirectUri: client.redirectUri,
+    });
+
+    const idToken = tokens.id_token;
+
+    if (!idToken) {
+      return res.status(400).json({
+        success: false,
+        message: "Google login failed. No id_token found.",
+      });
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken: idToken,
+      audience: client._clientId,
+    });
+
+    const payload = ticket.getPayload();
+    const { email, given_name, family_name, picture } = payload;
+
+    let user = await pool.query(`SELECT * FROM users WHERE email = $1`, [
+      email.toLowerCase(),
+    ]);
+
+    if (user.rowCount === 0) {
+      const defaultPassword = await bcrypt.hash("default_password", saltRounds);
+
+      let baseUsername = `${given_name}${family_name}`;
+      let username = baseUsername;
+      let count = 1;
+
+      while (true) {
+        const existingUser = await pool.query(
+          `SELECT * FROM users WHERE username = $1`,
+          [username]
+        );
+        if (existingUser.rowCount === 0) {
+          break;
+        }
+        username = `${baseUsername}${count}`;
+        count++;
+      }
+
+      const query = `INSERT INTO users (first_name, last_name, email, images, role_id, username, password) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+      const data = [
+        given_name,
+        family_name,
+        email.toLowerCase(),
+        picture,
+        1,
+        username,
+        defaultPassword,
+      ];
+
+      const result = await pool.query(query, data);
+      user = result;
+
+      const user_id = user.rows[0].user_id;
+      const newCartQuery = `INSERT INTO cart (user_id, price) VALUES ($1, $2) RETURNING *`;
+      await pool.query(newCartQuery, [user_id, 0]);
+    }
+
+    const userData = user.rows[0];
+    const payloadJwt = {
+      userId: userData.user_id,
+      username: userData.username,
+      role: userData.role_id,
+    };
+    const tokenJwt = jwt.sign(payloadJwt, process.env.SECRET, {
+      expiresIn: "1d",
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Logged in successfully",
+      token: tokenJwt,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: err.message,
+    });
+  }
+};
+// Register User
 const register = async (req, res) => {
   const {
     first_name,
@@ -26,7 +126,10 @@ const register = async (req, res) => {
   const lowerCaseUserName = username.toLowerCase();
 
   try {
-    const userResult = await pool.query(`SELECT * FROM users WHERE username = $1`, [lowerCaseUserName]);
+    const userResult = await pool.query(
+      `SELECT * FROM users WHERE username = $1`,
+      [lowerCaseUserName]
+    );
     if (userResult.rowCount > 0) {
       return res.status(400).json({
         success: false,
@@ -69,7 +172,6 @@ const register = async (req, res) => {
         user: result.rows[0],
       });
     }
-
   } catch (error) {
     res.status(409).json({
       success: false,
@@ -79,8 +181,7 @@ const register = async (req, res) => {
   }
 };
 
-
-//===========================================================LOGIN========================================================
+// Login User
 const login = (req, res) => {
   const password = req.body.password;
   const email = req.body.email;
@@ -134,23 +235,41 @@ const login = (req, res) => {
     });
 };
 
-//=======================================================UPDATE USER BY ID=====================================================
+// Update User By ID
 const updateUserById = async (req, res) => {
   const user_id = req.params.user_id;
-  const { first_name, last_name, username, phone_number, email, password, images } = req.body;
+  const {
+    first_name,
+    last_name,
+    username,
+    phone_number,
+    email,
+    password,
+    images,
+  } = req.body;
 
   try {
     // Ensure email and username are unique
     if (email) {
-      const emailCheck = await pool.query(`SELECT * FROM users WHERE email = $1 AND user_id != $2`, [email.toLowerCase(), user_id]);
+      const emailCheck = await pool.query(
+        `SELECT * FROM users WHERE email = $1 AND user_id != $2`,
+        [email.toLowerCase(), user_id]
+      );
       if (emailCheck.rowCount > 0) {
-        return res.status(400).json({ success: false, message: "Email already exists" });
+        return res
+          .status(400)
+          .json({ success: false, message: "Email already exists" });
       }
     }
     if (username) {
-      const usernameCheck = await pool.query(`SELECT * FROM users WHERE username = $1 AND user_id != $2`, [username.toLowerCase(), user_id]);
+      const usernameCheck = await pool.query(
+        `SELECT * FROM users WHERE username = $1 AND user_id != $2`,
+        [username.toLowerCase(), user_id]
+      );
       if (usernameCheck.rowCount > 0) {
-        return res.status(400).json({ success: false, message: "Username already exists" });
+        return res
+          .status(400)
+          .json({ success: false, message: "Username already exists" });
       }
     }
 
@@ -186,7 +305,9 @@ const updateUserById = async (req, res) => {
     const result = await pool.query(query, data);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     res.status(200).json({
@@ -203,11 +324,13 @@ const updateUserById = async (req, res) => {
   }
 };
 
-//=============================================================DELETE USER BY ID========================================================
+// Delete User By ID
 const deleteUserById = (req, res) => {
   const user_id = req.params.user_id;
   pool
-    .query(`UPDATE users SET is_deleted=1 WHERE user_id = $1 RETURNING *`, [user_id])
+    .query(`UPDATE users SET is_deleted=1 WHERE user_id = $1 RETURNING *`, [
+      user_id,
+    ])
     .then((result) => {
       if (result.rows.length === 0) {
         return res.status(403).json("user not found");
@@ -227,7 +350,7 @@ const deleteUserById = (req, res) => {
     });
 };
 
-//=============================================================GET ALL USERS========================================================
+// Get All Users
 const getAllUsers = (req, res) => {
   pool
     .query(`SELECT * FROM  users WHERE is_deleted = 0`)
@@ -247,25 +370,26 @@ const getAllUsers = (req, res) => {
     });
 };
 
-const getUserById= (req,res)=>{
-  const {id}=req.params
-  const query =`SELECT * FROM users WHERE is_deleted =0 AND user_id=$1`
-  pool.query(query,[id])
-  .then((result) => {
-    res.status(200).json({
-      success: true,
-      message: `Users info for id ${id}`,
-      users: result.rows,
+const getUserById = (req, res) => {
+  const { id } = req.params;
+  const query = `SELECT * FROM users WHERE is_deleted =0 AND user_id=$1`;
+  pool
+    .query(query, [id])
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: `Users info for id ${id}`,
+        users: result.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        Error: error.message,
+      });
     });
-  })
-  .catch((error) => {
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-      Error: error.message,
-    });
-  });
-}
+};
 
 module.exports = {
   register,
@@ -273,5 +397,6 @@ module.exports = {
   updateUserById,
   deleteUserById,
   getAllUsers,
-  getUserById
+  getUserById,
+  googleLogin,
 };

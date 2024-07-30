@@ -25,7 +25,12 @@ const createNewReview = (req, res) => {
 
 const getReviewByProductId = (req, res) => {
   const { id } = req.params;
-  const query = `SELECT * FROM reviews WHERE product_id=$1 AND is_deleted=0`;
+  const query = `
+    SELECT reviews.*, users.username, users.images 
+    FROM reviews 
+    JOIN users ON reviews.user_id = users.user_id 
+    WHERE reviews.product_id = $1;
+  `;
   pool
     .query(query, [id])
     .then((result) => {
