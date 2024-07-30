@@ -4,14 +4,14 @@ const createNewReview = (req, res) => {
   const reviewer = req.token.userId;
   const { id } = req.params;
   const { rating, review_text } = req.body;
-  const query = `INSERT INTO reviews (rating,review_text,product_id,user_id) VALUES ($1,$2,$3,$4) RETURNING *`;
+  const query = `INSERT INTO reviews (rating, review_text, product_id, user_id) VALUES ($1, $2, $3, $4) RETURNING *`;
   pool
     .query(query, [rating, review_text, id, reviewer])
     .then((result) => {
       res.status(201).json({
         success: true,
         message: "Review created successfully",
-        result: result.rows,
+        result: result.rows[0],
       });
     })
     .catch((err) => {
@@ -47,7 +47,7 @@ const getReviewByProductId = (req, res) => {
 const updateReview = (req, res) => {
   const { id } = req.params;
   const { rating, review_text } = req.body;
-  const query = `UPDATE reviews SET rating= COALESCE($1,rating), review_text= COALESCE($2,review_text) WHERE review_id=$3 RETURNING *`;
+  const query = `UPDATE reviews SET rating= COALESCE($1, rating), review_text= COALESCE($2, review_text) WHERE review_id=$3 RETURNING *`;
   pool
     .query(query, [rating, review_text, id])
     .then((result) => {
