@@ -33,6 +33,19 @@ const ShopOwnerDashboard = () => {
     getAllProductByShopId();
   }, []);
 
+  const deleteProductById = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/product/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      dispatch(deleteProductsById({ product_id: id }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   
 
   return (
