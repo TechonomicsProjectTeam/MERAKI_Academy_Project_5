@@ -9,6 +9,7 @@ import {
   SetCartId,
   setProductFromCart,
 } from "../../redux/reducers/Carts/Carts";
+import { addOrders } from "../../redux/reducers/Orders/Orders";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import "./Style.css";
@@ -49,6 +50,10 @@ const Carts = () => {
       getCartIdByUserId();
     }
   }, [isLoggedIn, roleId]);
+
+  useEffect(() => {
+    console.log('Cart updated:', cart);
+  },[cart]);
 
   const increaseProductQuantity = async (productId, quantity) => {
     try {
@@ -99,6 +104,20 @@ const Carts = () => {
     }
   };
 
+  const createOrder = async ()=>{
+    try {
+      const result =await  axios.post("http://localhost:5000/orders/",{
+        cartId:cartId
+      },
+      {headers: { Authorization: `Bearer ${token}` },}
+    )
+    console.log("Order result : ",result);
+    dispatch(addOrders(result.data.order));
+    } catch (error) {
+      console.log("Error creating an order : ",error);
+    }
+  }
+  
   return (
     <div className="Cart">
       <h2>Shopping Cart</h2>
@@ -134,6 +153,10 @@ const Carts = () => {
       <button className="clear-cart-button" onClick={deleteAllProductsFromCart}>
         Remove All Products
       </button>
+      <button className="create-order-button" onClick={()=>{
+        console.log("Order clicked");
+        createOrder();
+      }}>Create order</button>
     </div>
   );
 };
