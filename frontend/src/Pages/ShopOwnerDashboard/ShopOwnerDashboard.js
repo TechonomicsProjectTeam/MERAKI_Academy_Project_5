@@ -46,6 +46,41 @@ const ShopOwnerDashboard = () => {
     }
   };
 
+  const handleUpdateProduct = async (id) => {
+    let imageUrl = "";
+    if (image) {
+      imageUrl = await uploadImageToCloudinary();
+      if (!imageUrl) {
+        setMessage("Image upload failed");
+        setTimeout(() => setMessage(""), 3000);
+        return;
+      }
+    }
+
+    const updatedData = {
+      name,
+      description,
+      price,
+      images: imageUrl || image, 
+    };
+
+    try {
+      const response = await axios.put(`http://localhost:5000/product/${id}`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log(response.data);
+      dispatch(updateProductsById(response.data.products));
+      setMessage("Product updated successfully");
+      setStatus(true);
+      setSelectedProductId(null);
+      setTimeout(() => setMessage(" "), 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   
 
   return (
