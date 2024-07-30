@@ -50,6 +50,31 @@ const Carts = () => {
     }
   }, [isLoggedIn, roleId]);
 
+  const increaseProductQuantity = async (productId, quantity) => {
+    try {
+      await axios.post(
+        `http://localhost:5000/carts/${productId}`,
+        { cart_id: cartId, quantity },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      dispatch(addProductFromCart({ product_id: productId, quantity }));
+    } catch (error) {
+      console.error("Error increasing product quantity:", error);
+    }
+  };
+
+  const decreaseProductQuantity = async (productId) => {
+    try {
+      await axios.post(
+        `http://localhost:5000/carts/decrease/${cartId}/products/${productId}`,
+        null,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      dispatch(decreaseProductQuantityById({ product_id: productId }));
+    } catch (error) {
+      console.error("Error decreasing product quantity:", error);
+    }
+  };
   
   return (
     <div className="Cart">
