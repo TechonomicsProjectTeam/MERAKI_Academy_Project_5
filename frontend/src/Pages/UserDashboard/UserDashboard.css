@@ -94,3 +94,101 @@ button:hover {
 .review-stars span:hover {
   color: #ffc107;
 }
+.review-container {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.reviewer-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.reviewer-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.review-text {
+  margin: 10px 0;
+  color: #555;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #999;
+}
+
+.review-stars span {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.review-stars span:hover {
+  color: #ffc107;
+}
+
+.edit-review-container {
+  margin-top: 10px;
+}
+
+.edit-review-input {
+  width: 100%;
+  padding: 5px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.edit-review-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-review-buttons button {
+  margin-left: 10px;
+}
+
+.add-review-container {
+  margin-top: 20px;
+}
+
+.add-review-title {
+  font-weight: bold;
+  color: #333;
+}
+
+.add-review-input {
+  width: 100%;
+  padding: 5px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.add-review-button {
+  padding: 10px 15px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-review-button:hover {
+  background-color: #0056b3;
+}
