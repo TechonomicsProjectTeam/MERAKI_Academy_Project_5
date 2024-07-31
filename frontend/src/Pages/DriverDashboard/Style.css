@@ -1,0 +1,75 @@
+.Orders {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .Orders > div {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+  }
+  
+  .Orders h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .Orders p {
+    margin: 0.5rem 0;
+    color: #555;
+  }
+  
+  .Orders ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .Orders li {
+    border-top: 1px solid #ddd;
+    padding: 0.5rem 0;
+  }
+  
+  .Orders li:first-child {
+    border-top: none;
+  }
+  
+  .Orders h4 {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+    color: #666;
+  }
+  
+  .Orders button {
+    margin: 0.5rem 0.5rem 0 0;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .Orders button:hover {
+    background-color: #ddd;
+  }
+  
+  .Orders button:active {
+    background-color: #ccc;
+  }
+  
+  .Orders button:first-child {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .Orders button:last-child {
+    background-color: #f44336;
+    color: white;
+  }
+  

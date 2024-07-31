@@ -13,7 +13,7 @@ const Orders = () => {
   const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
   const user_id = decodedToken.userId;
-
+  console.log(userOrders);
   useEffect(() => {
     const fetchUserOrders = async () => {
       try {
@@ -82,7 +82,7 @@ const Orders = () => {
           {ordersArray.map((order) => (
             
             <tr key={order.order_id}>
-              {console.log(ordersArray)}
+            
               <td>{order.order_id}</td>
               <td>{order.status}</td>
               <td>
