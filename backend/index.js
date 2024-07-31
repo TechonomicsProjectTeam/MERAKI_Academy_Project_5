@@ -34,9 +34,13 @@ app.use("/orders", orderRouter);
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 
-// Initialize WebSocket server
 initializeWebSocket(server);
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+
+  if (process.env.CREATE_ADMIN === "true") {
+    const createAdmin = require("./scripts/createAdmin");
+    createAdmin();
+  }
 });

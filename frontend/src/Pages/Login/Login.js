@@ -40,6 +40,8 @@ const Login = () => {
         navigate("/user-dashboard");
       } else if (roleId === 2) {
         navigate("/driver-dashboard");
+      } else if (roleId === 4) { 
+        navigate("/admin-dashboard");
       }
     } catch (error) {
       setMessage("Error occurred during login.");
@@ -82,6 +84,8 @@ const Login = () => {
           navigate("/user-dashboard");
         } else if (decodedToken.role === 2) {
           navigate("/driver-dashboard");
+        } else if (decodedToken.role === 4) { 
+          navigate("/admin-dashboard");
         }
       } catch (error) {
         setMessage("Google login failed.");
