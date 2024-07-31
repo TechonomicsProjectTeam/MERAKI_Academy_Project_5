@@ -13,7 +13,7 @@ import {
 } from "../../redux/reducers/Reviews/Reviews";
 import "../UserDashboard/UserDashboard.css";
 import { addProductFromCart } from "../../redux/reducers/Carts/Carts";
-
+import { SetCartId } from "../../redux/reducers/Carts/Carts";
 const UserDashboard = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
@@ -23,7 +23,8 @@ const UserDashboard = () => {
   const cartId = useSelector((state) => state.cart.cartId);
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.userId);
-
+  
+console.log(cartId);
   const [showCategories, setShowCategories] = useState(true);
   const [showShops, setShowShops] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
@@ -40,6 +41,24 @@ const UserDashboard = () => {
   const productsPerPage = 5;
   const [shopDetails, setShopDetails] = useState({});
 
+  useEffect(() => {
+    if (!cartId && token) {
+      const fetchCartId = async () => {
+        try {
+          const result = await axios.get(`http://localhost:5000/carts/cart/userId`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (result.data.cart.length > 0) {
+            dispatch(SetCartId({ cartId: result.data.cart[0].cart_id }));
+          }
+        } catch (error) {
+          console.error("Error fetching cart ID:", error);
+        }
+      };
+
+      fetchCartId();
+    }
+  }, [cartId, token, dispatch]);
   useEffect(() => {
     axios
       .get("http://localhost:5000/categories/")

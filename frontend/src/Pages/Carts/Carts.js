@@ -21,7 +21,7 @@ const Carts = () => {
   const cartId = useSelector((state) => state.cart.cartId);
   const isLoggedIn = useSelector((state) => state.auth.token);
   const roleId = useSelector((state) => state.auth.roleId);
-
+  console.log(cartId);
   const getCartIdByUserId = async () => {
     try {
       const result = await axios.get(`http://localhost:5000/carts/cart/userId`, {
@@ -111,8 +111,11 @@ const Carts = () => {
       },
       {headers: { Authorization: `Bearer ${token}` },}
     )
-    console.log("Order result : ",result);
+    if (result.data.success){
+    
     dispatch(addOrders(result.data.order));
+    dispatch(deleteAllProductFromCart())
+  }
     } catch (error) {
       console.log("Error creating an order : ",error);
     }
