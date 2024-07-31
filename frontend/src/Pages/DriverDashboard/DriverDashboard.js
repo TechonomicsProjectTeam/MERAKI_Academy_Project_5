@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateOrderStatus, getOrders, setStatus } from "../../redux/reducers/Orders/Orders";
+import { updateOrderStatus, getOrders, setStatus, setHiddenButtons } from "../../redux/reducers/Orders/Orders";
 import axios from "axios";
+import "../DriverDashboard/Style.css";
 
 const DriverDashboard = () => {
   const orders = useSelector((state) => state.orders.orders);
+  const hiddenButtons = useSelector((state) => state.orders.hiddenButtons);
   const dispatch = useDispatch();
 
   const fetchOrders = async () => {
@@ -20,7 +22,7 @@ const DriverDashboard = () => {
 
   useEffect(() => {
     fetchOrders();
-  }, [dispatch]);
+  }, [orders]);
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:5000");
@@ -42,12 +44,22 @@ const DriverDashboard = () => {
     return () => ws.close();
   }, [dispatch]);
 
-  const changeOrderStatus = async (order_id, status, driver) => {
+  const changeOrderStatus = async (order_id, status) => {
     try {
-      const response = await axios.put(`http://localhost:5000/orders/${order_id}/status`, { status, driver });
+      const response = await axios.put(
+        `http://localhost:5000/orders/${order_id}/status`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, 
+          },
+        }
+      );
       if (response.data.success) {
-        dispatch(updateOrderStatus({ order_id, status, driver }));
+        console.log(response.data.result);
+        dispatch(updateOrderStatus({ order_id, status, driver: response.data.result.driver }));
         dispatch(setStatus(status));
+        dispatch(setHiddenButtons({ order_id, hidden: true }));
       }
     } catch (error) {
       console.error("Error updating order status:", error);
@@ -55,19 +67,12 @@ const DriverDashboard = () => {
   };
 
   const handleAccept = (order_id) => {
-    const driver = localStorage.getItem("username");
-    changeOrderStatus(order_id, "ACCEPTED", driver);
+    changeOrderStatus(order_id, "ACCEPTED");
   };
 
   const handleReject = (order_id) => {
-    const driver = localStorage.getItem("username");
-    changeOrderStatus(order_id, "REJECTED", driver);
+    changeOrderStatus(order_id, "REJECTED");
   };
-  useEffect(() => {
-    console.log("Orders updated:", orders);
-  }, [orders]);
-  
-
 
   return (
     <div className="Orders">
@@ -75,14 +80,36 @@ const DriverDashboard = () => {
         <div key={order.order_id}>
           <h3>Order {order.order_id}</h3>
           <p>Status: {order.status}</p>
-          {order.status === "ACCEPTED" && order.driver ? (
-            <p>Accepted by: {order.driver}</p>
-          ) : order.status === "REJECTED" && order.driver ? (
-            <p>Rejected by: {order.driver}</p>
-          ) : (
+          {order.products && order.products.length > 0 && (
+            <div>
+              <h4>Products:</h4>
+              <ul>
+                {order.products.map((product) => (
+                  <li key={product.product_id}>
+                    <p>Name: {product.name}</p>
+                    <p>Description: {product.description}</p>
+                    <p>Price: ${product.price}</p>
+                    <p>Quantity: {product.quantity}</p>
+                  </li>
+                ))}
+              </ul>
+              {console.log(order.driver)}
+            </div>
+          )}
+          {order.status === "ACCEPTED" && order.driver && (
+            <p>
+              Accepted by: {order.driver.username}
+            </p>
+          )}
+          {order.status === "REJECTED" && order.driver && (
+            <p>
+              Rejected by: {order.driver.username}
+            </p>
+          )}
+          {!hiddenButtons[order.order_id] && (
             <>
               <button onClick={() => handleAccept(order.order_id)}>Accept</button>
-              <button onClick={() => handleReject(order.order_id)}>Reject</button>
+            
             </>
           )}
         </div>

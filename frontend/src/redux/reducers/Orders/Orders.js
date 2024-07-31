@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const hiddenButtonsFromLocalStorage = JSON.parse(localStorage.getItem("hiddenButtons")) || {};
+
 export const ordersSlice = createSlice({
   name: "orders",
   initialState: {
     orders: [],
     userOrders: [],
     status: null,
+    hiddenButtons: hiddenButtonsFromLocalStorage, 
   },
   reducers: {
     getOrders: (state, action) => {
@@ -40,9 +43,13 @@ export const ordersSlice = createSlice({
     setStatus: (state, action) => {
       state.status = action.payload;
     },
+    setHiddenButtons: (state, action) => {
+      state.hiddenButtons[action.payload.order_id] = action.payload.hidden;
+      localStorage.setItem("hiddenButtons", JSON.stringify(state.hiddenButtons)); 
+    },
   },
 });
 
-export const { getOrders, addOrders, deleteOrderById, getOrderProductsByUserId, updateOrderStatus, setStatus } = ordersSlice.actions;
+export const { getOrders, addOrders, deleteOrderById, getOrderProductsByUserId, updateOrderStatus, setStatus, setHiddenButtons } = ordersSlice.actions;
 
 export default ordersSlice.reducer;
