@@ -1,5 +1,6 @@
 const pool = require("../models/db");
-
+const { getWebSocketServer } = require("../webSocket");
+const WebSocket = require('ws');
 //======================================================Create Order=====================================================
 const createOrder = (req, res) => {
   const user_id = req.token.userId;
@@ -165,10 +166,93 @@ const getOrderProductsByUserId = (req,res) =>{
     });
 }
 
+
+//======================================================Update Order Status=====================================================
+const updateOrderStatus = (req, res) => {
+  const { order_id } = req.params;
+  const { status } = req.body;
+
+  const validStatuses = ['In progress', 'ACCEPTED', 'REJECTED'];
+  if (!validStatuses.includes(status)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid status value',
+    });
+  }
+
+  pool
+    .query('UPDATE orders SET status = $1 WHERE order_id = $2 RETURNING *', [status, order_id])
+    .then((response) => {
+      if (response.rowCount === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'Order not found',
+        });
+      }
+
+      const updatedOrder = response.rows[0];
+      res.status(200).json({
+        success: true,
+        message: `Order status updated to ${status}`,
+        result: updatedOrder,
+      });
+
+      const wss = getWebSocketServer();
+      // Log the wss object and its clients
+      // console.log("WebSocket Server:", wss);
+      // console.log("Connected clients:", wss.clients);
+
+      // Broadcast the updated order status to all connected clients
+      wss.clients.forEach((client) => {
+        // console.log("Client:", client);
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({
+            type: 'ORDER_STATUS_UPDATED',
+            payload: updatedOrder
+          }));
+        }
+      });
+    })
+    .catch((error) => {
+      console.error('Database error:', error);
+      if (!res.headersSent) {
+        res.status(500).json({
+          success: false,
+          message: 'Server error',
+          error: error.message,
+        });
+      }
+    });
+};
+
+
+const getAllOrders = (req, res) => {
+  const query = `SELECT * FROM orders`;
+
+  pool
+      .query(query)
+      .then((response) => {
+          res.status(200).json({
+              success: true,
+              message: "All orders retrieved successfully",
+              result: response.rows,
+          });
+      })
+      .catch((error) => {
+          res.status(500).json({
+              success: false,
+              message: "Server error",
+              error: error.message,
+          });
+      });
+};
+
 module.exports = {
   createOrder,
   createOrderProducts,
   getOrderProducts,
   deleteOrderProducts,
-  getOrderProductsByUserId
+  getOrderProductsByUserId,
+  updateOrderStatus,
+  getAllOrders
 };

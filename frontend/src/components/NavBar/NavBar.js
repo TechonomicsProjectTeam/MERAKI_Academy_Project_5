@@ -5,7 +5,7 @@ import { setLogout } from "../../redux/reducers/Auth/Auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import "../NavBar/Style.css";
-
+import { clearCartState } from "../../redux/reducers/Carts/Carts";
 const NavBar = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -16,6 +16,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     dispatch(setLogout());
+    dispatch(clearCartState());
   };
   return (
       <div className="NavBar">
