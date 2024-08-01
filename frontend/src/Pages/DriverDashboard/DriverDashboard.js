@@ -43,7 +43,7 @@ const DriverDashboard = () => {
 
     return () => ws.close();
   }, [dispatch]);
-
+  console.log(orders);
   const changeOrderStatus = async (order_id, status) => {
     try {
       const response = await axios.put(
@@ -78,6 +78,8 @@ const DriverDashboard = () => {
     <div className="Orders">
       {orders.map((order) => (
         <div key={order.order_id}>
+          <h4>Payment Method {order.payment_method}</h4>
+          <h2>From {order.user.username}</h2>
           <h3>Order {order.order_id}</h3>
           <p>Status: {order.status}</p>
           {order.products && order.products.length > 0 && (
@@ -93,7 +95,7 @@ const DriverDashboard = () => {
                   </li>
                 ))}
               </ul>
-              {console.log(order.driver)}
+              
             </div>
           )}
           {order.status === "ACCEPTED" && order.driver && (

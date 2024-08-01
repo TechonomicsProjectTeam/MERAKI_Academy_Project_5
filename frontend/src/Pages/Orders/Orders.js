@@ -14,6 +14,7 @@ const Orders = () => {
   const decodedToken = jwtDecode(token);
   const user_id = decodedToken.userId;
   console.log(userOrders);
+
   useEffect(() => {
     const fetchUserOrders = async () => {
       try {
@@ -59,6 +60,7 @@ const Orders = () => {
       acc[order.order_id] = {
         order_id: order.order_id,
         status: order.status,
+        paymentMethod: order.payment_method, // Assuming this field is included in the response
         products: []
       };
     }
@@ -75,6 +77,7 @@ const Orders = () => {
           <tr>
             <th>Order ID</th>
             <th>Status</th>
+            <th>Payment Method</th>
             <th>Products</th>
           </tr>
         </thead>
@@ -82,9 +85,10 @@ const Orders = () => {
           {ordersArray.map((order) => (
             
             <tr key={order.order_id}>
-            
+              {console.log(order)}
               <td>{order.order_id}</td>
               <td>{order.status}</td>
+              <td>{order.paymentMethod}</td>
               <td>
                 <ul>
                   {order.products.map(product => (
