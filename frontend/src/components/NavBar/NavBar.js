@@ -14,6 +14,8 @@ const NavBar = () => {
   const imageUrl = useSelector((state) => state.auth.images);
   const isLoggedIn = useSelector((state) => state.auth.token);
   const roleId = useSelector((state) => state.auth.roleId);
+  const shopName=useSelector((state)=>state.shops.name)
+  const shopImage=useSelector((state)=>state.shops.images)
 
   const handleLogout = () => {
     dispatch(setLogout());
@@ -35,6 +37,10 @@ const NavBar = () => {
         {isLoggedIn ? (
           parseInt(roleId) === 3 ? (
             <>
+            <div className="user-info">
+              {shopImage && <img src={shopImage} alt="User" className="user-image" />}
+              {shopName && <span className="user-name">Welcome {shopName} !!</span>}
+              </div>
               <NavLink
                 to="/shop-owner-dashboard"
                 className={({ isActive }) => (isActive ? "active" : "")}

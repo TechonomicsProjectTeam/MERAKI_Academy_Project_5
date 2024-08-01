@@ -78,9 +78,12 @@ CREATE TABLE orders
 (
   order_id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
+  driver_id INT,
   status VARCHAR(20) DEFAULT 'In progress' CHECK (status IN ('In progress', 'ACCEPTED', 'REJECTED')),
+  payment_method VARCHAR(20) CHECK (payment_method IN ('CashOnDelivery', 'PayPal')),
   is_deleted INT DEFAULT 0,
-  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (driver_id) REFERENCES users(user_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE order_products
