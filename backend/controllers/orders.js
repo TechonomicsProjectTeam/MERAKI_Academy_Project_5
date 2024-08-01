@@ -5,7 +5,7 @@ const WebSocket = require("ws");
 //======================================================Create Order=====================================================
 const createOrder = (req, res) => {
   const user_id = req.token.userId;
-  const { paymentMethod } = req.body; // Accept payment method from request body
+  const { paymentMethod } = req.body; 
 
   // Ensure user has items in the cart
   pool

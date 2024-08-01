@@ -15,10 +15,10 @@ import "../UserDashboard/UserDashboard.css";
 import { addProductFromCart } from "../../redux/reducers/Carts/Carts";
 import { SetCartId } from "../../redux/reducers/Carts/Carts";
 import LoginPrompt from "../LoginPrompt/LoginPrompt";
+
 const UserDashboard = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
-  console.log(categories);
   const shops = useSelector((state) => state.shops.shops);
   const products = useSelector((state) => state.product.products);
   const reviews = useSelector((state) => state.reviews.reviews);
@@ -26,10 +26,10 @@ const UserDashboard = () => {
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.userId);
   
-console.log(cartId);
   const [showCategories, setShowCategories] = useState(true);
   const [showShops, setShowShops] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [message, setMessage] = useState("");
   const [quantities, setQuantities] = useState({});
   const [newReviews, setNewReviews] = useState({});
@@ -62,6 +62,7 @@ console.log(cartId);
       fetchCartId();
     }
   }, [cartId, token, dispatch]);
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/categories/")
@@ -254,7 +255,6 @@ console.log(cartId);
             .get(`http://localhost:5000/shop/${shopId}`)
             .then((response) => {
               if (response.data.success) {
-                console.log(response.data.shops[0]);
                 setShopDetails((prevState) => ({
                   ...prevState,
                   [shopId]: response.data.shops[0],
@@ -278,13 +278,20 @@ console.log(cartId);
   };
 
   const handleBackClick = () => {
-    if (showProducts) {
+    if (showProducts && selectedProduct) {
+      setSelectedProduct(null);
+    } else if (showProducts) {
       setShowProducts(false);
       setShowShops(true);
     } else if (showShops) {
       setShowShops(false);
       setShowCategories(true);
     }
+  };
+
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    fetchReviews(product.product_id);
   };
 
   const handleShowMoreProducts = () => {
@@ -363,13 +370,12 @@ console.log(cartId);
           </ul>
         </div>
       )}
-      {showProducts && (
+      {showProducts && !selectedProduct && (
         <div>
           <button className="back-button" onClick={handleBackClick}>
             Back to Shops
           </button>
           <h2>Products</h2>
-          {console.log(shopDetails)}
           {shopDetails[products[0]?.shop_id] && (
             <div className="shop-description">
               <h3>Shop Description</h3>
@@ -378,7 +384,7 @@ console.log(cartId);
           )}
           <ul className="product-list">
             {displayedProducts.map((product) => (
-              <li key={product.product_id}>
+              <li key={product.product_id} onClick={() => handleProductClick(product)}>
                 <h3>{product.name}</h3>
                 <h3>JD{product.price}</h3>
                 <p>{product.description}</p>
@@ -387,148 +393,6 @@ console.log(cartId);
                   alt={product.name}
                   className="product-image"
                 />
-                <input
-                  type="number"
-                  value={quantities[product.product_id] || 1}
-                  onChange={(e) =>
-                    handleQuantityChange(product.product_id, e.target.value)
-                  }
-                  min="1"
-                />
-                <button onClick={() => addProductToCart(product)}>
-                  Add to Cart
-                </button>
-                {showLoginPrompt && <LoginPrompt />}
-                <button onClick={() => fetchReviews(product.product_id)}>
-                  Show Reviews
-                </button>
-                <div>
-                  {reviews[product.product_id] &&
-                    reviews[product.product_id].map((review) => (
-                      <div key={review.review_id} className="review-container">
-                        <div className="reviewer-info">
-                          <img
-                            src={review.images}
-                            alt={`${review.username}'s avatar`}
-                            className="reviewer-image"
-                          />
-                          <p className="reviewer-name">{review.user_name}</p>
-                        </div>
-                        <p>
-                          {review.review_text} - {review.rating} stars
-                        </p>
-                        {console.log(review.created_at)}
-                        <p>
-                          {formatDistanceToNow(new Date(review.created_at))} ago
-                        </p>
-                        {review.user_id === userId ? (
-                          editingReview === review.review_id ? (
-                            <div>
-                              <div>
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                  <span
-                                    key={star}
-                                    onClick={() => handleEditStarClick(star)}
-                                    style={{
-                                      cursor: "pointer",
-                                      color:
-                                        star <= editReviewData.rating
-                                          ? "#ffc107"
-                                          : "#e4e5e9",
-                                    }}
-                                  >
-                                    ★
-                                  </span>
-                                ))}
-                              </div>
-                              <input
-                                type="text"
-                                value={editReviewData.review_text}
-                                onChange={(e) =>
-                                  handleEditReviewChange(
-                                    "review_text",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                              <button
-                                onClick={() =>
-                                  handleUpdateReview(
-                                    review.review_id,
-                                    product.product_id
-                                  )
-                                }
-                              >
-                                Submit Update
-                              </button>
-                            </div>
-                          ) : (
-                            <div>
-                              <button
-                                onClick={() =>
-                                  setEditingReview(review.review_id)
-                                }
-                              >
-                                Update
-                              </button>
-                              <button
-                                onClick={() =>
-                                  handleDeleteReview(
-                                    review.review_id,
-                                    product.product_id
-                                  )
-                                }
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          )
-                        ) : (
-                          <></>
-                        )}
-                      </div>
-                    ))}
-                  <div>
-                    <h4>Add a Review</h4>
-                    <div>
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <span
-                          key={star}
-                          onClick={() =>
-                            handleStarClick(product.product_id, star)
-                          }
-                          style={{
-                            cursor: "pointer",
-                            color:
-                              star <=
-                              (newReviews[product.product_id]?.rating || 0)
-                                ? "#ffc107"
-                                : "#e4e5e9",
-                          }}
-                        >
-                          ★
-                        </span>
-                      ))}
-                    </div>
-                    <input
-                      type="text"
-                      value={newReviews[product.product_id]?.review_text || ""}
-                      onChange={(e) =>
-                        setNewReviews({
-                          ...newReviews,
-                          [product.product_id]: {
-                            ...newReviews[product.product_id],
-                            review_text: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                    <button onClick={() => handleAddReview(product.product_id)}>
-                      Submit Review
-                    </button>
-                    {showLoginPrompt && <LoginPrompt />}
-                  </div>
-                </div>
               </li>
             ))}
           </ul>
@@ -540,6 +404,139 @@ console.log(cartId);
               Show More Products
             </button>
           )}
+        </div>
+      )}
+      {selectedProduct && (
+        <div>
+          <button className="back-button" onClick={handleBackClick}>
+            Back to Products
+          </button>
+          <h2>{selectedProduct.name}</h2>
+          <h3>JD{selectedProduct.price}</h3>
+          <p>{selectedProduct.description}</p>
+          <img
+            src={selectedProduct.images}
+            alt={selectedProduct.name}
+            className="product-image"
+          />
+          <input
+            type="number"
+            value={quantities[selectedProduct.product_id] || 1}
+            onChange={(e) =>
+              handleQuantityChange(selectedProduct.product_id, e.target.value)
+            }
+            min="1"
+          />
+          <button onClick={() => addProductToCart(selectedProduct)}>
+            Add to Cart
+          </button>
+          {showLoginPrompt && <LoginPrompt />}
+          <div>
+            <h4>Reviews</h4>
+            {reviews[selectedProduct.product_id] &&
+              reviews[selectedProduct.product_id].map((review) => (
+                <div key={review.review_id} className="review-container">
+                  <div className="reviewer-info">
+                    <img
+                      src={review.images}
+                      alt={`${review.username}'s avatar`}
+                      className="reviewer-image"
+                    />
+                    <p className="reviewer-name">{review.user_name}</p>
+                  </div>
+                  <p>
+                    {review.review_text} - {review.rating} stars
+                  </p>
+                  <p>
+                    {formatDistanceToNow(new Date(review.created_at))} ago
+                  </p>
+                  {review.user_id === userId ? (
+                    editingReview === review.review_id ? (
+                      <div>
+                        <div>
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <span
+                              key={star}
+                              onClick={() => handleEditStarClick(star)}
+                              style={{
+                                cursor: "pointer",
+                                color:
+                                  star <= editReviewData.rating
+                                    ? "#ffc107"
+                                    : "#e4e5e9",
+                              }}
+                            >
+                              ★
+                            </span>
+                          ))}
+                        </div>
+                        <input
+                          type="text"
+                          value={editReviewData.review_text}
+                          onChange={(e) =>
+                            handleEditReviewChange("review_text", e.target.value)
+                          }
+                        />
+                        <button
+                          onClick={() =>
+                            handleUpdateReview(review.review_id, selectedProduct.product_id)
+                          }
+                        >
+                          Submit Update
+                        </button>
+                      </div>
+                    ) : (
+                      <div>
+                        <button onClick={() => setEditingReview(review.review_id)}>
+                          Update
+                        </button>
+                        <button
+                          onClick={() => handleDeleteReview(review.review_id, selectedProduct.product_id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )
+                  ) : null}
+                </div>
+              ))}
+            <div>
+              <h4>Add a Review</h4>
+              <div>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    onClick={() => handleStarClick(selectedProduct.product_id, star)}
+                    style={{
+                      cursor: "pointer",
+                      color: star <= (newReviews[selectedProduct.product_id]?.rating || 0)
+                        ? "#ffc107"
+                        : "#e4e5e9",
+                    }}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              <input
+                type="text"
+                value={newReviews[selectedProduct.product_id]?.review_text || ""}
+                onChange={(e) =>
+                  setNewReviews({
+                    ...newReviews,
+                    [selectedProduct.product_id]: {
+                      ...newReviews[selectedProduct.product_id],
+                      review_text: e.target.value,
+                    },
+                  })
+                }
+              />
+              <button onClick={() => handleAddReview(selectedProduct.product_id)}>
+                Submit Review
+              </button>
+              {showLoginPrompt && <LoginPrompt />}
+            </div>
+          </div>
         </div>
       )}
     </div>
