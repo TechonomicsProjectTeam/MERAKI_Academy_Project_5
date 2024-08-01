@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink ,useNavigate } from "react-router-dom";
 import { setLogout } from "../../redux/reducers/Auth/Auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +8,7 @@ import "../NavBar/Style.css";
 import { clearCartState } from "../../redux/reducers/Carts/Carts";
 const NavBar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const token = useSelector((state) => state.auth.token);
   const username = useSelector((state) => state.auth.username);
   const imageUrl = useSelector((state) => state.auth.images);
@@ -17,6 +18,7 @@ const NavBar = () => {
   const handleLogout = () => {
     dispatch(setLogout());
     dispatch(clearCartState());
+    navigate("/user-dashboard")
   };
   return (
       <div className="NavBar">
@@ -99,7 +101,10 @@ const NavBar = () => {
               </>
             )
           ) : (
-            <NavLink to="/login">Login</NavLink>
+            <>
+            {/* <NavLink to="/login">Login</NavLink> */}
+            <NavLink to="/register">Register</NavLink>
+            </>
           )}
         </nav>
       </div>

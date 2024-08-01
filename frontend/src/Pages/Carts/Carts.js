@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect , useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
@@ -12,16 +12,25 @@ import {
 import { addOrders } from "../../redux/reducers/Orders/Orders";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import PayPalButton from "../PayPalButton/PayPalButton";
+import { useNavigate } from "react-router-dom";
 import "./Style.css";
 
 const Carts = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
   const cart = useSelector((state) => state.cart.carts);
   const cartId = useSelector((state) => state.cart.cartId);
   const isLoggedIn = useSelector((state) => state.auth.token);
   const roleId = useSelector((state) => state.auth.roleId);
   console.log(cartId);
+  const [paymentMethod , setPaymentMethod] = useState(null)
+
+  const paypalClientId = "Acx6jkPzP5soGbN5lxmevYjygrkc1N5im54PyeXwlZgB8uhRyrMG2fVx6EEAKyluRxCBGrEFX1U29nyC"
+
   const getCartIdByUserId = async () => {
     try {
       const result = await axios.get(`http://localhost:5000/carts/cart/userId`, {
@@ -104,32 +113,70 @@ const Carts = () => {
     }
   };
 
-  const createOrder = async ()=>{
+  const createOrder = async (paymentMethod)=>{
     try {
       const result =await  axios.post("http://localhost:5000/orders/",{
-        cartId:cartId
+        cartId:cartId , paymentMethod
       },
       {headers: { Authorization: `Bearer ${token}` },}
     )
     if (result.data.success){
-    
+      console.log("Order result : ",result);
     dispatch(addOrders(result.data.order));
     dispatch(deleteAllProductFromCart())
+    navigate("/orders")
   }
     } catch (error) {
       console.log("Error creating an order : ",error);
     }
   }
+
+
+  const handlePaymentSuccess = (data) => {
+    console.log('Payment successful:', data);
+    createOrder();
+  };
+
+  const handlePaymentError = (error) => {
+    console.error('Payment error:', error);
+  };
+
+  const handleTotalAmount = ()=>{
+    const total = cart.reduce((acc , item)=> acc + item.price * item.quantity,0);
+    return total.toFixed(2)
+  };
+
+  const handlePaymentCashSuccess = async(data) => {
+    try{
+      console.log('Payment cash successful:', data);
+      createOrder("CashOnDelivery");
+      navigate("/orders")
+    }catch(error){
+      console.log("error handling payment cash success:",error);
+    }
+  };
+
+  const calculateTotalPrice = (price ,quantity)=>{
+     return (price * quantity).toFixed(2);
+  }
+
+  const totalPrices = cart.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
+
   
   return (
+    <div className="Cartss">
     <div className="Cart">
-      <h2>Shopping Cart</h2>
+      <h2  className="h2">Shopping Cart</h2>
       {cart?.length > 0 ? (
         <ul>
           {cart.map((item) => (
-            <li key={item.product_id}>
+            <li className="li" key={item.product_id}>
               <img src={item.images} alt={item.name} className="cart-item-image" />
-              <p>{item.name} - {item.quantity} x ${item.price}</p>
+              <p className="p">{item.name}  
+                <br/>
+                <br/>
+                price: {calculateTotalPrice(item.quantity ,item.price)}
+               </p>
               <div className="icon-container">
                 <FontAwesomeIcon
                   icon={faPlus}
@@ -151,15 +198,24 @@ const Carts = () => {
           ))}
         </ul>
       ) : (
-        <p>No items in cart</p>
+        <p className="p">No items in cart</p>
       )}
       <button className="clear-cart-button" onClick={deleteAllProductsFromCart}>
         Remove All Products
       </button>
-      <button className="create-order-button" onClick={()=>{
-        console.log("Order clicked");
-        createOrder();
-      }}>Create order</button>
+      <div className="payment-buttons">
+        <button onClick={handlePaymentCashSuccess}>Pay on Delivery</button>
+      </div>
+      <div className="paypal-button-container">
+        <PayPalScriptProvider options={{ "client-id": paypalClientId}}>
+          <PayPalButton
+            amount={totalPrices}
+            onSuccess={handlePaymentSuccess}
+            onError={handlePaymentError}
+          />
+        </PayPalScriptProvider>
+      </div>
+    </div>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { useState ,useContext, useEffect } from "react";
 import { setProducts} from '../../redux/reducers/Products/Products';
 import {jwtDecode} from "jwt-decode"; 
 import { useDispatch, useSelector } from 'react-redux';
+import "./Style.css";
 
 const Product = ()=>{
   const dispatch = useDispatch();
@@ -77,11 +78,11 @@ return(
     <>
      <div className="container">
       <div className="row justify-content-center">
-        <div className="col-md-6">
+        <div className="col-md-12">
           <div className="card add-product-card">
             <div className="card-body">
               <h2 className="card-title text-center mb-4">Add a new product</h2>
-              {message && <div className="alert alert-info">{message}</div>}
+              {message && <div className="alert ">{message}</div>}
               <form>
                 <div className="mb-3">
                   <label htmlFor="productName" className="form-label">
