@@ -12,7 +12,6 @@ import {
 import { addOrders } from "../../redux/reducers/Orders/Orders";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import PayPalButton from "../PayPalButton/PayPalButton";
 import { useNavigate } from "react-router-dom";
@@ -159,7 +158,19 @@ const Carts = () => {
     return (price * quantity).toFixed(2);
   }
 
-  const totalPrices = cart.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
+  const totalItemPrices = cart.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
+
+  // has to be fixed so when we update the some real data
+  const calculateDeliveryFee = (totalItemPrices) => {
+    if (totalItemPrices > 50) {
+      return 2.00; 
+    } else {
+      return 5.00; 
+    }
+  };
+
+  const deliveryFee = calculateDeliveryFee(totalItemPrices);
+  const totalPriceIncludingDelivery = (parseFloat(totalItemPrices) + deliveryFee).toFixed(2);
 
   return (
     <div className="Cartss">
@@ -173,7 +184,7 @@ const Carts = () => {
                 <p className="p">{item.name}
                   <br />
                   <br />
-                  price: {calculateTotalPrice(item.quantity, item.price)}
+                  price: JD {calculateTotalPrice(item.price, item.quantity)}
                 </p>
                 <div className="icon-container">
                   <FontAwesomeIcon
@@ -198,6 +209,9 @@ const Carts = () => {
         ) : (
           <p className="p">No items in cart</p>
         )}
+        <h3>Total Price of Items: JD {totalItemPrices}</h3>
+        <h3>Delivery Fee: JD {deliveryFee.toFixed(2)}</h3>
+        <h3>Total Price (including delivery): JD {totalPriceIncludingDelivery}</h3>
         <button className="clear-cart-button" onClick={deleteAllProductsFromCart}>
           Remove All Products
         </button>
@@ -207,7 +221,7 @@ const Carts = () => {
         <div className="paypal-button-container">
           <PayPalScriptProvider options={{ "client-id": paypalClientId }}>
             <PayPalButton
-              amount={totalPrices}
+              amount={totalPriceIncludingDelivery}
               onSuccess={handlePaymentSuccess}
               onError={handlePaymentError}
             />

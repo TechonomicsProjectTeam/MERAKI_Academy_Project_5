@@ -60,7 +60,7 @@ const Orders = () => {
       acc[order.order_id] = {
         order_id: order.order_id,
         status: order.status,
-        paymentMethod: order.payment_method, // Assuming this field is included in the response
+        paymentMethod: order.payment_method, 
         products: []
       };
     }
