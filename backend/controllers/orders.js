@@ -1,9 +1,12 @@
 const pool = require("../models/db");
 const { getWebSocketServer } = require("../webSocket");
 const WebSocket = require("ws");
+
 //======================================================Create Order=====================================================
 const createOrder = (req, res) => {
   const user_id = req.token.userId;
+  const { paymentMethod } = req.body; // Accept payment method from request body
+
   // Ensure user has items in the cart
   pool
     .query(
@@ -20,8 +23,9 @@ const createOrder = (req, res) => {
 
       // Create the order
       return pool
-        .query(`INSERT INTO orders (user_id) VALUES ($1) RETURNING *`, [
+        .query(`INSERT INTO orders (user_id, payment_method) VALUES ($1, $2) RETURNING *`, [
           user_id,
+          paymentMethod, // Insert payment method
         ])
         .then((orderResult) => {
           const order_id = orderResult.rows[0].order_id;
@@ -75,12 +79,86 @@ const createOrder = (req, res) => {
     });
 };
 
-//======================================================Create Order Products=====================================================
+//======================================================Update Order Status=====================================================
+const updateOrderStatus = (req, res) => {
+  const { order_id } = req.params;
+  const { status, paymentMethod } = req.body;
+  const { userId } = req.token;
+
+  console.log("Order ID:", order_id);
+  console.log("Status:", status);
+  console.log("User ID (Driver):", userId);
+  console.log("Payment Method:", paymentMethod);
+
+  const validStatuses = ["In progress", "ACCEPTED", "REJECTED"];
+  if (!validStatuses.includes(status)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid status value",
+    });
+  }
+
+  pool
+    .query(
+      "UPDATE orders SET status = $1, driver_id = $2, payment_method = $3 WHERE order_id = $4 RETURNING *",
+      [status, userId, paymentMethod, order_id]
+    )
+    .then((response) => {
+      if (response.rowCount === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Order not found",
+        });
+      }
+
+      const updatedOrder = response.rows[0];
+      console.log("Updated Order:", updatedOrder);
+
+      // Fetch the driver details
+      return pool
+        .query("SELECT * FROM users WHERE user_id = $1", [userId])
+        .then((driverResult) => {
+          const driver = driverResult.rows[0];
+          console.log("Driver Details:", driver);
+
+          const wss = getWebSocketServer();
+
+          // Broadcast the updated order status to all connected clients
+          wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send(
+                JSON.stringify({
+                  type: "ORDER_STATUS_UPDATED",
+                  payload: { ...updatedOrder, driver },
+                })
+              );
+            }
+          });
+
+          res.status(200).json({
+            success: true,
+            message: `Order status updated to ${status}`,
+            result: { ...updatedOrder, driver },
+          });
+        });
+    })
+    .catch((error) => {
+      console.error("Database error:", error);
+      if (!res.headersSent) {
+        res.status(500).json({
+          success: false,
+          message: "Server error",
+          error: error.message,
+        });
+      }
+    });
+};
+
+//======================================================Other Order Functions=====================================================
 const createOrderProducts = (req, res) => {
   const { order_id, product_id } = req.body;
   const values = [order_id, product_id];
-  const query = `INSERT INTO order_products(order_id,
-    product_id) VALUES ($1,$2) RETURNING *`;
+  const query = `INSERT INTO order_products(order_id, product_id) VALUES ($1,$2) RETURNING *`;
 
   pool
     .query(query, values)
@@ -100,7 +178,6 @@ const createOrderProducts = (req, res) => {
     });
 };
 
-//======================================================Delete Order Products=====================================================
 const deleteOrderProducts = (req, res) => {
   const { id } = req.params;
   const query = `DELETE FROM order_products WHERE id = $1 RETURNING *`;
@@ -130,7 +207,6 @@ const deleteOrderProducts = (req, res) => {
     });
 };
 
-//======================================================Get All Order Products=====================================================
 const getOrderProducts = (req, res) => {
   const query = `SELECT *
     FROM order_products
@@ -184,90 +260,11 @@ const getOrderProductsByUserId = (req, res) => {
     });
 };
 
-//======================================================Update Order Status=====================================================
-const updateOrderStatus = (req, res) => {
-  const { order_id } = req.params;
-  const { status } = req.body;
-  const { userId } = req.token; 
-
-  console.log("Order ID:", order_id);
-  console.log("Status:", status);
-  console.log("User ID (Driver):", userId);
-
-  const validStatuses = ["In progress", "ACCEPTED", "REJECTED"];
-  if (!validStatuses.includes(status)) {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid status value",
-    });
-  }
-
-  pool
-    .query(
-      "UPDATE orders SET status = $1, driver_id = $2 WHERE order_id = $3 RETURNING *",
-      [status, userId, order_id]
-    )
-    .then((response) => {
-      if (response.rowCount === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Order not found",
-        });
-      }
-
-      const updatedOrder = response.rows[0];
-      console.log("Updated Order:", updatedOrder);
-
-      // Fetch the driver details
-      return pool
-        .query("SELECT * FROM users WHERE user_id = $1", [userId])
-        .then((driverResult) => {
-          const driver = driverResult.rows[0];
-          console.log("Driver Details:", driver);
-
-          const wss = getWebSocketServer();
-
-          // Broadcast the updated order status to all connected clients
-          wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-              client.send(
-                JSON.stringify({
-                  type: "ORDER_STATUS_UPDATED",
-                  payload: { ...updatedOrder, driver },
-                })
-              );
-            }
-          });
-
-          res.status(200).json({
-            success: true,
-            message: `Order status updated to ${status}`,
-            result: { ...updatedOrder, driver },
-          });
-        });
-    })
-    .catch((error) => {
-      console.error("Database error:", error);
-      if (!res.headersSent) {
-        res.status(500).json({
-          success: false,
-          message: "Server error",
-          error: error.message,
-        });
-      }
-    });
-};
-
-// SELECT orders.*,users.*,products.*,
-// order_products.quantity
-// FROM orders
-// JOIN users ON orders.user_id = users.user_id
-// JOIN order_products ON orders.order_id = order_products.order_id
-// JOIN products ON order_products.product_id = products.product_id
 const getAllOrders = (req, res) => {
   const query = `
     SELECT 
       o.order_id,
+      o.payment_method,
       o.user_id,
       o.status,
       o.is_deleted,
@@ -311,6 +308,7 @@ const getAllOrders = (req, res) => {
             user_id: row.user_id,
             status: row.status,
             is_deleted: row.is_deleted,
+            payment_method: row.payment_method,
             driver: row.driver_id
               ? {
                   driver_id: row.driver_id,
@@ -360,7 +358,6 @@ const getAllOrders = (req, res) => {
       });
     });
 };
-
 
 module.exports = {
   createOrder,
