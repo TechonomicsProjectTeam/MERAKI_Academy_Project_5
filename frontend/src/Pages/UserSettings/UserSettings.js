@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUserById } from "../../redux/reducers/Users/Users";
 import { useNavigate } from "react-router-dom";
 import {jwtDecode} from "jwt-decode"; 
-
+import "./Style.css";
 import { setUserInfo } from "../../redux/reducers/Auth/Auth"; 
 
 const UserSettings = () => {

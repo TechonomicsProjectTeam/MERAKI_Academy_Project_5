@@ -1,0 +1,93 @@
+
+.Products {
+    padding: 2rem;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  /* Title styling */
+  .h11 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+  }
+  
+  /* Product card styling */
+  .divv {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+  
+  /* Form styling */
+  .forms {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Input and file styling */
+  input[type="text"],
+  input[type="number"],
+  input[type="file"] {
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding in width */
+  }
+  
+  /* Button styling */
+  button {
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  button.btn-save {
+    background-color: #28a745; /* Green for Save */
+  }
+  
+  button.btn-cancel {
+    background-color: #dc3545; /* Red for Cancel */
+  }
+  
+  button.btn-delete {
+    background-color: #dc3545; /* Red for Delete */
+  }
+  
+  button.btn-update {
+    background-color: #007bff; /* Blue for Update */
+  }
+  
+  /* Product image styling */
+  img {
+    height: 300px;
+    width: 500px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  /* Message styling */
+  p {
+    color: #333;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+  }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setProducts, deleteProductsById, updateProductsById } from '../../redux/reducers/Products/Products';
 import {jwtDecode} from "jwt-decode"; 
+import "./Style.css";
 
 const ShopOwnerDashboard = () => {
   const dispatch = useDispatch();
@@ -111,30 +112,31 @@ const ShopOwnerDashboard = () => {
   };
 
   return (
+    <div className='bodyShop'>
     <div className='Products'>
-      <h1>Products Component</h1>
-      <div>
+      <h1 className='h11'>Products Component</h1>
+      <div className='divv' >
         {products?.map((product) => (
           console.log(product),
           product && product.product_id ? (
-            <div key={product.product_id}>
+            <div className='product-item' key={product.product_id}>
               {selectedProductId === product.product_id ? (
-                <form>
+                <form className='forms'>
                   <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
                   <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
                   <input type="text" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
                   <input type="file" onChange={handleFileChange} />
-                  <button type="button" onClick={() => handleUpdateProduct(product.product_id)}>Save</button>
-                  <button type="button" onClick={() => setSelectedProductId(null)}>Cancel</button>
+                  <button className='btn-save' type="button" onClick={() => handleUpdateProduct(product.product_id)}>Save</button>
+                  <button className='btn-cancel' type="button" onClick={() => setSelectedProductId(null)}>Cancel</button>
                 </form>
               ) : (
-                <div>
+                <div className='divv' >
                   <h3>{product.name}</h3>
                   <p>{product.description}</p>
                   <p>{product.price}</p>
-                  {product.images && <img src={product.images} alt={product.name} style={{ width: '100px' }} />}
-                  <button onClick={() => deleteProductById(product.product_id)}>Delete</button>
-                  <button onClick={() => {
+                  {product.images && <img src={product.images} alt={product.name}  />}
+                  <button className='btn-delete' onClick={() => deleteProductById(product.product_id)}>Delete</button>
+                  <button className='btn-update' onClick={() => {
                     setSelectedProductId(product.product_id);
                     setName(product.name);
                     setDescription(product.description);
@@ -146,8 +148,9 @@ const ShopOwnerDashboard = () => {
             </div>
           ) : null
         ))}
-      </div>
+      </div >
       {message && <p>{message}</p>}
+    </div>
     </div>
   );
 };

@@ -1,152 +1,72 @@
 /* General NavBar styling */
+
 .NavBar {
+  background-color: #2c3e50; /* لون خلفية داكن لتمييز الشريط */
+  color: #ecf0f1; /* لون نص أبيض فاتح */
   display: flex;
-  flex-direction: column;
+  justify-content: space-between; /* توزيع العناصر بشكل متساوي */
   align-items: center;
-  background-color: #101011;
-  padding: 1rem;
-  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* إضافة ظل للشريط */
 }
 
-/* User info section */
-.user-info {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.user-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 1rem;
-}
-
-.user-name,
-.shop-name {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-/* Navigation links styling */
-nav {
-  display: flex;
-  gap: 1rem;
-}
-
-nav a {
-  color: #fff;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-nav a.active {
-  background-color: #555;
-  color: #fff;
-}
-
-nav a:hover {
-  background-color: #444;
-  color: #f0f0f0;
-}
-
-/* Cart icon and dropdown */
-.cart-icon {
-  position: relative;
-  display: inline-block;
-  margin-left: 10px;
-  cursor: pointer;
-}
-
-.cart-count {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background-color: red; /* Restored background color */
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-}
-
-.cart-dropdown {
-  display: none;
-  position: absolute;
-  right: 0;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  margin-top: 10px;
-}
-
-.cart-icon:hover .cart-dropdown {
-  display: block;
-}
-
-.cart-dropdown ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.cart-dropdown ul li {
+.NavBar .user-info {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  border-bottom: 1px solid #ddd;
 }
 
-.cart-dropdown ul li:last-child {
-  border-bottom: none;
-}
-
-.cart-dropdown .cart-item-image {
-  width: 30px;
-  height: 30px;
-  object-fit: cover;
+.NavBar .user-info .user-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* جعل الصورة دائرية */
+  object-fit: cover; /* ملاءمة الصورة داخل الدائرة */
   margin-right: 10px;
 }
 
-.cart-dropdown span {
-  display: block;
-  padding: 8px 12px;
+.NavBar .user-info .user-name {
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.icon-container {
+.NavBar .cart-icon {
   display: flex;
-  gap: 10px;
   align-items: center;
 }
 
-.icon-container .icon {
-  cursor: pointer;
-  color: #000; 
-  transition: color 0.3s;
+.NavBar .cart-icon a {
+  color: #ecf0f1;
+  font-size: 24px;
+  margin-left: 15px;
+  text-decoration: none;
 }
 
-.icon-container .icon:hover {
-  color: #007bff; 
+.NavBar nav {
+  display: flex;
+  gap: 15px; /* مسافة بين الروابط */
 }
 
-.clear-cart-button {
-  display: block;
-  background-color: #dc3545;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s;
+.NavBar nav a {
+  color: #ecf0f1;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s; /* تأثير تدرج عند التمرير */
 }
 
-.clear-cart-button:hover {
-  background-color: #c82333;
+.NavBar nav a.active {
+  background-color: #3498db; /* لون خلفية للروابط النشطة */
+  color: #ecf0f1;
 }
 
-p {
-  color: black;
+.NavBar nav a:hover {
+  background-color: #34495e; /* خلفية داكنة عند التمرير */
+  color: #ecf0f1;
+}
+
+.NavBar nav a.logout {
+  background-color: #e74c3c; /* لون خلفية لزر تسجيل الخروج */
+}
+
+.NavBar nav a.logout:hover {
+  background-color: #c0392b; /* لون داكن عند التمرير */
 }

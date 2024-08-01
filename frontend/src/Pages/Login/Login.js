@@ -115,6 +115,9 @@ const Login = () => {
           />
           <button className="button" type="submit">Login</button>
         </form>
+             <div className="owner_register-link">
+             <p>Register as an user? <a href="/register">Register here</a></p>
+        </div>
         <div className="google-login">
           <button onClick={() => handleGoogleLoginSuccess()} className="google-login-button">
             Login with Google
