@@ -19,6 +19,7 @@ import "../UserDashboard/UserDashboard.css";
 import { addProductFromCart } from "../../redux/reducers/Carts/Carts";
 import { SetCartId } from "../../redux/reducers/Carts/Carts";
 import LoginPrompt from "../LoginPrompt/LoginPrompt";
+import ContactUs from "./ContactUs/ContactUs";
 
 const UserDashboard = () => {
     const dispatch = useDispatch();
@@ -48,9 +49,14 @@ const UserDashboard = () => {
     const [showSelectedShopProducts, setShowSelectedShopProducts] =useState(false);
     const [filteredShops, setFilteredShops] = useState([]);
     const [city, setCity] = useState("");
+    const [showContactUsPopup, setShowContactUsPopup] = useState(false);
     
     const [error, setError] = useState("");
-
+    const toggleContactUsPopup = () => {
+       
+        setShowContactUsPopup(!showContactUsPopup);
+      };
+    
     useEffect(() => {
         const getLocation = () => {
             if (navigator.geolocation) {
@@ -421,6 +427,14 @@ const UserDashboard = () => {
     
     return (
         <div className="UserDashboard">
+              {showContactUsPopup && (
+            <div className="contact-us-popup">
+              <div className="popup-content">
+                <ContactUs onClose={toggleContactUsPopup} />
+              </div>
+            </div>
+          )}
+          <button onClick={toggleContactUsPopup}>Contact Us</button>
             {city && <p>You are in: {city}</p>}
             <h1>User Dashboard</h1>
             
