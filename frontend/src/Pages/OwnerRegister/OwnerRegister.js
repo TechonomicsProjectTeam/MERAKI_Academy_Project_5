@@ -18,8 +18,11 @@ const OwnerRegister = () => {
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [category_id, setCategory_id] = useState("");
+  const [city, setCity] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(false);
+
+  const cities = ["Amman", "Balqa", "Zarqa", "Madaba", "Irbid", "Ajloun", "Jerash", "Mafraq", "Karak", "Tafilah", "Ma'an", "Aqaba"];
 
   const createNewShop = async (e) => {
     e.preventDefault();
@@ -41,11 +44,12 @@ const OwnerRegister = () => {
         phone_number: phoneNumber,
         images: imageUrl,
         category_id,
+        city,
       });
 
       if (result.data.success) {
         dispatch(addShops(result.data.result));
-        setMessage(result.data.message)
+        setMessage(result.data.message);
         setStatus(true);
         setTimeout(() => navigate("/owner-login"), 2000); 
       } else {
@@ -102,79 +106,89 @@ const OwnerRegister = () => {
       });
   }, [dispatch]);
 
-  // const handleCategoryClick = (id) => {
-  //   setCategory_id(id);
-  //   console.log(id);
-  // };
-
   return (
     <div className="onerRegisters">
-    <div className="OwnerRegister">
-          {status ? (
-        <div className="SuccessMessage">{message}</div>
-      ) : (
-        message && <div className="ErrorMessage">{message}</div>
-      )}
-      <h1>Owner Register</h1>
-      <div className="test">
-      <form onSubmit={createNewShop}>
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
-        <input type="file" onChange={handleFileChange} />
-        <div className="categories">
-            <h2>Select Category</h2>
-            <select
-              value={category_id}
-              onChange={(e) => setCategory_id(e.target.value)}
-            >
-              <option value="" disabled>Select a category</option>
-              {categories.map((category) => (
-                <option
-                  key={category.category_id}
-                  value={category.category_id}
-                >
-                  {category.name}
-                </option>
-              ))}
-            </select>
+      <div className="OwnerRegister">
+        {status ? (
+          <div className="SuccessMessage">{message}</div>
+        ) : (
+          message && <div className="ErrorMessage">{message}</div>
+        )}
+        <h1>Owner Register</h1>
+        <div className="test">
+          <form onSubmit={createNewShop}>
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <textarea
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Phone Number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+            <input type="file" onChange={handleFileChange} />
+            <div className="categories">
+              <h2>Select Category</h2>
+              <select
+                value={category_id}
+                onChange={(e) => setCategory_id(e.target.value)}
+              >
+                <option value="" disabled>Select a category</option>
+                {categories.map((category) => (
+                  <option
+                    key={category.category_id}
+                    value={category.category_id}
+                  >
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="city">
+              <h2>Select City</h2>
+              <select
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                required
+              >
+                <option value="" disabled>Select a city</option>
+                {cities.map((cityName) => (
+                  <option key={cityName} value={cityName}>
+                    {cityName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button type="submit">Create Shop</button>
+          </form>
+          <div className="login-link">
+            <p>Already have an account? <a href="/owner-login">Login here</a></p>
           </div>
-        <button type="submit">Create Shop</button>
-      </form>
-      <div className="login-link">
-          <p>Already have an account? <a href="/owner-login">Login here</a></p>
+          <div className="register-link">
+            <p>Register as an user? <a href="/">Register here</a></p>
+          </div>
         </div>
-      <div className="register-link">
-          <p>Register as an user? <a href="/">Register here</a></p>
-        </div>
-        </div>
-    </div>
+      </div>
     </div>
   );
 };

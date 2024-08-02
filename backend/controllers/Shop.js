@@ -64,6 +64,7 @@ const createShops = async (req, res) => {
     email,
     password,
     phone_number,
+    city,
   } = req.body;
 
   try {
@@ -92,10 +93,11 @@ const createShops = async (req, res) => {
       phone_number,
       category_id,
       role_id,
+      city,
     ];
 
     // The query
-    const query = `INSERT INTO shops (name,description,images,email,password,phone_number,category_id,role_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
+    const query = `INSERT INTO shops (name,description,images,email,password,phone_number,category_id,role_id,city) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`;
     const response = await pool.query(query, values);
 
     res.status(201).json({
@@ -111,6 +113,7 @@ const createShops = async (req, res) => {
     });
   }
 };
+
 
 const deleteShopsById = (req, res) => {
   const shop_id = req.params.id;
