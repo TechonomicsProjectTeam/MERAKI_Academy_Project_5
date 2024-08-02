@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 import { getCategories } from "../../redux/reducers/Categories/Categories";
-import { setShopsByCategory } from "../../redux/reducers/Shops/Shops";
+import { setShopsByCategory,setBestRatedShops,updateShopById } from "../../redux/reducers/Shops/Shops";
 import { setProducts } from "../../redux/reducers/Products/Products";
 import {
   setReviewsByProduct,
@@ -25,7 +25,8 @@ const UserDashboard = () => {
   const cartId = useSelector((state) => state.cart.cartId);
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.userId);
-  
+  const [selectedShop, setSelectedShop] = useState(null);
+  const [newRating, setNewRating] = useState(1); 
   const [showCategories, setShowCategories] = useState(true);
   const [showShops, setShowShops] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
@@ -43,7 +44,22 @@ const UserDashboard = () => {
   const productsPerPage = 5;
   const [shopDetails, setShopDetails] = useState({});
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-
+  const [showSelectedShopProducts, setShowSelectedShopProducts] = useState(false);
+  const [showBestRatedShops, setShowBestRatedShops] = useState(true);
+  const bestRatedShops = useSelector((state) => state.shops.bestRatedShops);
+  const fetchBestRatedShops = () => async (dispatch) => {
+    try {
+      const response = await axios.get("http://localhost:5000/shop/shops/best-rated");
+      if (response.data.success) {
+        dispatch(setBestRatedShops(response.data.shops));
+      }
+    } catch (error) {
+      console.error("Error fetching best-rated shops:", error);
+    }
+  };
+  useEffect(() => {
+    dispatch(fetchBestRatedShops());
+  }, [dispatch]);
   useEffect(() => {
     if (!cartId && token) {
       const fetchCartId = async () => {
@@ -230,17 +246,21 @@ const UserDashboard = () => {
           dispatch(setShopsByCategory(response.data.shops));
           setShowCategories(false);
           setShowShops(true);
+          setShowBestRatedShops(false); // Hide best-rated shops
         }
       })
       .catch((error) => {
-        console.error(
-          "There was an error fetching the shops by category!",
-          error
-        );
+        console.error("There was an error fetching the shops by category!", error);
       });
   };
+  
 
   const handleShopClick = (shopId) => {
+    setSelectedShop(shopId);
+    setShowProducts(true);
+    setShowCategories(false);
+    setShowShops(false);
+    setShowSelectedShopProducts(true);
     axios
       .get(`http://localhost:5000/product/${shopId}`)
       .then((response) => {
@@ -250,11 +270,13 @@ const UserDashboard = () => {
           setShowProducts(true);
           setFrom(0);
           setTo(productsPerPage);
+          setShowSelectedShopProducts(true);
 
           axios
             .get(`http://localhost:5000/shop/${shopId}`)
             .then((response) => {
               if (response.data.success) {
+                setShowSelectedShopProducts(true);
                 setShopDetails((prevState) => ({
                   ...prevState,
                   [shopId]: response.data.shops[0],
@@ -276,14 +298,17 @@ const UserDashboard = () => {
         );
       });
   };
+  
 
   const handleBackClick = () => {
     if (showProducts && selectedProduct) {
       setSelectedProduct(null);
     } else if (showProducts) {
+      setShowSelectedShopProducts(false);
       setShowProducts(false);
       setShowShops(true);
     } else if (showShops) {
+      setShowSelectedShopProducts(false);
       setShowShops(false);
       setShowCategories(true);
     }
@@ -327,12 +352,60 @@ const UserDashboard = () => {
   };
 
   const displayedProducts = products.slice(from, to);
-
+  const handleUpdateShopRating = async (shopId, newRating) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/shop/shops/rating`,
+        { shop_id: shopId, rating: newRating },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        dispatch(updateShopById(response.data.shop));
+      } else {
+        console.error("Failed to update shop rating");
+      }
+    } catch (error) {
+      console.error("Error updating shop rating:", error);
+    }
+  };
+  const handleRatingSubmit = async () => {
+    if (selectedShop) {
+      try {
+        const response = await axios.post(
+          `http://localhost:5000/shop/shops/rating`,
+          { shop_id: selectedShop, rating: newRating },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          }
+        );
+        if (response.data.success) {
+          dispatch(updateShopById(response.data.shop));
+          setMessage("Rating submitted successfully!");
+        } else {
+          setMessage("Failed to submit rating. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error submitting rating:", error);
+        setMessage("An unexpected error occurred. Please try again.");
+      }
+      setSelectedShop(null);
+      setNewRating(1);
+    }
+  };
+  
+  
+  
   return (
     <div className="UserDashboard">
       <h1>User Dashboard</h1>
       {message && <p>{message}</p>}
-      {showCategories && (
+      {showCategories && !showSelectedShopProducts && (
         <div>
           <h2>Categories</h2>
           <ul className="category-list">
@@ -352,7 +425,7 @@ const UserDashboard = () => {
           </ul>
         </div>
       )}
-      {showShops && (
+      {showShops && !showSelectedShopProducts && (
         <div>
           <button className="back-button" onClick={handleBackClick}>
             Back to Categories
@@ -370,6 +443,23 @@ const UserDashboard = () => {
           </ul>
         </div>
       )}
+      {bestRatedShops.length > 0 && showBestRatedShops && !showSelectedShopProducts && (
+  <div>
+    <h2>Best Rated Shops</h2>
+    <ul className="best-rated-shop-list">
+      {bestRatedShops.map((shop) => (
+        <li
+          key={shop.shop_id}
+          onClick={() => handleShopClick(shop.shop_id)}
+        >
+          <h3>{shop.name}</h3>
+          <p>Rating: {shop.rating}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
       {showProducts && !selectedProduct && (
         <div>
           <button className="back-button" onClick={handleBackClick}>
@@ -380,6 +470,26 @@ const UserDashboard = () => {
             <div className="shop-description">
               <h3>Shop Description</h3>
               <p>{shopDetails[products[0].shop_id].description}</p>
+            </div>
+          )}
+          {selectedShop && (
+            <div>
+              <h3>Rate this Shop</h3>
+              <div>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    onClick={() => setNewRating(star)}
+                    style={{
+                      cursor: "pointer",
+                      color: star <= newRating ? "#ffc107" : "#e4e5e9",
+                    }}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              <button onClick={handleRatingSubmit}>Submit Rating</button>
             </div>
           )}
           <ul className="product-list">
@@ -541,6 +651,9 @@ const UserDashboard = () => {
       )}
     </div>
   );
+  
+  
+  
 };
 
 export default UserDashboard;

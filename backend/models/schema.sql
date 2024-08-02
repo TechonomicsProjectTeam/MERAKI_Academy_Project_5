@@ -57,6 +57,8 @@ CREATE TABLE shops
   email VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   phone_number VARCHAR(20),
+  rating FLOAT DEFAULT 0,
+
   is_deleted INT DEFAULT 0,
   FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE ON UPDATE CASCADE ,
   FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE ON UPDATE CASCADE

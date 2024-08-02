@@ -3,6 +3,56 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const saltRounds = parseInt(process.env.SALT);
 
+const getBestRatedShops = (req, res) => {
+  const query = `SELECT * FROM shops WHERE is_deleted = 0 ORDER BY rating DESC LIMIT 10`;
+
+  pool
+    .query(query)
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "Best rated shops",
+        shops: response.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
+const updateShopRating = async (req, res) => {
+  const { shop_id, rating } = req.body;
+
+  try {
+    const query = `UPDATE shops SET rating = (
+                     SELECT AVG(rating)
+                     FROM reviews
+                     WHERE shop_id = $1
+                   )
+                   WHERE shop_id = $1
+                   RETURNING *`;
+
+    const values = [shop_id];
+    const response = await pool.query(query, values);
+
+    res.status(200).json({
+      success: true,
+      message: "Shop rating updated successfully",
+      shop: response.rows[0],
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
 const createShops = async (req, res) => {
   const role_id = 3;
   // Collecting the shop data from the body
@@ -250,5 +300,7 @@ module.exports = {
   updateShopById,
   loginShop,
   getShopById,
-  getShopsByCategoryId
+  getShopsByCategoryId,
+  getBestRatedShops,
+  updateShopRating
 };
