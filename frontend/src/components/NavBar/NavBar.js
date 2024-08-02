@@ -53,6 +53,12 @@ const NavBar = () => {
               >
                 AddProducts
               </NavLink>
+              <NavLink
+                to="/shop-owner-settings"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Shop Owner Settings
+              </NavLink>
               <NavLink to="/login" onClick={handleLogout}>
                 Logout
               </NavLink>

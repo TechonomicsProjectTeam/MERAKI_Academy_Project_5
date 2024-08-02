@@ -14,11 +14,11 @@ import OwnerRegister from "../Pages/OwnerRegister/OwnerRegister";
 import Products from "../Pages/AddProducts/AddProducts";
 import Register from "../Pages/Register/Register";
 import ShopOwnerDashboard from "../Pages/ShopOwnerDashboard/ShopOwnerDashboard";
+import ShopOwnerSettings from "../Pages/ShopOwnerSettings/ShopOwnerSettings";  // Import the ShopOwnerSettings component
 import UserDashboard from "../Pages/UserDashboard/UserDashboard";
 import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ element, requiredRole }) => {
-
   const { isLoggedIn, roleId } = useSelector((state) => state.auth);
   console.log(roleId);
   console.log(isLoggedIn);
@@ -27,16 +27,14 @@ const ProtectedRoute = ({ element, requiredRole }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if(requiredRole && roleId !== requiredRole){
-    return <Navigate to="/user-dashboard" replace />
+  if (requiredRole && roleId !== requiredRole) {
+    return <Navigate to="/user-dashboard" replace />;
   }
-  
 
   return element;
 };
 
 export const router = createBrowserRouter([
-
   {
     path: "/",
     element: <Navigate to="/user-dashboard" replace />,
@@ -83,19 +81,23 @@ export const router = createBrowserRouter([
       },
       {
         path: "admin-dashboard",
-        element: <ProtectedRoute element={<AdminDashboard />} role={1} />
+        element: <ProtectedRoute element={<AdminDashboard />} requiredRole={1} />,
       },
       {
         path: "driver-dashboard",
-        element: <ProtectedRoute element={<DriverDashboard />} role={2} />,
+        element: <ProtectedRoute element={<DriverDashboard />} requiredRole={2} />,
       },
       { 
         path: "products", 
-        element: <ProtectedRoute element={<Products />} role={3} /> 
+        element: <ProtectedRoute element={<Products />} requiredRole={3} /> 
       },
       { 
         path: "shop-owner-dashboard", 
-        element: <ProtectedRoute element={<ShopOwnerDashboard />} role={3} /> 
+        element: <ProtectedRoute element={<ShopOwnerDashboard />} requiredRole={3} /> 
+      },
+      { 
+        path: "shop-owner-settings", 
+        element: <ProtectedRoute element={<ShopOwnerSettings />} requiredRole={3} /> 
       },
       { 
         path: "*", 
@@ -103,5 +105,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-
 ]);

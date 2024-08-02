@@ -18,7 +18,7 @@ const authentication = require("../middlewares/authentication");
 
 shopRouter.post("/",  createShops);
 shopRouter.get("/", authentication, getAllShops);
-shopRouter.put("/:id", authentication, updateShopById);
+shopRouter.put("/:id", updateShopById);
 shopRouter.delete("/:id", authentication, deleteShopsById);
 shopRouter.post("/shop_login", loginShop);
 shopRouter.get("/:id",getShopById);
