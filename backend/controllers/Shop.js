@@ -165,6 +165,7 @@ const updateShopById = (req, res) => {
     email,
     password,
     phone_number,
+    city,
   } = req.body;
   const shop_id = req.params.id;
   const values = [
@@ -175,17 +176,29 @@ const updateShopById = (req, res) => {
     email,
     password,
     phone_number,
+    city,
     shop_id,
   ];
-  const query = `UPDATE shops SET category_id = COALESCE($1,category_id), name = COALESCE($2,name),description = COALESCE($3,description),images = COALESCE($4,images), email = COALESCE($5,email),password = COALESCE($6,password),phone_number = COALESCE($7,phone_number) WHERE shop_id = $8 RETURNING *`;
 
-  pool
-    .query(query, values)
+  const query = `
+    UPDATE shops 
+    SET category_id = COALESCE($1, category_id), 
+        name = COALESCE($2, name), 
+        description = COALESCE($3, description), 
+        images = COALESCE($4, images), 
+        email = COALESCE($5, email), 
+        password = COALESCE($6, password), 
+        phone_number = COALESCE($7, phone_number), 
+        city = COALESCE($8, city) 
+    WHERE shop_id = $9 
+    RETURNING *`;
+
+  pool.query(query, values)
     .then((response) => {
       res.status(200).json({
         success: true,
         message: `Shop with id: ${shop_id} updated successfully`,
-        shop: response.rows[0],
+        shop: response.rows[0], 
       });
     })
     .catch((error) => {
@@ -197,6 +210,7 @@ const updateShopById = (req, res) => {
       });
     });
 };
+
 
 const loginShop = (req, res) => {
   const { email, password } = req.body;
