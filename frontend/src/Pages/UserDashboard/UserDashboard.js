@@ -402,6 +402,27 @@ const UserDashboard = () => {
   
   
   return (
+    <>
+    <div className="dashboard">
+      <header className="header">
+        <div className="hero">
+          <div className="hero-text">
+            <h1>Enjoy quick delivery
+              <br/> with  QuickServ ..
+              <br/>
+              All you have to do is
+              <br/> fill the basket.</h1>
+            {/* <p>
+              It is a long established fact that a reader will be distracted by the
+              readable content of a page when looking at its layout.
+            </p> */}
+          </div>
+          <div className="hero-image">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKDgE91KdQnSJLwgbcixbOAvDByz5QwxKKE9IslDTa7csOu-71JDny7PJCJq5mGd9g-1o&usqp=CAU" alt="Delivery" />
+          </div>
+        </div>
+      </header>
+    </div>
     <div className="UserDashboard">
       <h1>User Dashboard</h1>
       {message && <p>{message}</p>}
@@ -649,7 +670,34 @@ const UserDashboard = () => {
           </div>
         </div>
       )}
-    </div>
+
+      
+      <footer className="footer">
+        <div className="footer-content">
+          <h3>FOLLOW ALONG</h3>
+          <div className="social-icons">
+            <a href="#"><i className="fab fa-facebook-f"></i></a>
+            <a href="#"><i className="fab fa-instagram"></i></a>
+            <a href="#"><i className="fab fa-youtube"></i></a>
+            <a href="#"><i className="fas fa-envelope"></i></a>
+          </div>
+          <div className="footer-info">
+            <p>
+              The Halia Restaurant © 2018. 1 Cluny Road, Ginger Garden, Singapore Botanic Gardens, Singapore 259569. Tel: (65) 8444 1148. All Rights Reserved.
+            </p>
+            <div className="footer-links">
+              <a href="#">ARTICLES</a> | 
+              <a href="#">COPYRIGHT POLICY</a> | 
+              <a href="#">CAREERS</a>
+            </div>
+            <p>Designed & Developed by inPixelHaus</p>
+          </div>
+        </div>
+      </footer> 
+    
+      </div>
+    
+    </>
   );
   
   
