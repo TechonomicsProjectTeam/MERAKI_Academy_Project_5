@@ -1,10 +1,9 @@
 import React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
-
 import MainLayout from "../Layouts/MainLayout";
 import Carts from "../Pages/Carts/Carts";
 import Orders from "../Pages/Orders/Orders";
-import Reviews from "../Pages/Reviews/Reviews";
+import ReviewsComponent from "../Pages/UserDashboard/Reviews/Reviews";
 import UserSettings from "../Pages/UserSettings/UserSettings";
 import AdminDashboard from "../Pages/AdminDashboard/AdminDashboard";
 import DriverDashboard from "../Pages/DriverDashboard/DriverDashboard";
@@ -14,31 +13,25 @@ import OwnerRegister from "../Pages/OwnerRegister/OwnerRegister";
 import Products from "../Pages/AddProducts/AddProducts";
 import Register from "../Pages/Register/Register";
 import ShopOwnerDashboard from "../Pages/ShopOwnerDashboard/ShopOwnerDashboard";
-import ShopOwnerSettings from "../Pages/ShopOwnerSettings/ShopOwnerSettings";  // Import the ShopOwnerSettings component
+import ShopOwnerSettings from "../Pages/ShopOwnerSettings/ShopOwnerSettings";
 import UserDashboard from "../Pages/UserDashboard/UserDashboard";
 import { useSelector } from "react-redux";
+import Shops from "../Pages/UserDashboard/Shops/Shops";
+import ProductsShops from "../Pages/UserDashboard/Products/ProductsShops";
+import Category from "../Pages/UserDashboard/Category/Category";
 
 const ProtectedRoute = ({ element, requiredRole }) => {
   const { isLoggedIn, roleId } = useSelector((state) => state.auth);
-  console.log(roleId);
-  console.log(isLoggedIn);
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
 
-  if (requiredRole && roleId !== requiredRole) {
-    return <Navigate to="/user-dashboard" replace />;
-  }
 
   return element;
 };
 
 export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navigate to="/user-dashboard" replace />,
-  },
   {
     path: "/login",
     element: <Login />,
@@ -52,7 +45,7 @@ export const router = createBrowserRouter([
     element: <OwnerRegister />,
   },
   {
-    path: "owner-login",
+    path: "/owner-login",
     element: <OwnerLogin />,
   },
   {
@@ -67,17 +60,32 @@ export const router = createBrowserRouter([
         path: "orders", 
         element: <ProtectedRoute element={<Orders />} /> 
       },
-      { 
-        path: "reviews", 
-        element: <ProtectedRoute element={<Reviews />} /> 
-      },
-      {
-        path: "user-settings",
-        element: <ProtectedRoute element={<UserSettings />} />,
-      },
       {
         path: "user-dashboard",
         element: <UserDashboard />,
+        children: [
+          {
+            path: "",
+            element: <Category />,
+          },
+          {
+            path: ":categoryName",
+            element: <Shops />,
+          },
+          {
+            path: ":categoryName/:shopName",
+            element: <ProductsShops />,
+          },
+          {
+            path: ":categoryName/:shopName/:productId",
+            element: <ProductsShops />,
+          },
+        ],
+      },
+    
+      {
+        path: "user-settings",
+        element: <ProtectedRoute element={<UserSettings />} />,
       },
       {
         path: "admin-dashboard",
