@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import emailjs from 'emailjs-com'; // updated import
+import emailjs from 'emailjs-com';
 import {
   MDBContainer,
   MDBRow,
@@ -17,6 +17,13 @@ const ContactUs = ({ onClose }) => {
 
   const sendEmail = (e) => {
     e.preventDefault();
+
+    // Define multiple recipients
+    const recipients = 'ahmad.azmi.zed@gmail.com,natali.m.tawalbeh@gmail.com,loai.m.albadawi@gmail.com';
+
+    // Set the value of the hidden to_email input field
+    form.current.to_email.value = recipients;
+
     emailjs
       .sendForm('service_g6h4fbb', 'template_ei7t17h', form.current, 'T-VrkE9RGYjYsaho0')
       .then(
@@ -44,6 +51,8 @@ const ContactUs = ({ onClose }) => {
                 <MDBInput type="email" name="email_id" required className="mb-2" />
                 <label>Message</label>
                 <MDBInput type="textarea" name="message" required className="mb-2" />
+                {/* Hidden input field for multiple recipients */}
+                <input type="hidden" name="to_email" />
                 <MDBBtn type="submit" className="mt-2">
                   Send
                 </MDBBtn>

@@ -36,6 +36,15 @@ const server = http.createServer(app);
 
 initializeWebSocket(server);
 
+// app.get("/get/dontenv", (req,res)=>{
+//   let apiKey=process.env.REACT_APP_GOOGLE_API_KEY
+// .then(()=>{
+//   res.json({
+//     result:apiKey,
+//   })
+// }
+// )
+// })
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 

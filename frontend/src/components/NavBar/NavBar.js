@@ -59,7 +59,7 @@ const NavBar = () => {
               >
                 Shop Owner Settings
               </NavLink>
-              <NavLink to="/login" onClick={handleLogout}>
+              <NavLink to="/owner-login" onClick={handleLogout}>
                 Logout
               </NavLink>
             </>
