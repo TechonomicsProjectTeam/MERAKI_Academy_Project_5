@@ -6,6 +6,7 @@ import { setProducts } from "../../../redux/reducers/Products/Products";
 import LoginPrompt from "../../LoginPrompt/LoginPrompt";
 import Category from "../Category/Category";
 import "../Shops/Shops.css"
+
 const Shops = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,13 +32,15 @@ const Shops = () => {
 
     const success = async (position) => {
       const { latitude, longitude } = position.coords;
-      const apiKey = "AIzaSyBulbig3i8qybGh32tKMETGZxd9GZM7DhE";
 
       try {
-        const response = await axios.get(
+        const response = await axios.get(`http://localhost:5000/api/get-api-key`);
+        const apiKey = response.data.apiKey;
+
+        const geoResponse = await axios.get(
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
         );
-        const addressComponents = response.data.results[0]?.address_components;
+        const addressComponents = geoResponse.data.results[0]?.address_components;
         const cityComponent = addressComponents?.find((component) =>
           component.types.includes("locality")
         );
