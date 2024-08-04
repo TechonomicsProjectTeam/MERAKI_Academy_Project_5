@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { setProducts } from "../../../redux/reducers/Products/Products";
 import LoginPrompt from "../../LoginPrompt/LoginPrompt";
 import Category from "../Category/Category";
-
+import "../Shops/Shops.css"
 const Shops = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

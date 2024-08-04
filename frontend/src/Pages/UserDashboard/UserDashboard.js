@@ -12,10 +12,10 @@ const UserDashboard = () => {
     <div className="UserDashboard">
       {!categoryName && <Category />}
       {categoryName && !shopName && <Shops />}
-      {categoryName && shopName && !productId && <ProductsShops />}
-      {categoryName && shopName && productId && <ReviewsComponent />}
+      {categoryName && shopName && <ProductsShops />}
     </div>
   );
 };
+
 
 export default UserDashboard;

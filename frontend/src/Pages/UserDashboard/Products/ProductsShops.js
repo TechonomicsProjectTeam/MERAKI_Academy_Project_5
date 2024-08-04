@@ -5,11 +5,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { addProductFromCart, SetCartId } from '../../../redux/reducers/Carts/Carts';
 import LoginPrompt from '../../LoginPrompt/LoginPrompt';
 import ReviewsComponent from '../Reviews/Reviews';
-import "./ProductsShops.css"
-const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops, token, cartId }) => {
-    const navigate = useNavigate();
+import './ProductsShops.css';
+
+const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+  const cartId = useSelector((state) => state.cart.cartId);
+  const token = useSelector((state) => state.auth.token);
   const { categoryName, shopName, productId } = useParams();
   const products = useSelector((state) => state.product.products);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -21,7 +23,6 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops,
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
   useEffect(() => {
-
     if (!cartId && token) {
       const fetchCartId = async () => {
         try {
@@ -115,30 +116,41 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops,
   return (
     <div>
       {selectedProduct ? (
-        <div className="product-details">
-          <h3>{selectedProduct.name}</h3>
-          <img src={selectedProduct.images} alt={selectedProduct.name} />
-          <p>{selectedProduct.description}</p>
-          <p>Price: ${selectedProduct.price}</p>
-          <div>
-            <input
-              type="number"
-              value={quantities[selectedProduct.product_id] || 1}
-              min="1"
-              onChange={(e) =>
-                setQuantities({
-                  ...quantities,
-                  [selectedProduct.product_id]: parseInt(e.target.value),
-                })
-              }
-            />
-            <button onClick={() => addProductToCart(selectedProduct)}>
-              Add to Cart
-            </button>
-            {message && <p>{message}</p>}
+        <>
+        <div className="product-details-container">
+          <div className="product-Image">
+            <h3>{selectedProduct.name}</h3>
+            <div className="product-image-container">
+              <img src={selectedProduct.images} alt={selectedProduct.name} />
+            </div>
           </div>
-          <ReviewsComponent productId={selectedProduct.product_id} />
+          <div className="Product-details">
+            <p>{selectedProduct.description}</p>
+            <p>Price: ${selectedProduct.price}</p>
+            <div>
+              <input
+                type="number"
+                value={quantities[selectedProduct.product_id] || 1}
+                min="1"
+                onChange={(e) =>
+                  setQuantities({
+                    ...quantities,
+                    [selectedProduct.product_id]: parseInt(e.target.value),
+                  })
+                }
+              />
+              <button onClick={() => addProductToCart(selectedProduct)}>
+                Add to Cart
+              </button>
+              {message && <p>{message}</p>}
+            </div>
+          </div>
+          
         </div>
+        <div className="product-reviews">
+        <ReviewsComponent productId={selectedProduct.product_id} />
+      </div>
+      </>
       ) : (
         <>
           <h2>Products</h2>
@@ -146,7 +158,9 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops,
             {products?.slice(from, to)?.map((product) => (
               <li key={product.product_id} onClick={() => handleProductClick(product)}>
                 <h3>{product.name}</h3>
-                <img src={product.images} alt={product.name} />
+                <div className="product-image-container">
+                  <img src={product.images} alt={product.name} />
+                </div>
                 <p>Price: ${product.price}</p>
               </li>
             ))}

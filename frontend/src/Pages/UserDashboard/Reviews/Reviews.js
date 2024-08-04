@@ -10,6 +10,7 @@ import {
   deleteReview,
 } from "../../../redux/reducers/Reviews/Reviews";
 import { formatDistanceToNow } from "date-fns";
+import "../Reviews/Reviews.css"
 
 const ReviewsComponent = ({ productId }) => {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ const ReviewsComponent = ({ productId }) => {
     rating: 0,
     review_text: "",
   });
+
+  const userName = useSelector((state) => state.auth.username);
+  const imageUser = useSelector((state) => state.auth.images);
 
   useEffect(() => {
     if (productId) {
@@ -41,7 +45,7 @@ const ReviewsComponent = ({ productId }) => {
           console.error("Error fetching reviews:", error);
         });
     }
-  }, [productId, dispatch]);
+  }, [productId, dispatch,reviews]);
 
   const handleAddReview = async () => {
     if (!token) return;
@@ -139,6 +143,7 @@ const ReviewsComponent = ({ productId }) => {
       [productId]: { ...newReviews[productId], rating },
     });
   };
+
   const handleEditStarClick = (rating) => {
     setEditReviewData({
       ...editReviewData,
@@ -158,13 +163,25 @@ const ReviewsComponent = ({ productId }) => {
                 alt={`${review.username}'s avatar`}
                 className="reviewer-image"
               />
-              <p className="reviewer-name">{review.user_name}</p>
+              <p className="reviewer-name">{review.username}</p>
             </div>
             <p>
-              {review.review_text} - {review.rating} stars
+              {[...Array(5)].map((_, i) => (
+                <span
+                  key={i}
+                  style={{
+                    color: i < review.rating ? "#ffc107" : "#e4e5e9",
+                  }}
+                >
+                  ★
+                </span>
+              ))}
             </p>
+            <p>{review.review_text}</p>
+            {console.log(review.created_at)
+            }
             <p>{formatDistanceToNow(new Date(review.created_at))} ago</p>
-            {review.user_id === userId && (
+            {review.user_id == userId && (
               <div>
                 {editingReview === review.review_id ? (
                   <div>

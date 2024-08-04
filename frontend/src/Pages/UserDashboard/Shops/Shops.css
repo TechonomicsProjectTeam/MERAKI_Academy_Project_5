@@ -1,0 +1,67 @@
+.Shops {
+    margin: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .Shops h1 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .Shops p {
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .Shops button {
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .Shops button:hover {
+    background-color: #0056b3;
+  }
+  
+  .Shops h2 {
+    margin: 20px 0 10px;
+    color: #333;
+  }
+  
+  .Shops ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .Shops li {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .Shops li:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+  }
+  
+  .Shops .error {
+    color: #d9534f;
+    margin: 10px 0;
+  }
+  
+  .Shops .message {
+    color: #5cb85c;
+    margin: 10px 0;
+  }
+  

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { getCategories } from '../../../redux/reducers/Categories/Categories';
 import { setShopsByCategory } from '../../../redux/reducers/Shops/Shops';
-
+import "../Category/Category.css"
 const Category = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
