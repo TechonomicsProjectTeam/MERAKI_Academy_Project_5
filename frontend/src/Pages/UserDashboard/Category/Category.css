@@ -52,4 +52,32 @@
     border-radius: 5px;
     margin-top: 10px;
   }
+  .best-rated-shop-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+  }
   
+  .best-rated-shop-list li {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .best-rated-shop-list li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .best-rated-shop-list h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .best-rated-shop-list p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #555;
+  }

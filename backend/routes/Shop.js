@@ -23,7 +23,7 @@ shopRouter.delete("/:id", authentication, deleteShopsById);
 shopRouter.post("/shop_login", loginShop);
 shopRouter.get("/:id",getShopById);
 shopRouter.get("/category/:id",getShopsByCategoryId);
-shopRouter.post("/shops/rating", updateShopRating)
+shopRouter.post("/shops/rating",authentication, updateShopRating)
 shopRouter.get("/shops/best-rated", getBestRatedShops);
 
 module.exports = shopRouter;

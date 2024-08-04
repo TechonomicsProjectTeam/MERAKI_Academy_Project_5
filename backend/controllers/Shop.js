@@ -4,7 +4,30 @@ const bcrypt = require("bcryptjs");
 const saltRounds = parseInt(process.env.SALT);
 
 const getBestRatedShops = (req, res) => {
-  const query = `SELECT * FROM shops WHERE is_deleted = 0 ORDER BY rating DESC LIMIT 10`;
+  const query = `
+    SELECT 
+      shops.shop_id, 
+      shops.name, 
+      shops.description, 
+      shops.images, 
+      shops.email, 
+      shops.phone_number, 
+      shops.rating,
+      AVG(user_ratings.rating) as average_rating
+    FROM 
+      shops
+    LEFT JOIN 
+      user_ratings ON shops.shop_id = user_ratings.shop_id
+    WHERE 
+      shops.is_deleted = 0 
+    GROUP BY 
+      shops.shop_id
+    HAVING 
+      AVG(user_ratings.rating) > 0
+    ORDER BY 
+      average_rating DESC
+    LIMIT 5;
+  `;
 
   pool
     .query(query)
@@ -24,34 +47,89 @@ const getBestRatedShops = (req, res) => {
     });
 };
 
+
 const updateShopRating = async (req, res) => {
-  const { shop_id, rating } = req.body;
+  const user_id=req.token.userId
+  const { name,  rating } = req.body;
+
+  console.log('Request body:', req.body);
+
+  if (!name || typeof name !== 'string' || name.trim() === '') {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid shop name',
+    });
+  }
+
+  if (!user_id || typeof user_id !== 'number') {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid user ID',
+    });
+  }
+
+  if (rating === undefined || typeof rating !== 'number' || rating < 1 || rating > 5) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid rating value. It should be a number between 1 and 5.',
+    });
+  }
 
   try {
-    const query = `UPDATE shops SET rating = (
-                     SELECT AVG(rating)
-                     FROM reviews
-                     WHERE shop_id = $1
-                   )
-                   WHERE shop_id = $1
-                   RETURNING *`;
+    const client = await pool.connect();
+    
+    try {
+      await client.query('BEGIN');
 
-    const values = [shop_id];
-    const response = await pool.query(query, values);
+      // Check if the shop exists
+      const shopCheckQuery = 'SELECT shop_id FROM shops WHERE name = $1';
+      const shopCheckResult = await client.query(shopCheckQuery, [name]);
 
-    res.status(200).json({
-      success: true,
-      message: "Shop rating updated successfully",
-      shop: response.rows[0],
-    });
+      if (shopCheckResult.rows.length === 0) {
+        await client.query('ROLLBACK');
+        return res.status(404).json({
+          success: false,
+          message: 'Shop not found',
+        });
+      }
+
+      const shop_id = shopCheckResult.rows[0].shop_id;
+
+      // Insert new rating into user_ratings table
+      const insertRatingQuery = `
+        INSERT INTO user_ratings (shop_id, user_id, rating)
+        VALUES ($1, $2, $3)
+        RETURNING *`;
+      const insertRatingResult = await client.query(insertRatingQuery, [shop_id, user_id, rating]);
+
+      await client.query('COMMIT');
+
+      res.status(200).json({
+        success: true,
+        message: 'Shop rating added successfully',
+        rating: insertRatingResult.rows[0],
+      });
+    } catch (error) {
+      await client.query('ROLLBACK');
+      res.status(500).json({
+        success: false,
+        message: 'Transaction error',
+        error: error.message,
+      });
+    } finally {
+      client.release();
+    }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Server error",
+      message: 'Server error',
       error: error.message,
     });
   }
 };
+
+
+
 
 const createShops = async (req, res) => {
   const role_id = 3;
