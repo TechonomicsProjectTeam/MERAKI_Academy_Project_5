@@ -14,7 +14,7 @@ const productRouter = require("./routes/Product");
 const cartRouter = require("./routes/Cart");
 const reviewRouter = require("./routes/Review");
 const orderRouter = require("./routes/orders");
-
+const keyRouter = require("./routes/api/Key");
 const app = express();
 
 // Built-in middleware
@@ -30,21 +30,12 @@ app.use("/product", productRouter);
 app.use("/carts", cartRouter);
 app.use("/review", reviewRouter);
 app.use("/orders", orderRouter);
-
+app.use("/api", keyRouter);
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 
 initializeWebSocket(server);
 
-// app.get("/get/dontenv", (req,res)=>{
-//   let apiKey=process.env.REACT_APP_GOOGLE_API_KEY
-// .then(()=>{
-//   res.json({
-//     result:apiKey,
-//   })
-// }
-// )
-// })
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 
