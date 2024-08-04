@@ -78,11 +78,10 @@ export const router = createBrowserRouter([
           },
           {
             path: ":categoryName/:shopName/:productId",
-            element: <ProductsShops />,
+            element: <ProductsShops />,  // <-- Ensure ProductsShops is rendered
           },
         ],
       },
-    
       {
         path: "user-settings",
         element: <ProtectedRoute element={<UserSettings />} />,
@@ -114,3 +113,4 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
+
