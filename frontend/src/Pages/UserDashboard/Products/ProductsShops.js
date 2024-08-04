@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addProductFromCart, SetCartId } from '../../../redux/reducers/Carts/Carts';
 import LoginPrompt from '../../LoginPrompt/LoginPrompt';
-import ReviewsComponent from '../Reviews/Reviews';
+import Rating from 'react-rating-stars-component';
+import ReviewsComponent from "../Reviews/Reviews"
 import './ProductsShops.css';
 
 const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops }) => {
@@ -12,6 +13,7 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
   const dispatch = useDispatch();
   const cartId = useSelector((state) => state.cart.cartId);
   const token = useSelector((state) => state.auth.token);
+  const userId = useSelector((state) => state.auth.userId); 
   const { categoryName, shopName, productId } = useParams();
   const products = useSelector((state) => state.product.products);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -21,6 +23,9 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
   const [from, setFrom] = useState(0);
   const productsPerPage = 5;
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [ratingMessage, setRatingMessage] = useState("");
+console.log(userId);
 
   useEffect(() => {
     if (!cartId && token) {
@@ -113,49 +118,103 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
     setTo(to - productsPerPage);
   };
 
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+  };
+
+  const handleRatingSubmit = async () => {
+    if (!token) {
+      setShowLoginPrompt(true);
+      return;
+    }
+
+    if (!shopName) {
+      setRatingMessage("Shop name is not provided.");
+      return;
+    }
+
+    try {
+      const result = await axios.post(
+        `http://localhost:5000/shop/shops/rating`,
+        {
+          name: shopName,
+          user_id: userId,
+          rating,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (result.data.success) {
+        setRatingMessage("Rating submitted successfully!");
+      } else {
+        setRatingMessage("Failed to submit rating. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting rating:", error);
+      if (error.response && error.response.data) {
+        setRatingMessage(error.response.data.message);
+      } else {
+        setRatingMessage("An unexpected error occurred. Please try again.");
+      }
+    }
+  };
+
   return (
     <div>
       {selectedProduct ? (
         <>
-        <div className="product-details-container">
-          <div className="product-Image">
-            <h3>{selectedProduct.name}</h3>
-            <div className="product-image-container">
-              <img src={selectedProduct.images} alt={selectedProduct.name} />
+          <div className="product-details-container">
+            <div className="product-Image">
+              <h3>{selectedProduct.name}</h3>
+              <div className="product-image-container">
+                <img src={selectedProduct.images} alt={selectedProduct.name} />
+              </div>
             </div>
-          </div>
-          <div className="Product-details">
-            <p>{selectedProduct.description}</p>
-            <p>Price: ${selectedProduct.price}</p>
-            <div>
-              <input
-                type="number"
-                value={quantities[selectedProduct.product_id] || 1}
-                min="1"
-                onChange={(e) =>
-                  setQuantities({
-                    ...quantities,
-                    [selectedProduct.product_id]: parseInt(e.target.value),
-                  })
-                }
-              />
-              <button onClick={() => addProductToCart(selectedProduct)}>
-                Add to Cart
-              </button>
-              {message && <p>{message}</p>}
+            <div className="Product-details">
+              <p>{selectedProduct.description}</p>
+              <p>Price: ${selectedProduct.price}</p>
+              <div>
+                <input
+                  type="number"
+                  value={quantities[selectedProduct.product_id] || 1}
+                  min="1"
+                  onChange={(e) =>
+                    setQuantities({
+                      ...quantities,
+                      [selectedProduct.product_id]: parseInt(e.target.value),
+                    })
+                  }
+                />
+                <button onClick={() => addProductToCart(selectedProduct)}>
+                  Add to Cart
+                </button>
+                {message && <p>{message}</p>}
+              </div>
             </div>
-          </div>
           
-        </div>
-        <div className="product-reviews">
-        <ReviewsComponent productId={selectedProduct.product_id} />
-      </div>
-      </>
+          </div>
+          <div className="product-reviews">
+            <ReviewsComponent productId={selectedProduct.product_id} />
+          </div>
+        </>
       ) : (
         <>
+        <div>
+            <h3>Rate this Shop</h3>
+            <Rating
+              count={5}
+              value={rating}
+              onChange={handleRatingChange}
+              size={24}
+              activeColor="#ffd700"
+            />
+            <button onClick={handleRatingSubmit}>Submit Rating</button>
+            {ratingMessage && <p>{ratingMessage}</p>}
+          </div>
           <h2>Products</h2>
           <ul className="product-list">
-            {products?.slice(from, to)?.map((product) => (
+            {products.slice(from, to).map((product) => (
               <li key={product.product_id} onClick={() => handleProductClick(product)}>
                 <h3>{product.name}</h3>
                 <div className="product-image-container">
@@ -169,6 +228,7 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
             <button onClick={handleShowMore}>Show More</button>
           )}
           {from > 0 && <button onClick={handleShowLess}>Show Less</button>}
+          
           {showLoginPrompt && <LoginPrompt />}
         </>
       )}

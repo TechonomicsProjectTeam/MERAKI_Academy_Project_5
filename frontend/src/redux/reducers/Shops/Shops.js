@@ -46,7 +46,7 @@ export const {
   updateShopById, 
   setShopInfo, 
   setShopsByCategory, 
-  setBestRatedShops 
+  setBestRatedShops
 } = shopsSlice.actions;
 
 export default shopsSlice.reducer;

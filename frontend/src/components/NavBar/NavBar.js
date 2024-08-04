@@ -96,12 +96,6 @@ const NavBar = () => {
                 Cart
               </NavLink>
               <NavLink
-                to="/reviews"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Reviews
-              </NavLink>
-              <NavLink
                 to="/user-settings"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
