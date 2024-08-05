@@ -3,16 +3,31 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const saltRounds = parseInt(process.env.SALT);
 
+const getAllShopCities = (req, res) => {
+  const query = `SELECT DISTINCT city FROM shops WHERE is_deleted = 0`;
+
+  pool
+    .query(query)
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "All shop cities",
+        cities: response.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
 const getBestRatedShops = (req, res) => {
   const query = `
     SELECT 
-      shops.shop_id, 
-      shops.name, 
-      shops.description, 
-      shops.images, 
-      shops.email, 
-      shops.phone_number, 
-      shops.rating,
+    shops.*,
       AVG(user_ratings.rating) as average_rating
     FROM 
       shops
@@ -47,49 +62,53 @@ const getBestRatedShops = (req, res) => {
     });
 };
 
-
 const updateShopRating = async (req, res) => {
-  const user_id=req.token.userId
-  const { name,  rating } = req.body;
+  const user_id = req.token.userId;
+  const { name, rating } = req.body;
 
-  console.log('Request body:', req.body);
+  console.log("Request body:", req.body);
 
-  if (!name || typeof name !== 'string' || name.trim() === '') {
+  if (!name || typeof name !== "string" || name.trim() === "") {
     return res.status(400).json({
       success: false,
-      message: 'Invalid shop name',
+      message: "Invalid shop name",
     });
   }
 
-  if (!user_id || typeof user_id !== 'number') {
+  if (!user_id || typeof user_id !== "number") {
     return res.status(400).json({
       success: false,
-      message: 'Invalid user ID',
+      message: "Invalid user ID",
     });
   }
 
-  if (rating === undefined || typeof rating !== 'number' || rating < 1 || rating > 5) {
+  if (
+    rating === undefined ||
+    typeof rating !== "number" ||
+    rating < 1 ||
+    rating > 5
+  ) {
     return res.status(400).json({
       success: false,
-      message: 'Invalid rating value. It should be a number between 1 and 5.',
+      message: "Invalid rating value. It should be a number between 1 and 5.",
     });
   }
 
   try {
     const client = await pool.connect();
-    
+
     try {
-      await client.query('BEGIN');
+      await client.query("BEGIN");
 
       // Check if the shop exists
-      const shopCheckQuery = 'SELECT shop_id FROM shops WHERE name = $1';
+      const shopCheckQuery = "SELECT shop_id FROM shops WHERE name = $1";
       const shopCheckResult = await client.query(shopCheckQuery, [name]);
 
       if (shopCheckResult.rows.length === 0) {
-        await client.query('ROLLBACK');
+        await client.query("ROLLBACK");
         return res.status(404).json({
           success: false,
-          message: 'Shop not found',
+          message: "Shop not found",
         });
       }
 
@@ -100,20 +119,24 @@ const updateShopRating = async (req, res) => {
         INSERT INTO user_ratings (shop_id, user_id, rating)
         VALUES ($1, $2, $3)
         RETURNING *`;
-      const insertRatingResult = await client.query(insertRatingQuery, [shop_id, user_id, rating]);
+      const insertRatingResult = await client.query(insertRatingQuery, [
+        shop_id,
+        user_id,
+        rating,
+      ]);
 
-      await client.query('COMMIT');
+      await client.query("COMMIT");
 
       res.status(200).json({
         success: true,
-        message: 'Shop rating added successfully',
+        message: "Shop rating added successfully",
         rating: insertRatingResult.rows[0],
       });
     } catch (error) {
-      await client.query('ROLLBACK');
+      await client.query("ROLLBACK");
       res.status(500).json({
         success: false,
-        message: 'Transaction error',
+        message: "Transaction error",
         error: error.message,
       });
     } finally {
@@ -122,14 +145,11 @@ const updateShopRating = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Server error',
+      message: "Server error",
       error: error.message,
     });
   }
 };
-
-
-
 
 const createShops = async (req, res) => {
   const role_id = 3;
@@ -191,7 +211,6 @@ const createShops = async (req, res) => {
     });
   }
 };
-
 
 const deleteShopsById = (req, res) => {
   const shop_id = req.params.id;
@@ -271,12 +290,13 @@ const updateShopById = (req, res) => {
     WHERE shop_id = $9 
     RETURNING *`;
 
-  pool.query(query, values)
+  pool
+    .query(query, values)
     .then((response) => {
       res.status(200).json({
         success: true,
         message: `Shop with id: ${shop_id} updated successfully`,
-        shop: response.rows[0], 
+        shop: response.rows[0],
       });
     })
     .catch((error) => {
@@ -288,7 +308,6 @@ const updateShopById = (req, res) => {
       });
     });
 };
-
 
 const loginShop = (req, res) => {
   const { email, password } = req.body;
@@ -346,25 +365,26 @@ const loginShop = (req, res) => {
     });
 };
 
-const getShopById= (req,res)=>{
-const {id}=req.params
-const query=`SELECT * FROM shops WHERE is_deleted=0 AND shop_id = $1`
-pool.query(query,[id])
-.then((result) => {
-  res.status(200).json({
-    success: true,
-    message: `Shops info for id ${id}`,
-    shops: result.rows,
-  });
-})
-.catch((error) => {
-  res.status(500).json({
-    success: false,
-    message: "Server error",
-    Error: error.message,
-  });
-});
-}
+const getShopById = (req, res) => {
+  const { id } = req.params;
+  const query = `SELECT * FROM shops WHERE is_deleted=0 AND shop_id = $1`;
+  pool
+    .query(query, [id])
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: `Shops info for id ${id}`,
+        shops: result.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        Error: error.message,
+      });
+    });
+};
 
 const getShopsByCategoryId = (req, res) => {
   const { id } = req.params;
@@ -397,5 +417,6 @@ module.exports = {
   getShopById,
   getShopsByCategoryId,
   getBestRatedShops,
-  updateShopRating
+  updateShopRating,
+  getAllShopCities,
 };

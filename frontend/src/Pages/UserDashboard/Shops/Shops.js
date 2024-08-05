@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { setProducts } from "../../../redux/reducers/Products/Products";
 import LoginPrompt from "../../LoginPrompt/LoginPrompt";
 import Category from "../Category/Category";
-import "../Shops/Shops.css"
+import "../Shops/Shops.css";
 
 const Shops = () => {
   const dispatch = useDispatch();
@@ -34,13 +34,16 @@ const Shops = () => {
       const { latitude, longitude } = position.coords;
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/get-api-key`);
+        const response = await axios.get(
+          `http://localhost:5000/api/get-api-key`
+        );
         const apiKey = response.data.apiKey;
 
         const geoResponse = await axios.get(
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
         );
-        const addressComponents = geoResponse.data.results[0]?.address_components;
+        const addressComponents =
+          geoResponse.data.results[0]?.address_components;
         const cityComponent = addressComponents?.find((component) =>
           component.types.includes("locality")
         );
@@ -83,6 +86,7 @@ const Shops = () => {
         console.error("Error fetching products by shop:", error);
       });
   };
+  console.log(filteredShops);
 
   return (
     <div className="Shops">
@@ -112,7 +116,9 @@ const Shops = () => {
                 key={shop.shop_id}
                 onClick={() => handleShopClick(shop.shop_id, shop.name)}
               >
-                {shop.name}
+                <img src={shop.image} alt={`${shop.name}`} />
+                <h3>{shop.name}</h3>
+                <p>{shop.description}</p>
               </li>
             ))}
           </ul>

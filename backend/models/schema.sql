@@ -132,6 +132,16 @@ CREATE TABLE reviews
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE ON UPDATE CASCADE
 
 );
+CREATE TABLE user_ratings (
+  rating_id SERIAL PRIMARY KEY,
+  shop_id INT NOT NULL,
+  user_id INT NOT NULL,
+  rating FLOAT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (shop_id) REFERENCES shops(shop_id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
 
 
 
