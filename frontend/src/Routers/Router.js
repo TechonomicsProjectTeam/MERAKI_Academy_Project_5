@@ -19,6 +19,9 @@ import { useSelector } from "react-redux";
 import Shops from "../Pages/UserDashboard/Shops/Shops";
 import ProductsShops from "../Pages/UserDashboard/Products/ProductsShops";
 import Category from "../Pages/UserDashboard/Category/Category";
+import CategoriesForAdmin from "../Pages/AdminDashboard/CategoriesForAdmin/CategoriesForAdmin";
+import UpdateCategoriesForAdmin from "../Pages/AdminDashboard/CategoriesForAdmin/UpdateCategoriesForAdmin";
+import Drivers from "../Pages/AdminDashboard/Drivers/Drivers";
 
 const ProtectedRoute = ({ element, requiredRole }) => {
   const { isLoggedIn, roleId } = useSelector((state) => state.auth);
@@ -27,6 +30,9 @@ const ProtectedRoute = ({ element, requiredRole }) => {
     return <Navigate to="/login" replace />;
   }
 
+  // if (requiredRole && roleId !== requiredRole) {
+  //   return <Navigate to="/unauthorized" replace />;
+  // }
 
   return element;
 };
@@ -78,7 +84,7 @@ export const router = createBrowserRouter([
           },
           {
             path: ":categoryName/:shopName/:productId",
-            element: <ProductsShops />,  // <-- Ensure ProductsShops is rendered
+            element: <ProductsShops />,
           },
         ],
       },
@@ -88,7 +94,20 @@ export const router = createBrowserRouter([
       },
       {
         path: "admin-dashboard",
-        element: <ProtectedRoute element={<AdminDashboard />} requiredRole={1} />,
+        element: <ProtectedRoute element={<AdminDashboard />} requiredRole={4} />,
+
+      },
+      {
+        path: "categories",
+        element: <CategoriesForAdmin />,
+      },
+      {
+        path: "update-category/:categoryId",
+        element: <UpdateCategoriesForAdmin />,
+      },
+      {
+        path: "driver_admin",
+        element: <Drivers/>,
       },
       {
         path: "driver-dashboard",
@@ -106,11 +125,10 @@ export const router = createBrowserRouter([
         path: "shop-owner-settings", 
         element: <ProtectedRoute element={<ShopOwnerSettings />} requiredRole={3} /> 
       },
-      { 
-        path: "*", 
-        element: <Navigate to="/user-dashboard" replace /> 
-      },
+      // { 
+      //   path: "*", 
+      //   element: <Navigate to="/user-dashboard" replace /> 
+      // },
     ],
   },
 ]);
-

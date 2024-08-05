@@ -1,0 +1,13 @@
+.AdminDashboard {
+    padding: 20px;
+  }
+  
+  .admin-sections {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
