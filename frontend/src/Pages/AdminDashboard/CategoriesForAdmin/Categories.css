@@ -1,0 +1,55 @@
+.Categories {
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.Categories h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.Categories table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.Categories th, .Categories td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.Categories th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.Categories td img {
+  max-width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.Categories td button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Categories td button:hover {
+  background-color: #45a049;
+}
+
+.Categories td button:active {
+  background-color: #3e8e41;
+}
