@@ -27,6 +27,8 @@ import ReviewsAdmin from "../Pages/AdminDashboard/Reviews/ReviewsAdmin";
 import Role_Permissions from "../Pages/AdminDashboard/Role_Permissions/Role_Permissions";
 import ShopsAdmin from "../Pages/AdminDashboard/Shops/ShopsAdmin";
 import UpdateShopAdmin from "../Pages/AdminDashboard/Shops/UpdateShopAdmin";
+import ChatDriver from "../Pages/Chat/ChatDriver";
+import ChatUser from "../Pages/Chat/ChatUser";
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +53,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "carts", element: <Carts /> },
       { path: "orders", element: <Orders /> },
+      { path: "ChatUser" ,  element: <ChatUser/>},
       {
         path: "user-dashboard",
         element: <UserDashboard />,
@@ -59,6 +62,7 @@ export const router = createBrowserRouter([
           { path: ":categoryName", element: <Shops /> },
           { path: ":categoryName/:shopName", element: <ProductsShops /> },
           { path: ":categoryName/:shopName/:productId", element: <ProductsShops /> },
+        
         ],
       },
       {
@@ -87,6 +91,7 @@ export const router = createBrowserRouter([
       { path: "products", element: <Products /> },
       { path: "shop-owner-dashboard", element: <ShopOwnerDashboard /> },
       { path: "shop-owner-settings", element: <ShopOwnerSettings /> },
+      { path: "ChatDriver" ,  element: <ChatDriver/> }, 
     ],
   },
 ]);

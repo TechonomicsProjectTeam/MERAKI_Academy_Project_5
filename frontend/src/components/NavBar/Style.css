@@ -1,13 +1,16 @@
-/* General NavBar styling */
-
 .NavBar {
-  background-color: #2c3e50; /* لون خلفية داكن لتمييز الشريط */
-  color: #ecf0f1; /* لون نص أبيض فاتح */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to right,#78a6d3, #fbc02d, #fffde7 ,#fafafa,#fafafa); /* لون خلفية داكن لتمييز الشريط */
+  color: #0f0f0f; /* لون نص أبيض فاتح */
   display: flex;
   justify-content: space-between; /* توزيع العناصر بشكل متساوي */
   align-items: center;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* إضافة ظل للشريط */
+  z-index: 1000;
 }
 
 .NavBar .user-info {
@@ -18,6 +21,7 @@
 .NavBar .user-info .user-image {
   width: 40px;
   height: 40px;
+  margin-bottom: 15px;
   border-radius: 50%; /* جعل الصورة دائرية */
   object-fit: cover; /* ملاءمة الصورة داخل الدائرة */
   margin-right: 10px;
@@ -34,7 +38,7 @@
 }
 
 .NavBar .cart-icon a {
-  color: #ecf0f1;
+  color: #0f0f0f;
   font-size: 24px;
   margin-left: 15px;
   text-decoration: none;
@@ -46,7 +50,7 @@
 }
 
 .NavBar nav a {
-  color: #ecf0f1;
+  color: #0b0c0c;
   text-decoration: none;
   padding: 8px 12px;
   border-radius: 4px;
@@ -54,19 +58,25 @@
 }
 
 .NavBar nav a.active {
-  background-color: #3498db; /* لون خلفية للروابط النشطة */
-  color: #ecf0f1;
+  background-color: #f3dc77; /* لون خلفية للروابط النشطة */
+  color: #090909;
 }
 
 .NavBar nav a:hover {
-  background-color: #34495e; /* خلفية داكنة عند التمرير */
-  color: #ecf0f1;
+  background-color: #f3dc77; /* خلفية داكنة عند التمرير */
+  color: #080808;
 }
 
 .NavBar nav a.logout {
-  background-color: #e74c3c; /* لون خلفية لزر تسجيل الخروج */
+  background-color: #f3dc77; /* لون خلفية لزر تسجيل الخروج */
 }
 
 .NavBar nav a.logout:hover {
-  background-color: #c0392b; /* لون داكن عند التمرير */
+  background-color: #f3dc77; /* لون داكن عند التمرير */
+}
+
+.logo-img {
+  width: 150px; 
+  height: auto; 
+
 }

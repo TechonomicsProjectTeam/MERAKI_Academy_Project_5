@@ -73,6 +73,12 @@ const NavBar = () => {
               >
                 Driver Dashboard
               </NavLink>
+              <NavLink
+                to="/ChatDriver"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Chat
+              </NavLink>
               <NavLink to="/login" onClick={handleLogout}>
                 Logout
               </NavLink>
@@ -149,6 +155,12 @@ const NavBar = () => {
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 User Settings
+              </NavLink>
+              <NavLink
+                to="/ChatUser"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Chat
               </NavLink>
               <NavLink to="/login" onClick={handleLogout}>
                 Logout

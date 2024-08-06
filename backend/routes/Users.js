@@ -10,7 +10,9 @@ const {
   googleLogin,
   getUsersByRoleId,
   banUserById,
-  unBanUserById
+  unBanUserById,
+  getAllDrivers,
+  getUser,
 } = require("../controllers/Users");
 
 const usersRouter = express.Router();
@@ -25,5 +27,6 @@ usersRouter.post('/google-login', googleLogin);
 usersRouter.get("/role/:role_id", getUsersByRoleId);
 usersRouter.delete("/ban/:user_id", banUserById);
 usersRouter.patch("/unBan/:user_id", unBanUserById);
-
+usersRouter.get('/user_driver/drivers', getAllDrivers)
+usersRouter.get('/user_user/user',getUser)
 module.exports = usersRouter;
