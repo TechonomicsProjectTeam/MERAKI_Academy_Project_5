@@ -4,7 +4,7 @@ const cors = require("cors");
 const http = require("http");
 require("./models/db");
 const { initializeWebSocket } = require("./webSocket");
-
+const initializeSocket = require("./shopOwnerSocket")
 // Routers
 const rolesRouter = require("./routes/Role");
 const usersRouter = require("./routes/Users");
@@ -35,7 +35,7 @@ const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 
 initializeWebSocket(server);
-
+initializeSocket(server);
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 
