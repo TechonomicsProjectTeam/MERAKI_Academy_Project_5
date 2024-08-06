@@ -4,7 +4,11 @@ import axios from 'axios';
 import { setProducts, deleteProductsById, updateProductsById } from '../../redux/reducers/Products/Products';
 import {jwtDecode} from "jwt-decode"; 
 import "./Style.css";
-
+import socketInit from '../../socket.server';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-modal';
+import Message from '../OwnerAdminMessage/message';
 const ShopOwnerDashboard = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
@@ -17,7 +21,10 @@ const ShopOwnerDashboard = () => {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
-  
+  const [isConnected, setIsConnected] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [socket, setSocket] = useState(null);
+
   const decodedToken = jwtDecode(token);
   const shopId = decodedToken.shopId;
   console.log(decodedToken);
@@ -111,8 +118,62 @@ const ShopOwnerDashboard = () => {
     }
   };
 
+  useEffect(() => {
+    if (socket) {
+      socket.on("connect", () => {
+        setIsConnected(true);
+      });
+
+      socket.on("connect_error", (error) => {
+        console.log(error);
+        setIsConnected(false);
+      });
+
+      return () => {
+        socket.close();
+        socket.removeAllListeners();
+        setIsConnected(false);
+      };
+    }
+  }, [socket]);
+
+  // Toggle modal visibility and manage socket connection
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+    if (!isOpen) {
+      setSocket(socketInit(shopId, token));
+    } else {
+      if (socket) {
+        socket.close();
+        setSocket(null);
+      }
+    }
+  }
+  
+
   return (
     <div className='bodyShop'>
+      <FontAwesomeIcon
+        icon={faMessage}
+        size='2x'
+        onClick={toggleModal}
+        className="contact-icon"
+      />
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={toggleModal}
+        contentLabel="Contact Modal"
+        ariaHideApp={false}
+        className="Modal"
+        overlayClassName="Overlay"
+      >
+      <h3>Contact Admin</h3>
+      <div className='message-container'>
+          {isConnected && (
+            <Message socket={socket} shop_id={shopId} to={20} />
+          )}
+        </div>
+      </Modal>
     <div className='Products'>
       <h1 className='h11'>Products Component</h1>
       <div className='divv' >
