@@ -26,8 +26,9 @@ const CategoriesForAdmin = () => {
     }, [dispatch]);
 
     const handleEdit = (category_id) => {
-        navigate(`/update-category/${category_id}`);
+        navigate(`/admin-dashboard/update-category/${category_id}`);
     };
+    
 
     return (
         <div className="Categories">

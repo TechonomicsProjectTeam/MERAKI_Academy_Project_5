@@ -86,16 +86,28 @@ const NavBar = () => {
                 Admin Dashboard
               </NavLink>
               <NavLink
-                to="categories"
+                to="/admin-dashboard/categories"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 Categories
               </NavLink>
               <NavLink
-                to="driver_admin"
+                to="/admin-dashboard/drivers"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 Drivers
+              </NavLink>
+              <NavLink
+              to="/admin-dashboard/order_admin"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              >
+              Orders
+              </NavLink>
+              <NavLink 
+              to="/admin-dashboard/reviews_admin"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              >
+              Reviews
               </NavLink>
               <NavLink to="/login" onClick={handleLogout}>
                 Logout
@@ -143,4 +155,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-    
