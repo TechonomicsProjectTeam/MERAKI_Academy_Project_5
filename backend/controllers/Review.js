@@ -90,9 +90,36 @@ const deleteReview = (req, res) => {
     });
 };
 
+const getAllReviews = (req, res) => {
+  const query = `
+    SELECT reviews.*, users.username, users.images 
+    FROM reviews 
+    JOIN users ON reviews.user_id = users.user_id;
+  `;
+  pool
+    .query(query)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: "All reviews retrieved successfully",
+        reviews: result.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
+
+
 module.exports = {
   createNewReview,
   getReviewByProductId,
   updateReview,
   deleteReview,
+  getAllReviews 
 };
