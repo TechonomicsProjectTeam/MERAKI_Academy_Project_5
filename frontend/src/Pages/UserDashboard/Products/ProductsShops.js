@@ -162,77 +162,77 @@ console.log(userId);
 
   return (
     <div>
-      {selectedProduct ? (
-        <>
-          <div className="product-details-container">
-            <div className="product-Image">
-              <h3>{selectedProduct.name}</h3>
+    {selectedProduct ? (
+      <>
+        <div className="product-details-container">
+          <div className="product-Image">
+            <h3>{selectedProduct.name}</h3>
+            <div className="product-image-container">
+              <img src={selectedProduct.images} alt={selectedProduct.name} />
+            </div>
+          </div>
+          <div className="Product-details">
+            <p>{selectedProduct.description}</p>
+            <p>Price: ${selectedProduct.price}</p>
+            <div>
+              <input
+                type="number"
+                value={quantities[selectedProduct.product_id] || 1}
+                min="1"
+                onChange={(e) =>
+                  setQuantities({
+                    ...quantities,
+                    [selectedProduct.product_id]: parseInt(e.target.value),
+                  })
+                }
+              />
+              <button onClick={() => addProductToCart(selectedProduct)}>
+                Add to Cart
+              </button>
+              {message && <p>{message}</p>}
+            </div>
+          </div>
+        
+        </div>
+        <div className="product-reviews">
+          <ReviewsComponent productId={selectedProduct.product_id} />
+        </div>
+      </>
+    ) : (
+      <>
+      <div className='rating-section'>
+          <h3>Rate this Shop</h3>
+          <Rating
+            count={5}
+            value={rating}
+            onChange={handleRatingChange}
+            size={24}
+            activeColor="#ffd700"
+          />
+          <button onClick={handleRatingSubmit}>Submit Rating</button>
+          {ratingMessage && <p>{ratingMessage}</p>}
+        </div>
+        <h2>Products</h2>
+        <ul className="product-list">
+          {products.slice(from, to).map((product) => (
+            <li key={product.product_id} onClick={() => handleProductClick(product)}>
+              <h3>{product.name}</h3>
               <div className="product-image-container">
-                <img src={selectedProduct.images} alt={selectedProduct.name} />
+                <img src={product.images} alt={product.name} />
               </div>
-            </div>
-            <div className="Product-details">
-              <p>{selectedProduct.description}</p>
-              <p>Price: ${selectedProduct.price}</p>
-              <div>
-                <input
-                  type="number"
-                  value={quantities[selectedProduct.product_id] || 1}
-                  min="1"
-                  onChange={(e) =>
-                    setQuantities({
-                      ...quantities,
-                      [selectedProduct.product_id]: parseInt(e.target.value),
-                    })
-                  }
-                />
-                <button onClick={() => addProductToCart(selectedProduct)}>
-                  Add to Cart
-                </button>
-                {message && <p>{message}</p>}
-              </div>
-            </div>
-          
-          </div>
-          <div className="product-reviews">
-            <ReviewsComponent productId={selectedProduct.product_id} />
-          </div>
-        </>
-      ) : (
-        <>
-        <div>
-            <h3>Rate this Shop</h3>
-            <Rating
-              count={5}
-              value={rating}
-              onChange={handleRatingChange}
-              size={24}
-              activeColor="#ffd700"
-            />
-            <button onClick={handleRatingSubmit}>Submit Rating</button>
-            {ratingMessage && <p>{ratingMessage}</p>}
-          </div>
-          <h2>Products</h2>
-          <ul className="product-list">
-            {products.slice(from, to).map((product) => (
-              <li key={product.product_id} onClick={() => handleProductClick(product)}>
-                <h3>{product.name}</h3>
-                <div className="product-image-container">
-                  <img src={product.images} alt={product.name} />
-                </div>
-                <p>Price: ${product.price}</p>
-              </li>
-            ))}
-          </ul>
-          {to < products.length && (
-            <button onClick={handleShowMore}>Show More</button>
-          )}
-          {from > 0 && <button onClick={handleShowLess}>Show Less</button>}
-          
-          {showLoginPrompt && <LoginPrompt />}
-        </>
-      )}
-    </div>
+              <p>Price: ${product.price}</p>
+            </li>
+          ))}
+        </ul>
+        {to < products.length && (
+          <button onClick={handleShowMore}>Show More</button>
+        )}
+        {from > 0 && <button onClick={handleShowLess}>Show Less</button>}
+        
+        {showLoginPrompt && <LoginPrompt />}
+      </>
+    )}
+  </div>
   );
 };
 

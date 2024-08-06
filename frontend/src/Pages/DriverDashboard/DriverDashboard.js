@@ -76,47 +76,61 @@ const DriverDashboard = () => {
 
   return (
     <div className="Orders">
-      {orders.map((order) => (
-        <div key={order.order_id}>
-          <h4>Payment Method {order.payment_method}</h4>
-          <h2>From {order.user.username}</h2>
-          <h3>Order {order.order_id}</h3>
-          <p>Status: {order.status}</p>
-          {order.products && order.products.length > 0 && (
-            <div>
-              <h4>Products:</h4>
-              <ul>
-                {order.products.map((product) => (
-                  <li key={product.product_id}>
-                    <p>Name: {product.name}</p>
-                    <p>Description: {product.description}</p>
-                    <p>Price: ${product.price}</p>
-                    <p>Quantity: {product.quantity}</p>
-                  </li>
-                ))}
-              </ul>
-              
-            </div>
-          )}
-          {order.status === "ACCEPTED" && order.driver && (
-            <p>
-              Accepted by: {order.driver.username}
-            </p>
-          )}
-          {order.status === "REJECTED" && order.driver && (
-            <p>
-              Rejected by: {order.driver.username}
-            </p>
-          )}
-          {!hiddenButtons[order.order_id] && (
-            <>
-              <button onClick={() => handleAccept(order.order_id)}>Accept</button>
-            
-            </>
-          )}
-        </div>
-      ))}
-    </div>
+    {orders.map((order) => (
+      <div key={order.order_id}>
+        <p className="payment-method">
+          <span className="label">Payment Method:</span> {order.payment_method}
+        </p>
+        <p className="from">
+          <span className="label">From:</span> {order.user.username}
+        </p>
+        <p className="order-id">
+          <span className="label">Order:</span> {order.order_id}
+        </p>
+        <p className="status">
+          <span className="label">Status:</span> {order.status}
+        </p>
+        {order.products && order.products.length > 0 && (
+          <div className="products">
+            <h4>Products:</h4>
+            <ul>
+              {order.products.map((product) => (
+                <li key={product.product_id}>
+                  <p className="product-info">
+                    <span className="product-label">Name:</span> {product.name}
+                  </p>
+                  <p className="product-info">
+                    <span className="product-label">Description:</span> {product.description}
+                  </p>
+                  <p className="product-info">
+                    <span className="product-label">Price:</span> ${product.price}
+                  </p>
+                  <p className="product-info">
+                    <span className="product-label">Quantity:</span> {product.quantity}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {order.status === "ACCEPTED" && order.driver && (
+          <p>
+            Accepted by: {order.driver.username}
+          </p>
+        )}
+        {order.status === "REJECTED" && order.driver && (
+          <p>
+            Rejected by: {order.driver.username}
+          </p>
+        )}
+        {!hiddenButtons[order.order_id] && (
+          <>
+            <button onClick={() => handleAccept(order.order_id)}>Accept</button>
+          </>
+        )}
+      </div>
+    ))}
+  </div>
   );
 };
 
