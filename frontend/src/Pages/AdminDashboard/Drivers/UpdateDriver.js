@@ -71,7 +71,7 @@ const UpdateDriver = () => {
         dispatch(setUserInfo({ username: result.data.updateUser.username, images: result.data.updateUser.images }));
         setMessage(result.data.message);
         setStatus(true);
-        navigate('/drivers');  
+        navigate('/admin-dashboard/drivers');  
       } else {
         setMessage(result.data.message);
         setStatus(false);

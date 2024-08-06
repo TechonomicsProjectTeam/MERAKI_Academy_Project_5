@@ -22,21 +22,11 @@ import CategoriesForAdmin from "../Pages/AdminDashboard/CategoriesForAdmin/Categ
 import UpdateCategoriesForAdmin from "../Pages/AdminDashboard/CategoriesForAdmin/UpdateCategoriesForAdmin";
 import Drivers from "../Pages/AdminDashboard/Drivers/Drivers";
 import UpdateDriver from "../Pages/AdminDashboard/Drivers/UpdateDriver";
-import OrdersAdmin from "../Pages/AdminDashboard/Orders/OrdersAdmin"
+import OrdersAdmin from "../Pages/AdminDashboard/Orders/OrdersAdmin";
 import ReviewsAdmin from "../Pages/AdminDashboard/Reviews/ReviewsAdmin";
-const ProtectedRoute = ({ element, requiredRole }) => {
-  const { isLoggedIn, roleId } = useSelector((state) => state.auth);
-
-  if (!isLoggedIn) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (requiredRole && roleId !== requiredRole) {
-    return <Navigate to="/unauthorized" replace />;
-  }
-
-  return element;
-};
+import Role_Permissions from "../Pages/AdminDashboard/Role_Permissions/Role_Permissions";
+import ShopsAdmin from "../Pages/AdminDashboard/Shops/ShopsAdmin";
+import UpdateShopAdmin from "../Pages/AdminDashboard/Shops/UpdateShopAdmin";
 
 export const router = createBrowserRouter([
   {
@@ -59,8 +49,8 @@ export const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />,
     children: [
-      { path: "carts", element: <ProtectedRoute element={<Carts />} /> },
-      { path: "orders", element: <ProtectedRoute element={<Orders />} /> },
+      { path: "carts", element: <Carts /> },
+      { path: "orders", element: <Orders /> },
       {
         path: "user-dashboard",
         element: <UserDashboard />,
@@ -73,27 +63,30 @@ export const router = createBrowserRouter([
       },
       {
         path: "user-settings",
-        element: <ProtectedRoute element={<UserSettings />} />,
+        element: <UserSettings />,
       },
       {
         path: "admin-dashboard",
-        element: <ProtectedRoute element={<AdminDashboard />} requiredRole={4} />,
+        element: <AdminDashboard />,
         children: [
           { path: "categories", element: <CategoriesForAdmin /> },
           { path: "update-category/:categoryId", element: <UpdateCategoriesForAdmin /> },
           { path: "drivers", element: <Drivers /> },
-          { path: "update-driver/:user_id", element: <UpdateDriver/>},
-          { path: "order_admin", element:<OrdersAdmin/>},
-          { path: "reviews_admin", element: <ReviewsAdmin/>}
+          { path: "update-driver/:user_id", element: <UpdateDriver /> },
+          { path: "order_admin", element: <OrdersAdmin /> },
+          { path: "reviews_admin", element: <ReviewsAdmin /> },
+          { path: "role-permissions", element: <Role_Permissions /> },
+          { path: "shops-admin", element: <ShopsAdmin /> },
+          { path: "update-shop/:shopId", element: <UpdateShopAdmin /> },
         ],
       },
       {
         path: "driver-dashboard",
-        element: <ProtectedRoute element={<DriverDashboard />} requiredRole={2} />,
+        element: <DriverDashboard />,
       },
-      { path: "products", element: <ProtectedRoute element={<Products />} requiredRole={3} /> },
-      { path: "shop-owner-dashboard", element: <ProtectedRoute element={<ShopOwnerDashboard />} requiredRole={3} /> },
-      { path: "shop-owner-settings", element: <ProtectedRoute element={<ShopOwnerSettings />} requiredRole={3} /> },
+      { path: "products", element: <Products /> },
+      { path: "shop-owner-dashboard", element: <ShopOwnerDashboard /> },
+      { path: "shop-owner-settings", element: <ShopOwnerSettings /> },
     ],
   },
 ]);

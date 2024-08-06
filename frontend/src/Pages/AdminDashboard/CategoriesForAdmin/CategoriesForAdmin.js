@@ -10,7 +10,7 @@ import "../CategoriesForAdmin/Categories.css";
 const CategoriesForAdmin = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const categories = useSelector((state) => state.category.categories); // Correct selector
+    const categories = useSelector((state) => state.category.categories); 
 
     useEffect(() => {
         axios
@@ -51,9 +51,10 @@ const CategoriesForAdmin = () => {
                             <td>{category.description}</td>
                             <td><img src={category.images} alt={category.name}/></td>
                             <td>
-                                <button onClick={() => handleEdit(category.category_id)}>
-                                    <FontAwesomeIcon icon={faEdit} />
-                                </button>
+                               
+                                    <FontAwesomeIcon icon={faEdit} 
+                                    onClick={() => handleEdit(category.category_id)}/>
+                                
                             </td>
                         </tr>
                     ))}

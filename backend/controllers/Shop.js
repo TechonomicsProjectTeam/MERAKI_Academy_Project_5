@@ -408,6 +408,72 @@ const getShopsByCategoryId = (req, res) => {
     });
 };
 
+const banShopById = (req, res) => {
+  const shop_id = req.params.id;
+  const query = `UPDATE shops SET is_deleted = 1 WHERE shop_id = $1 RETURNING *`;
+
+  pool
+    .query(query, [shop_id])
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "Shop banned",
+        shop: response.rows[0],
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
+const unBanShopById = (req, res) => {
+  const shop_id = req.params.id;
+  const query = `UPDATE shops SET is_deleted = 0 WHERE shop_id = $1 RETURNING *`;
+
+  pool
+    .query(query, [shop_id])
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "Shop unbanned",
+        shop: response.rows[0],
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
+const hardDeleteShopById = (req, res) => {
+  const shop_id = req.params.id;
+  const query = `DELETE FROM shops WHERE shop_id = $1 RETURNING *`;
+
+  pool
+    .query(query, [shop_id])
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "Shop hard deleted",
+        shop: response.rows[0],
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
 module.exports = {
   createShops,
   deleteShopsById,
@@ -419,4 +485,7 @@ module.exports = {
   getBestRatedShops,
   updateShopRating,
   getAllShopCities,
+  banShopById,
+  unBanShopById,
+  hardDeleteShopById,
 };

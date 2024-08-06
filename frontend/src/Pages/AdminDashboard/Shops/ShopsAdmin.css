@@ -1,0 +1,130 @@
+/* ShopsAdmin.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .shopsAdmin {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  .shopsAdmin h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333333;
+  }
+  
+  .shopsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .shopsTable th,
+  .shopsTable td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  .shopsTable thead {
+    background-color: #f1f1f1;
+    border-bottom: 2px solid #dddddd;
+  }
+  
+  .shopsTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .shopsTable tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .shopsTable th {
+    background-color: #4CAF50;
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+  
+  .shopsTable td img {
+    border-radius: 4px;
+  }
+  
+  .shopsTable .disabled {
+    text-decoration: line-through;
+    color: #cccccc;
+  }
+  
+  .banButton,
+  .unbanButton,
+  .deleteButton {
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .banButton {
+    color: #ff0000;
+  }
+  
+  .unbanButton {
+    color: #4CAF50;
+  }
+  
+  .deleteButton {
+    color: #ff0000;
+  }
+  
+  .banButton[disabled],
+  .unbanButton[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  .modal-title {
+    font-weight: bold;
+  }
+  
+  .modal-body {
+    font-size: 1rem;
+  }
+  
+  .modal-footer .btn {
+    min-width: 100px;
+  }
+  
+  .modal-footer .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  
+  .modal-footer .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  @media (max-width: 768px) {
+    .shopsTable th,
+    .shopsTable td {
+      padding: 8px 10px;
+    }
+  
+    .shopsAdmin {
+      padding: 15px;
+    }
+  }
+  .editButton {
+    color: #007bff;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .editButton:hover {
+    color: #0056b3;
+  }
