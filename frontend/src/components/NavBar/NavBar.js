@@ -109,6 +109,17 @@ const NavBar = () => {
               >
               Reviews
               </NavLink>
+              <NavLink to="/admin-dashboard/role-permissions"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              >
+              Roles
+              </NavLink>
+              <NavLink
+              to="/admin-dashboard/shops-admin"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              >
+              Shops
+              </NavLink>
               <NavLink to="/login" onClick={handleLogout}>
                 Logout
               </NavLink>

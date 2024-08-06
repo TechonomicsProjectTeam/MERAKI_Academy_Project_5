@@ -23,6 +23,16 @@ export const shopsSlice = createSlice({
         shop.shop_id === action.payload.shop_id ? action.payload : shop
       );
     },
+    banShopById: (state, action) => {
+      state.shops = state.shops.map((shop) => 
+        shop.shop_id === action.payload.shop_id ? { ...shop, isBanned: true } : shop
+      );
+    },
+    unBanShopById: (state, action) => {
+      state.shops = state.shops.map((shop) => 
+        shop.shop_id === action.payload.shop_id ? { ...shop, isBanned: false } : shop
+      );
+    },
     setShopInfo: (state, action) => {
       const { name, images } = action.payload;
       state.name = name;
@@ -44,9 +54,11 @@ export const {
   addShops, 
   deleteShopById, 
   updateShopById, 
+  banShopById, 
+  unBanShopById, 
   setShopInfo, 
   setShopsByCategory, 
-  setBestRatedShops
+  setBestRatedShops 
 } = shopsSlice.actions;
 
 export default shopsSlice.reducer;
