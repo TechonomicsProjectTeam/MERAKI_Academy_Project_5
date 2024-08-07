@@ -4,9 +4,9 @@ export const shopsSlice = createSlice({
   name: "shops",
   initialState: {
     shops: [],
-    images: localStorage.getItem("ShopImage") || null,
-    name: localStorage.getItem("name") || null,
-    bestRatedShops: [], 
+    images: null,
+    name: null,
+    bestRatedShops: [],
   },
   reducers: {
     getShops: (state, action) => {
@@ -19,9 +19,21 @@ export const shopsSlice = createSlice({
       state.shops = state.shops.filter(shop => shop.shop_id !== action.payload.shop_id);
     },
     updateShopById: (state, action) => {
-      state.shops = state.shops.map((shop) =>
+      state.shops = state.shops.map((shop) => 
         shop.shop_id === action.payload.shop_id ? action.payload : shop
       );
+    },
+    banShopById: (state, action) => {
+      const shopIndex = state.shops.findIndex(shop => shop.shop_id === action.payload.shop_id);
+      if (shopIndex !== -1) {
+        state.shops[shopIndex].is_deleted = true;
+      }
+    },
+    unBanShopById: (state, action) => {
+      const shopIndex = state.shops.findIndex(shop => shop.shop_id === action.payload.shop_id);
+      if (shopIndex !== -1) {
+        state.shops[shopIndex].is_deleted = false;
+      }
     },
     setShopInfo: (state, action) => {
       const { name, images } = action.payload;
@@ -33,20 +45,22 @@ export const shopsSlice = createSlice({
     setShopsByCategory: (state, action) => {
       state.shops = action.payload;
     },
-    setBestRatedShops: (state, action) => {  
+    setBestRatedShops: (state, action) => {
       state.bestRatedShops = action.payload;
     },
-  },
+  }
 });
 
 export const { 
   getShops, 
-  updateShopById, 
   addShops, 
   deleteShopById, 
+  updateShopById, 
+  banShopById, 
+  unBanShopById, 
   setShopInfo, 
-  setShopsByCategory,
-  setBestRatedShops  
+  setShopsByCategory, 
+  setBestRatedShops 
 } = shopsSlice.actions;
 
 export default shopsSlice.reducer;

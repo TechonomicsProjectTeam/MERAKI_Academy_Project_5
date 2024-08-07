@@ -1,0 +1,66 @@
+.UpdateCategory {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.UpdateCategory h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.UpdateCategory .alert {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.UpdateCategory form {
+    display: flex;
+    flex-direction: column;
+}
+
+.UpdateCategory form div {
+    margin-bottom: 15px;
+}
+
+.UpdateCategory label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.UpdateCategory input[type="text"], 
+.UpdateCategory input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.UpdateCategory button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+    margin-top: 10px;
+}
+
+.UpdateCategory button:hover {
+    background-color: #45a049;
+}
+
+.UpdateCategory button:active {
+    background-color: #3e8e41;
+}

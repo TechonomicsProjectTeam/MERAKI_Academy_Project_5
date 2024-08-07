@@ -1,0 +1,139 @@
+.AdminDashboard {
+    padding: 20px;
+  }
+  
+  .admin-sections {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .contact-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    cursor: pointer;
+  }
+  
+  .Modal {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 500px;
+    height: 600px;
+    background: #fff; 
+    border-radius: 10px;
+    display: flex;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .shop-list {
+    width: 30%;
+    overflow-y: auto;
+    border-right: 1px solid #ddd;
+    padding: 10px;
+    background-color: #434343; 
+  }
+  
+  .shop-item {
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    border-radius: 5px;
+    background-color: #7d9a81dd;
+    transition: background-color 0.3s;
+  }
+  
+  .shop-item:hover,
+  .shop-item.selected {
+    background-color: #e0e0e0; 
+  }
+  
+  .message-container {
+    width: 70%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: #434343; 
+  }
+  
+  .message-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+   
+  }
+  
+  .message-history {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #5b5b5b; 
+  }
+  
+  .message-inputs {
+    display: flex;
+    align-items: center;
+  }
+  
+  .message-inputs input {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1;
+  }
+  
+  .message-inputs button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 60px;
+  }
+  
+  .message-inputs button:hover {
+    background-color: #0056b3;
+  }
+  
+  .message-self {
+    text-align: right;
+    color: #5ce05c; 
+  }
+  
+  .message-other {
+    text-align: left;
+    color: #333; 
+  }
+  
+  .message{
+    color: white;
+  }

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import "../NavBar/Style.css";
 import { clearCartState } from "../../redux/reducers/Carts/Carts";
+
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,14 +15,15 @@ const NavBar = () => {
   const imageUrl = useSelector((state) => state.auth.images);
   const isLoggedIn = useSelector((state) => state.auth.token);
   const roleId = useSelector((state) => state.auth.roleId);
-  const shopName=useSelector((state)=>state.shops.name)
-  const shopImage=useSelector((state)=>state.shops.images)
+  const shopName = useSelector((state) => state.shops.name);
+  const shopImage = useSelector((state) => state.shops.images);
 
   const handleLogout = () => {
     dispatch(setLogout());
     dispatch(clearCartState());
     navigate("/user-dashboard");
   };
+
   return (
     <div className="NavBar">
       <div className="user-info">
@@ -37,9 +39,9 @@ const NavBar = () => {
         {isLoggedIn ? (
           parseInt(roleId) === 3 ? (
             <>
-            <div className="user-info">
-              {shopImage && <img src={shopImage} alt="User" className="user-image" />}
-              {shopName && <span className="user-name">Welcome {shopName} !!</span>}
+              <div className="user-info">
+                {shopImage && <img src={shopImage} alt="Shop" className="user-image" />}
+                {shopName && <span className="user-name">Welcome {shopName} !!</span>}
               </div>
               <NavLink
                 to="/shop-owner-dashboard"
@@ -51,9 +53,15 @@ const NavBar = () => {
                 to="/products"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                AddProducts
+                Add Products
               </NavLink>
-              <NavLink to="/login" onClick={handleLogout}>
+              <NavLink
+                to="/shop-owner-settings"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Shop Owner Settings
+              </NavLink>
+              <NavLink to="/owner-login" onClick={handleLogout}>
                 Logout
               </NavLink>
             </>
@@ -65,11 +73,70 @@ const NavBar = () => {
               >
                 Driver Dashboard
               </NavLink>
+              <NavLink
+                to="/ChatDriver"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Chat
+              </NavLink>
               <NavLink to="/login" onClick={handleLogout}>
                 Logout
               </NavLink>
             </>
-          ) : (
+          ) : parseInt(roleId) === 4 ? (
+            <>
+              <NavLink
+                to="/admin-dashboard"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Admin Dashboard
+              </NavLink>
+              <NavLink
+                to="/admin-dashboard/categories"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Categories
+              </NavLink>
+              <NavLink
+                to="/admin-dashboard/drivers"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Drivers
+              </NavLink>
+              <NavLink
+              to="/admin-dashboard/order_admin"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              >
+              Orders
+              </NavLink>
+              <NavLink 
+              to="/admin-dashboard/reviews_admin"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              >
+              Reviews
+              </NavLink>
+              <NavLink to="/admin-dashboard/role-permissions"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              >
+              Roles
+              </NavLink>
+              <NavLink
+              to="/admin-dashboard/shops-admin"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              >
+              Shops
+              </NavLink>
+              <NavLink
+              to="/admin-dashboard/users-admin"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              >
+              Users
+              </NavLink>
+              <NavLink to="/login" onClick={handleLogout}>
+                Logout
+              </NavLink>
+            </>
+          ) : parseInt(roleId) === 1 ? (
             <>
               <NavLink
                 to="/user-dashboard"
@@ -90,25 +157,24 @@ const NavBar = () => {
                 Cart
               </NavLink>
               <NavLink
-                to="/reviews"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Reviews
-              </NavLink>
-              <NavLink
                 to="/user-settings"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 User Settings
               </NavLink>
+              <NavLink
+                to="/ChatUser"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Chat
+              </NavLink>
               <NavLink to="/login" onClick={handleLogout}>
                 Logout
               </NavLink>
             </>
-          )
+          ) : null
         ) : (
           <>
-            {/* <NavLink to="/login">Login</NavLink> */}
             <NavLink to="/register">Register</NavLink>
           </>
         )}

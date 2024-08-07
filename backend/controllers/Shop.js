@@ -3,8 +3,46 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const saltRounds = parseInt(process.env.SALT);
 
+const getAllShopCities = (req, res) => {
+  const query = `SELECT DISTINCT city FROM shops WHERE is_deleted = 0`;
+
+  pool
+    .query(query)
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "All shop cities",
+        cities: response.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
 const getBestRatedShops = (req, res) => {
-  const query = `SELECT * FROM shops WHERE is_deleted = 0 ORDER BY rating DESC LIMIT 10`;
+  const query = `
+    SELECT 
+    shops.*,
+      AVG(user_ratings.rating) as average_rating
+    FROM 
+      shops
+    LEFT JOIN 
+      user_ratings ON shops.shop_id = user_ratings.shop_id
+    WHERE 
+      shops.is_deleted = 0 
+    GROUP BY 
+      shops.shop_id
+    HAVING 
+      AVG(user_ratings.rating) > 0
+    ORDER BY 
+      average_rating DESC
+    LIMIT 5;
+  `;
 
   pool
     .query(query)
@@ -25,25 +63,85 @@ const getBestRatedShops = (req, res) => {
 };
 
 const updateShopRating = async (req, res) => {
-  const { shop_id, rating } = req.body;
+  const user_id = req.token.userId;
+  const { name, rating } = req.body;
+
+  console.log("Request body:", req.body);
+
+  if (!name || typeof name !== "string" || name.trim() === "") {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid shop name",
+    });
+  }
+
+  if (!user_id || typeof user_id !== "number") {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid user ID",
+    });
+  }
+
+  if (
+    rating === undefined ||
+    typeof rating !== "number" ||
+    rating < 1 ||
+    rating > 5
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid rating value. It should be a number between 1 and 5.",
+    });
+  }
 
   try {
-    const query = `UPDATE shops SET rating = (
-                     SELECT AVG(rating)
-                     FROM reviews
-                     WHERE shop_id = $1
-                   )
-                   WHERE shop_id = $1
-                   RETURNING *`;
+    const client = await pool.connect();
 
-    const values = [shop_id];
-    const response = await pool.query(query, values);
+    try {
+      await client.query("BEGIN");
 
-    res.status(200).json({
-      success: true,
-      message: "Shop rating updated successfully",
-      shop: response.rows[0],
-    });
+      // Check if the shop exists
+      const shopCheckQuery = "SELECT shop_id FROM shops WHERE name = $1";
+      const shopCheckResult = await client.query(shopCheckQuery, [name]);
+
+      if (shopCheckResult.rows.length === 0) {
+        await client.query("ROLLBACK");
+        return res.status(404).json({
+          success: false,
+          message: "Shop not found",
+        });
+      }
+
+      const shop_id = shopCheckResult.rows[0].shop_id;
+
+      // Insert new rating into user_ratings table
+      const insertRatingQuery = `
+        INSERT INTO user_ratings (shop_id, user_id, rating)
+        VALUES ($1, $2, $3)
+        RETURNING *`;
+      const insertRatingResult = await client.query(insertRatingQuery, [
+        shop_id,
+        user_id,
+        rating,
+      ]);
+
+      await client.query("COMMIT");
+
+      res.status(200).json({
+        success: true,
+        message: "Shop rating added successfully",
+        rating: insertRatingResult.rows[0],
+      });
+    } catch (error) {
+      await client.query("ROLLBACK");
+      res.status(500).json({
+        success: false,
+        message: "Transaction error",
+        error: error.message,
+      });
+    } finally {
+      client.release();
+    }
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -64,6 +162,7 @@ const createShops = async (req, res) => {
     email,
     password,
     phone_number,
+    city,
   } = req.body;
 
   try {
@@ -92,10 +191,11 @@ const createShops = async (req, res) => {
       phone_number,
       category_id,
       role_id,
+      city,
     ];
 
     // The query
-    const query = `INSERT INTO shops (name,description,images,email,password,phone_number,category_id,role_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
+    const query = `INSERT INTO shops (name,description,images,email,password,phone_number,category_id,role_id,city) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`;
     const response = await pool.query(query, values);
 
     res.status(201).json({
@@ -134,7 +234,7 @@ const deleteShopsById = (req, res) => {
 };
 
 const getAllShops = (req, res) => {
-  const query = `SELECT * FROM shops WHERE is_deleted = 0`;
+  const query = `SELECT * FROM shops`;
 
   pool
     .query(query)
@@ -162,6 +262,7 @@ const updateShopById = (req, res) => {
     email,
     password,
     phone_number,
+    city,
   } = req.body;
   const shop_id = req.params.id;
   const values = [
@@ -172,9 +273,22 @@ const updateShopById = (req, res) => {
     email,
     password,
     phone_number,
+    city,
     shop_id,
   ];
-  const query = `UPDATE shops SET category_id = COALESCE($1,category_id), name = COALESCE($2,name),description = COALESCE($3,description),images = COALESCE($4,images), email = COALESCE($5,email),password = COALESCE($6,password),phone_number = COALESCE($7,phone_number) WHERE shop_id = $8 RETURNING *`;
+
+  const query = `
+    UPDATE shops 
+    SET category_id = COALESCE($1, category_id), 
+        name = COALESCE($2, name), 
+        description = COALESCE($3, description), 
+        images = COALESCE($4, images), 
+        email = COALESCE($5, email), 
+        password = COALESCE($6, password), 
+        phone_number = COALESCE($7, phone_number), 
+        city = COALESCE($8, city) 
+    WHERE shop_id = $9 
+    RETURNING *`;
 
   pool
     .query(query, values)
@@ -251,25 +365,26 @@ const loginShop = (req, res) => {
     });
 };
 
-const getShopById= (req,res)=>{
-const {id}=req.params
-const query=`SELECT * FROM shops WHERE is_deleted=0 AND shop_id = $1`
-pool.query(query,[id])
-.then((result) => {
-  res.status(200).json({
-    success: true,
-    message: `Shops info for id ${id}`,
-    shops: result.rows,
-  });
-})
-.catch((error) => {
-  res.status(500).json({
-    success: false,
-    message: "Server error",
-    Error: error.message,
-  });
-});
-}
+const getShopById = (req, res) => {
+  const { id } = req.params;
+  const query = `SELECT * FROM shops WHERE is_deleted=0 AND shop_id = $1`;
+  pool
+    .query(query, [id])
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: `Shops info for id ${id}`,
+        shops: result.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        Error: error.message,
+      });
+    });
+};
 
 const getShopsByCategoryId = (req, res) => {
   const { id } = req.params;
@@ -293,6 +408,72 @@ const getShopsByCategoryId = (req, res) => {
     });
 };
 
+const banShopById = (req, res) => {
+  const shop_id = req.params.id;
+  const query = `UPDATE shops SET is_deleted = 1 WHERE shop_id = $1 RETURNING *`;
+
+  pool
+    .query(query, [shop_id])
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "Shop banned",
+        shop: response.rows[0],
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
+const unBanShopById = (req, res) => {
+  const shop_id = req.params.id;
+  const query = `UPDATE shops SET is_deleted = 0 WHERE shop_id = $1 RETURNING *`;
+
+  pool
+    .query(query, [shop_id])
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "Shop unbanned",
+        shop: response.rows[0],
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
+const hardDeleteShopById = (req, res) => {
+  const shop_id = req.params.id;
+  const query = `DELETE FROM shops WHERE shop_id = $1 RETURNING *`;
+
+  pool
+    .query(query, [shop_id])
+    .then((response) => {
+      res.status(200).json({
+        success: true,
+        message: "Shop hard deleted",
+        shop: response.rows[0],
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    });
+};
+
 module.exports = {
   createShops,
   deleteShopsById,
@@ -302,5 +483,9 @@ module.exports = {
   getShopById,
   getShopsByCategoryId,
   getBestRatedShops,
-  updateShopRating
+  updateShopRating,
+  getAllShopCities,
+  banShopById,
+  unBanShopById,
+  hardDeleteShopById,
 };

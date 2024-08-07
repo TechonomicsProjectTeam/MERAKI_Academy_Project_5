@@ -5,6 +5,7 @@ const {
   getReviewByProductId,
   updateReview,
   deleteReview,
+  getAllReviews 
 } = require("../controllers/Review");
 
 const authorization = require("../middlewares/authorization");
@@ -19,5 +20,6 @@ reviewRouter.post(
 reviewRouter.get("/:id", getReviewByProductId);
 reviewRouter.put("/:id", updateReview);
 reviewRouter.delete("/:id", deleteReview);
+reviewRouter.get("/", getAllReviews);
 
 module.exports = reviewRouter;

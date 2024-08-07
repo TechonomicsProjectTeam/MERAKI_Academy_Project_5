@@ -1,0 +1,64 @@
+.Role_Permissions {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .Role_Permissions h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .Role_Permissions table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .Role_Permissions th, .Role_Permissions td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  .Role_Permissions th {
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .Role_Permissions tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .Role_Permissions tr:hover {
+    background-color: #ddd;
+  }
+
+  .Role_Permissions tbody tr {
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .Role_Permissions tbody td {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  @media (max-width: 768px) {
+    .Role_Permissions {
+      padding: 10px;
+    }
+  
+    .Role_Permissions table {
+      font-size: 14px;
+    }
+  
+    .Role_Permissions th, .Role_Permissions td {
+      padding: 8px 10px;
+    }
+  
+    .Role_Permissions h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+  }
+  

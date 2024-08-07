@@ -27,8 +27,20 @@ export const userSlice = createSlice({
         return user.user_id !== user_id;
       });
     },
+    banUserById  : (state, action) => {
+      const userIndex = state.users.findIndex(user => user.user_id === action.payload.user_id);
+      if (userIndex !== -1) {
+        state.users[userIndex].is_deleted = true;
+      }
+    },
+    unBanUserById :(state, action) => {
+      const userIndex = state.users.findIndex(user => user.user_id === action.payload.user_id);
+      if (userIndex !== -1) {
+        state.users[userIndex].is_deleted = false;
+      }
+    },
   },
 });
-export const { setUsers, addUsers, updateUserById, deleteUserById } =
+export const { setUsers, addUsers, updateUserById, deleteUserById,banUserById,unBanUserById } =
   userSlice.actions;
 export default userSlice.reducer;

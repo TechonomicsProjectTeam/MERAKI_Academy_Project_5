@@ -8,7 +8,7 @@ import categoriesReducer from "./reducers/Categories/Categories";
 import roleReducer from "./reducers/Roles/Roles";
 import ordersReducer from "./reducers/Orders/Orders";
 import reviewsReducer from "./reducers/Reviews/Reviews"
-
+import chatReducer from "./reducers/ChatMessage/ChatMessage";
 export default configureStore({
     reducer: {
         auth: authReducer,
@@ -20,5 +20,6 @@ export default configureStore({
         roles: roleReducer,
         orders: ordersReducer,
         reviews:reviewsReducer,
+        message: chatReducer,
     }
 });

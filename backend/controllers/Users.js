@@ -183,57 +183,69 @@ const register = async (req, res) => {
 
 // Login User
 const login = (req, res) => {
-  const password = req.body.password;
-  const email = req.body.email;
-  const query = ` SELECT users.*, roles.role_name
+  const { email, password } = req.body;
+  const query = `SELECT users.*, roles.role_name
     FROM users 
     JOIN roles ON users.role_id = roles.role_id 
-    WHERE users.email = $1 `;
+    WHERE users.email = $1`;
   const data = [email.toLowerCase()];
+
   pool
     .query(query, data)
     .then((result) => {
       if (result.rows.length) {
-        bcrypt.compare(password, result.rows[0].password, (err, response) => {
-          if (err) res.json(err);
+        const user = result.rows[0];
+
+        // Check if the user is banned
+        if (user.is_deleted) {
+          return res.status(403).json({
+            success: false,
+            message: "You are banned",
+          });
+        }
+
+        bcrypt.compare(password, user.password, (err, response) => {
+          if (err) {
+            return res.json(err);
+          }
+
           if (response) {
             const payload = {
-              userId: result.rows[0].user_id,
-              username: result.rows[0].username,
-              role: result.rows[0].role_id,
-              role_name: result.rows[0].role_name,
+              userId: user.user_id,
+              username: user.username,
+              role: user.role_id,
+              role_name: user.role_name,
             };
             const options = { expiresIn: "1d" };
             const secret = process.env.SECRET;
             const token = jwt.sign(payload, secret, options);
-            if (token) {
-              return res.status(200).json({
-                token,
-                success: true,
-                message: `Valid login credentials`,
-                userId: result.rows[0].user_id,
-              });
-            } else {
-              throw Error;
-            }
+
+            return res.status(200).json({
+              token,
+              success: true,
+              message: `Valid login credentials`,
+              userId: user.user_id,
+            });
           } else {
-            res.status(403).json({
+            return res.status(403).json({
               success: false,
               message: `The email doesn’t exist or the password you’ve entered is incorrect`,
             });
           }
         });
-      } else throw Error;
+      } else {
+        throw new Error();
+      }
     })
     .catch((err) => {
-      res.status(403).json({
+      return res.status(403).json({
         success: false,
-        message:
-          "The email doesn’t exist or the password you’ve entered is incorrect",
+        message: "The email doesn’t exist or the password you’ve entered is incorrect",
         err,
       });
     });
 };
+
 
 // Update User By ID
 const updateUserById = async (req, res) => {
@@ -328,27 +340,29 @@ const updateUserById = async (req, res) => {
 const deleteUserById = (req, res) => {
   const user_id = req.params.user_id;
   pool
-    .query(`UPDATE users SET is_deleted=1 WHERE user_id = $1 RETURNING *`, [
-      user_id,
-    ])
+    .query(`DELETE FROM users WHERE user_id = $1 RETURNING *`, [user_id])
     .then((result) => {
       if (result.rows.length === 0) {
-        return res.status(403).json("user not found");
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
       }
       res.status(200).json({
         success: true,
-        message: "Account deleted successfully",
-        updateUser: result.rows[0],
+        message: "User deleted successfully",
+        deletedUser: result.rows[0],
       });
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
-        message: "server error",
-        err,
+        message: "Server error",
+        err: err.message,
       });
     });
 };
+
 
 // Get All Users
 const getAllUsers = (req, res) => {
@@ -391,6 +405,140 @@ const getUserById = (req, res) => {
     });
 };
 
+const getUsersByRoleId = async (req, res) => {
+  const { role_id } = req.params;
+  
+  // Validate role_id is a number
+  if (isNaN(role_id)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid role ID",
+    });
+  }
+
+  try {
+    const query = `SELECT * FROM users WHERE role_id = $1`;
+    const data = [role_id];
+
+    const result = await pool.query(query, data);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No users found with the given role ID",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `Users with role_id ${role_id}`,
+      users: result.rows,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+// Ban User By ID (soft delete)
+const banUserById = (req, res) => {
+  const user_id = req.params.user_id;
+  pool
+    .query(`UPDATE users SET is_deleted = 1 WHERE user_id = $1 RETURNING *`, [
+      user_id,
+    ])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: "User banned successfully",
+        bannedUser: result.rows[0],
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        err: err.message,
+      });
+    });
+};
+
+const unBanUserById = (req, res) => {
+  const user_id = req.params.user_id;
+  pool
+    .query(`UPDATE users SET is_deleted = 0 WHERE user_id = $1 RETURNING *`, [user_id])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: "User unbanned successfully",
+        unbannedUser: result.rows[0],
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        err: err.message,
+      });
+    });
+};
+
+const getAllDrivers = (req, res) => {
+  pool
+    .query(`SELECT * FROM users WHERE role_id = 2 AND is_deleted = 0`)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: 'All Drivers',
+        drivers: result.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        Error: error.message,
+      });
+    });
+};
+
+const getUser = (req, res) => {
+  pool
+    .query(`SELECT * FROM users WHERE role_id = 1 AND is_deleted = 0`)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: 'All user',
+        drivers: result.rows,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        Error: error.message,
+      });
+    });
+};
+
+
+
+
+
 module.exports = {
   register,
   login,
@@ -399,4 +547,9 @@ module.exports = {
   getAllUsers,
   getUserById,
   googleLogin,
+  getUsersByRoleId,
+  banUserById,
+  unBanUserById,
+  getAllDrivers,
+  getUser,
 };

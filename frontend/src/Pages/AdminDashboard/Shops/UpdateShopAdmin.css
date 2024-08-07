@@ -1,0 +1,91 @@
+/* General Container */
+.updateShopAdmin {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .updateShopAdmin h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .updateShopAdmin .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .updateShopAdmin .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .updateShopAdmin .form-group input,
+  .updateShopAdmin .form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+  
+  .updateShopAdmin .form-group input[type="file"] {
+    padding: 0;
+  }
+  
+  .updateShopAdmin .form-group input:focus,
+  .updateShopAdmin .form-group select:focus {
+    border-color: #80bdff;
+    outline: none;
+  }
+  
+  .updateShopAdmin .form-group input::placeholder {
+    color: #6c757d;
+  }
+  
+  .updateShopAdmin .form-group .custom-file-label {
+    font-size: 16px;
+  }
+  
+  .updateShopAdmin .form-group .file-input-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .updateShopAdmin button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .updateShopAdmin button:hover {
+    background-color: #0056b3;
+  }
+  
+  .updateShopAdmin .alert {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    color: #fff;
+  }
+  
+  .updateShopAdmin .alert.success {
+    background-color: #28a745;
+  }
+  
+  .updateShopAdmin .alert.error {
+    background-color: #dc3545;
+  }
+  

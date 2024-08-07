@@ -1,0 +1,90 @@
+.ReviewsAdmin {
+    padding: 20px;
+    background-color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+  }
+  
+  .ReviewsAdmin h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #4a4a4a;
+    text-align: center;
+  }
+  
+  .ReviewsAdmin table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ReviewsAdmin th, .ReviewsAdmin td {
+    padding: 15px;
+    text-align: left;
+  }
+  
+  .ReviewsAdmin th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #555;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .ReviewsAdmin td {
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+    color: #666;
+  }
+  
+  .ReviewsAdmin tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .ReviewsAdmin tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .ReviewsAdmin .faTrash {
+    color: #d9534f;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .ReviewsAdmin .faTrash:hover {
+    color: #c9302c;
+  }
+  
+  @media (max-width: 768px) {
+    .ReviewsAdmin table, .ReviewsAdmin th, .ReviewsAdmin td {
+      display: block;
+      width: 100%;
+    }
+  
+    .ReviewsAdmin th, .ReviewsAdmin td {
+      text-align: right;
+      padding: 10px;
+      position: relative;
+    }
+  
+    .ReviewsAdmin th::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 50%;
+      padding-left: 15px;
+      font-weight: bold;
+      background-color: #f4f4f4;
+    }
+  
+    .ReviewsAdmin td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 50%;
+      padding-left: 15px;
+      font-weight: bold;
+      background-color: #f9f9f9;
+    }
+  }
+  
