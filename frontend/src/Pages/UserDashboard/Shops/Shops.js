@@ -93,6 +93,7 @@ const Shops = () => {
   return (
     <>
     <div className="Shops">
+
     {/* <h1>Shops</h1> */}
     {city && <p>You are in: {city}</p>}
     <button className="navigate-back" onClick={() => navigate(-1)}>

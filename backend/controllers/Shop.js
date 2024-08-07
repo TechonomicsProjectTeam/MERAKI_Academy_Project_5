@@ -234,7 +234,7 @@ const deleteShopsById = (req, res) => {
 };
 
 const getAllShops = (req, res) => {
-  const query = `SELECT * FROM shops WHERE is_deleted = 0`;
+  const query = `SELECT * FROM shops`;
 
   pool
     .query(query)

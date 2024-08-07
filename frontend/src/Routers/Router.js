@@ -29,6 +29,8 @@ import ShopsAdmin from "../Pages/AdminDashboard/Shops/ShopsAdmin";
 import UpdateShopAdmin from "../Pages/AdminDashboard/Shops/UpdateShopAdmin";
 import ChatDriver from "../Pages/Chat/ChatDriver";
 import ChatUser from "../Pages/Chat/ChatUser";
+import UsersAdmin from "../Pages/AdminDashboard/Users/UsersAdmin";
+import UpdateUsersAdmin from "../Pages/AdminDashboard/Users/UpdateUsersAdmin";
 
 export const router = createBrowserRouter([
   {
@@ -82,6 +84,8 @@ export const router = createBrowserRouter([
           { path: "role-permissions", element: <Role_Permissions /> },
           { path: "shops-admin", element: <ShopsAdmin /> },
           { path: "update-shop/:shopId", element: <UpdateShopAdmin /> },
+          { path: "users-admin", element: <UsersAdmin/>},
+          { path: "update-users-admin/:user_id", element : <UpdateUsersAdmin/>}
         ],
       },
       {
