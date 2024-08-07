@@ -100,41 +100,32 @@ const Login = () => {
 
   return (
     <div className="body">
-    <div className="form-container">
-      <div className="image-container">
-        <img src="https://png.pngtree.com/png-vector/20230429/ourlarge/pngtree-free-vector-login-concept-illustration-png-image_6743219.png" alt="Login Illustration" />
-      </div>
-      <div className="form-content">
-        <p className="title">Welcome!
-          <br/> Sign in to your Account</p>
+      <div className="Form">
+        <p className="Title">Login:</p>
         <form onSubmit={login}>
           <input
-          className="inputs"
             type="email"
-            placeholder="Email Address"
+            placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
-           className="inputs"
             type="password"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button className="button" type="submit">Sign In</button>
+          <button className="button" type="submit">Login</button>
         </form>
-        {/* <p className="forgot-password">Forgot Password?</p> */}
+             <div className="owner_register-link">
+             <p>Register as an user? <a href="/register">Register here</a></p>
+        </div>
         <div className="google-login">
           <button onClick={() => handleGoogleLoginSuccess()} className="google-login-button">
             Login with Google
           </button>
         </div>
-        <div className="register-link">
-          <p>Register as a user? <a href="/register">Sign Up</a></p>
-        </div>
-        {message && <div className="error-message">{message}</div>}
+        {message && <div className="ErrorMessage">{message}</div>}
       </div>
     </div>
-  </div>
   );
 };
 
