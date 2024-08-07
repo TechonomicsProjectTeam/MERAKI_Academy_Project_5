@@ -1,79 +1,55 @@
-   .Orders h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #000000;
-    text-align: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  
+/* OrdersAdmin.css */
+.Orders {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.Orders h1 {
+  margin-bottom: 20px;
+  color: #343a40;
+  text-align: center;
+}
+
+.Orders table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.Orders th, .Orders td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.Orders th {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.Orders tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+.Orders td {
+  color: #495057;
+}
+
+.Orders .product-list {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
   .Orders table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 20px;
-  }
-  
-  .Orders th,
-  .Orders td {
-    padding: 15px;
-    text-align: left;
-  }
-  
-  .Orders th {
-    background: linear-gradient(135deg, #66a6ff 0%, #89f7fe 100%);
-    color: white;
-    font-weight: bold;
-  }
-  
-  .Orders tbody tr {
-    transition: background-color 0.3s ease;
-  }
-  
-  .Orders tbody tr:nth-child(even) {
-    background-color: #f1f1f1;
-  }
-  
-  .Orders tbody tr:nth-child(odd) {
-    background-color: #fafafa;
-  }
-  
-  .Orders tbody tr:hover {
-    background-color: #ffecd2;
-  }
-  
-  .Orders td {
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .Orders td div {
-    margin-bottom: 5px;
-  }
-  
-  .Orders td:last-child div {
-    display: flex;
-    justify-content: space-between;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
   
   .Orders th, .Orders td {
-    border-right: 1px solid #ddd;
+    white-space: nowrap;
   }
-  
-  .Orders th:last-child, .Orders td:last-child {
-    border-right: none;
-  }
-  
-  .Orders table {
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  
-  .Orders td:first-child {
-    border-left: 5px solid #66a6ff;
-  }
-  
-  .Orders td:last-child {
-    border-right: 5px solid #66a6ff;
-  }
-  
+}

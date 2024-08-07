@@ -1,55 +1,62 @@
+/* Categories.css */
 .Categories {
-  margin: 20px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #f8f9fa;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .Categories h2 {
-  text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  color: #343a40;
+  text-align: center;
 }
 
 .Categories table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .Categories th, .Categories td {
   padding: 12px 15px;
-  border: 1px solid #ddd;
   text-align: left;
+  border-bottom: 1px solid #dee2e6;
 }
 
 .Categories th {
-  background-color: #f2f2f2;
-  color: #333;
+  background-color: #007bff;
+  color: #ffffff;
 }
 
-.Categories td img {
-  max-width: 100px;
+.Categories tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+.Categories td {
+  color: #495057;
+}
+
+.Categories img {
+  max-width: 50px;
   height: auto;
-  display: block;
-  margin: 0 auto;
+  border-radius: 4px;
 }
 
-.Categories td button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+.Categories .faEdit {
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: #007bff;
+  margin-right: 10px;
 }
 
-.Categories td button:hover {
-  background-color: #45a049;
-}
-
-.Categories td button:active {
-  background-color: #3e8e41;
+@media (max-width: 768px) {
+  .Categories table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .Categories th, .Categories td {
+    white-space: nowrap;
+  }
 }

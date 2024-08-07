@@ -1,0 +1,91 @@
+/* UsersAdmin.css */
+.usersAdmin {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .usersAdmin h1 {
+    margin-bottom: 20px;
+    color: #343a40;
+    text-align: center;
+  }
+  
+  .usersTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .usersTable th, .usersTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .usersTable th {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+  
+  .usersTable tbody tr:hover {
+    background-color: #f1f3f5;
+  }
+  
+  .usersTable td {
+    color: #495057;
+  }
+  
+  .editButton, .banButton, .unbanButton, .deleteButton {
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .editButton {
+    color: #28a745;
+  }
+  
+  .banButton {
+    color: #dc3545;
+  }
+  
+  .unbanButton {
+    color: #ffc107;
+  }
+  
+  .deleteButton {
+    color: #dc3545;
+  }
+  
+  .line-through {
+    text-decoration: line-through;
+  }
+  
+  .disabled {
+    color: #d6d6d6;
+    cursor: not-allowed;
+  }
+  
+  .email-admin {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .actions-admin {
+    min-width: 150px;
+  }
+  
+  @media (max-width: 768px) {
+    .usersTable {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    
+    .usersTable th, .usersTable td {
+      white-space: nowrap;
+    }
+  }
+  

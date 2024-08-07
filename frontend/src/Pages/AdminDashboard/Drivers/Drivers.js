@@ -107,8 +107,8 @@ const Drivers = () => {
           <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Email</th>
-            <th>Actions</th>
+            <th className='driver-email'>Email</th>
+            <th className='driver-actions'>Actions</th>
           </tr>
         </thead>
         <tbody>
