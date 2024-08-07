@@ -40,9 +40,9 @@ const OrdersAdmin = () => {
           {orders.map((order) => (
             <tr key={order.order_id}>
               <td>{order.order_id}</td>
-              <td>{`${order.user.first_name} ${order.user.last_name}`}</td>
+              <td>{`${order.user.username}`}</td>
               <td>{order.status}</td>
-              <td>{order.driver ? `${order.driver.first_name} ${order.driver.last_name}` : 'Not Accepted'}</td>
+              <td>{order.driver ? `${order.driver.username}` : 'Not Accepted'}</td>
               <td>
                 {order.products.map((product) => (
                   <div key={product.product_id}>
