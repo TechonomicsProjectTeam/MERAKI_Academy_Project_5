@@ -27,8 +27,11 @@ const NavBar = () => {
   return (
     <div className="NavBar">
       <div className="user-info">
+        
+      <img src='./image\logo.png' alt="Logo" className="logo-img" />
         {imageUrl && <img src={imageUrl} alt="User" className="user-image" />}
-        {username && <span className="user-name">Welcome {username} !!</span>}
+        {username && <span className="user-name">Welcome {username}</span>}
+
       </div>
       <div className="cart-icon">
         {/* <NavLink to="/cart">

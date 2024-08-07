@@ -16,20 +16,30 @@
 .NavBar .user-info {
   display: flex;
   align-items: center;
+  margin-right: 20px; /* مسافة بين الشعار والمعلومات الشخصية */
 }
 
 .NavBar .user-info .user-image {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 15px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%; /* جعل الصورة دائرية */
   object-fit: cover; /* ملاءمة الصورة داخل الدائرة */
-  margin-right: 10px;
+  margin-left: 50px; /* مسافة بين الصورة والاسم */
+  margin-bottom: 10px;
 }
 
 .NavBar .user-info .user-name {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: bold;
+  margin-left: 10px;
+margin-top: 5px;
+ 
+}
+
+.NavBar .logo-img {
+  width: 170px; 
+  height: auto; 
+  margin-bottom: 10px;
 }
 
 .NavBar .cart-icon {
@@ -73,10 +83,4 @@
 
 .NavBar nav a.logout:hover {
   background-color: #f3dc77; /* لون داكن عند التمرير */
-}
-
-.logo-img {
-  width: 150px; 
-  height: auto; 
-
 }
