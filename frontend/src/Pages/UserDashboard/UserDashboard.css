@@ -1,8 +1,109 @@
 body {
+
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+}
+
+.header {
+  background: linear-gradient(to right,#78a6d3, #fecfef);
+  padding: 20px 0;
+  text-align: center;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 100px 20px;
+  text-align: left;
+}
+
+.hero-text {
+  max-width: 50%;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin: 0 0 20px;
+  color: #333;
+}
+
+.hero p {
+  font-size: 18px;
+  margin: 0 0 40px;
+  color: #403f3f;
+}
+
+
+.hero-image img {
+  max-width: 100%;
+  height: 320px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-text {
+    max-width: 100%;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+ 
+
+  .hero-image {
+    margin-top: 20px;
+  }
+}
+
+
+
+
+.UserDashboard {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3 {
+  color: #333;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.category-list, .shop-list, .product-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.category-list li, .shop-list li, .product-list li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
+ 
     margin: 0;
-    padding: 0;
+
 }
 
 .UserDashboard {
@@ -129,4 +230,43 @@ li:hover {
 
 .show-more-button:hover {
     background-color: #218838;
+}
+
+.footer {
+  background-color: #1c1c1c;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.social-icons a {
+  color: #fff;
+  margin: 0 10px;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.footer-info p {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.footer-links a {
+  color: #fff;
+  margin: 0 5px;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
 }

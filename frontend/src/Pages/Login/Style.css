@@ -1,78 +1,120 @@
 .body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(120deg, #2980b9, #6dd5fa, #ffffff);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #f0f4f8 50%, #032449 50%);
+}
+
+.form-container {
+  display: flex;
+  width: 800px;
+  background: linear-gradient(to right, #021429 50%, #f7f7f7 50%);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.image-container {
+  display: none; /* إخفاء على الأجهزة المحمولة */
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px; /* تصغير حجم الخط */
+  box-sizing: border-box;
+}
+
+.button {
+  padding: 10px;
+  width: 320px;
+  max-width: 320px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.forgot-password{
+  text-align: center;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+.google-login-button {
+  padding: 10px;
+  width: 320px;
+  max-width: 320px;
+  margin-left: 11px;
+  background-color: #db4437;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.google-login-button:hover {
+  background-color: #c23321;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 15px;
+}
+
+@media (min-width: 768px) {
+  .image-container {
+    display: block;
+    width: 400px;
   }
-  
-  .Form {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-  }
-  
-  .Title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #333;
-  }
-  
-  input[type="email"],
-  input[type="password"] {
-    width: 100%;
-    padding: 0.75rem;
-    margin: 0.5rem 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-  }
-  
-  input[type="email"]:focus,
-  input[type="password"]:focus {
-    border-color: #2980b9;
-    outline: none;
-  }
-  
-  .button {
-    background-color: #2980b9;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-    width:50% ;
-  }
-  
-  button:hover {
-    background-color: #1f6391;
-  }
-  
-  .register-link {
-    margin-top: 1rem;
-  }
-  
-  .register-link a {
-    color: #2980b9;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .register-link a:hover {
-    text-decoration: underline;
-  }
-  
-  .ErrorMessage {
-    color: #e74c3c;
-    margin-top: 1rem;
-  }
+}
