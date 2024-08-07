@@ -4,9 +4,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { updateUserById } from "../../../redux/reducers/Users/Users";
 import { setUserInfo } from "../../../redux/reducers/Auth/Auth";
-import "./UpdateDriver.css"
+import "./UpdateUsersAdmin.css"
 
-const UpdateDriver = () => {
+const UpdateUsersAdmin = () => {
   const { user_id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -71,7 +71,7 @@ const UpdateDriver = () => {
         dispatch(setUserInfo({ username: result.data.updateUser.username, images: result.data.updateUser.images }));
         setMessage(result.data.message);
         setStatus(true);
-        navigate('/admin-dashboard/drivers');  
+        navigate('/admin-dashboard/users-admin');  
       } else {
         setMessage(result.data.message);
         setStatus(false);
@@ -150,11 +150,11 @@ const UpdateDriver = () => {
           <label htmlFor="image">Upload an Image:</label>
           <input type="file" id="image" name="image" accept="image/*" onChange={handleFileChange} />
         </div>
-        <button type="submit">Update Driver</button>
+        <button type="submit">Update User</button>
       </form>
       {message && <p>{message}</p>}
     </div>
   );
 };
 
-export default UpdateDriver;
+export default UpdateUsersAdmin;
