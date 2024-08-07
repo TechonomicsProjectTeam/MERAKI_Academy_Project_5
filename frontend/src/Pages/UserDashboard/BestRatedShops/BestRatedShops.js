@@ -120,7 +120,8 @@ const BestRatedShops = () => {
             key={shop.shop_id}
             onClick={() => handleShopClick(shop.shop_id, shop.name)}
           >
-            <img src={shop.image} alt={`${shop.name}`} />
+            <img src={shop.images} alt={`${shop.name}`} />
+            <div className="separator"/>
             <h3>{shop.name}</h3>
             <p>Average Rating: {shop.average_rating}</p>
             <p>{shop.description}</p>
