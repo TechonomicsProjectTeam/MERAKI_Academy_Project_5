@@ -1,6 +1,9 @@
+// src/router.jsx
+
 import React from "react";
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../Layouts/MainLayout";
+import AdminLayout from "../Layouts/AdminLayout"; 
 import Carts from "../Pages/Carts/Carts";
 import Orders from "../Pages/Orders/Orders";
 import UserDashboard from "../Pages/UserDashboard/UserDashboard";
@@ -14,7 +17,6 @@ import Products from "../Pages/AddProducts/AddProducts";
 import Register from "../Pages/Register/Register";
 import ShopOwnerDashboard from "../Pages/ShopOwnerDashboard/ShopOwnerDashboard";
 import ShopOwnerSettings from "../Pages/ShopOwnerSettings/ShopOwnerSettings";
-import { useSelector } from "react-redux";
 import Shops from "../Pages/UserDashboard/Shops/Shops";
 import ProductsShops from "../Pages/UserDashboard/Products/ProductsShops";
 import Category from "../Pages/UserDashboard/Category/Category";
@@ -55,7 +57,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "carts", element: <Carts /> },
       { path: "orders", element: <Orders /> },
-      { path: "ChatUser" ,  element: <ChatUser/>},
+      { path: "ChatUser" , element: <ChatUser /> },
       {
         path: "user-dashboard",
         element: <UserDashboard />,
@@ -64,38 +66,32 @@ export const router = createBrowserRouter([
           { path: ":categoryName", element: <Shops /> },
           { path: ":categoryName/:shopName", element: <ProductsShops /> },
           { path: ":categoryName/:shopName/:productId", element: <ProductsShops /> },
-        
         ],
       },
-      {
-        path: "user-settings",
-        element: <UserSettings />,
-      },
-      {
-        path: "admin-dashboard",
-        element: <AdminDashboard />,
-        children: [
-          { path: "categories", element: <CategoriesForAdmin /> },
-          { path: "update-category/:categoryId", element: <UpdateCategoriesForAdmin /> },
-          { path: "drivers", element: <Drivers /> },
-          { path: "update-driver/:user_id", element: <UpdateDriver /> },
-          { path: "order_admin", element: <OrdersAdmin /> },
-          { path: "reviews_admin", element: <ReviewsAdmin /> },
-          { path: "role-permissions", element: <Role_Permissions /> },
-          { path: "shops-admin", element: <ShopsAdmin /> },
-          { path: "update-shop/:shopId", element: <UpdateShopAdmin /> },
-          { path: "users-admin", element: <UsersAdmin/>},
-          { path: "update-users-admin/:user_id", element : <UpdateUsersAdmin/>}
-        ],
-      },
-      {
-        path: "driver-dashboard",
-        element: <DriverDashboard />,
-      },
+      { path: "user-settings", element: <UserSettings /> },
+      { path: "driver-dashboard", element: <DriverDashboard /> },
       { path: "products", element: <Products /> },
       { path: "shop-owner-dashboard", element: <ShopOwnerDashboard /> },
       { path: "shop-owner-settings", element: <ShopOwnerSettings /> },
-      { path: "ChatDriver" ,  element: <ChatDriver/> }, 
+      { path: "ChatDriver" , element: <ChatDriver /> },
+    ],
+  },
+  {
+    path: "/admin-dashboard",
+    element: <AdminLayout />,
+    children: [
+      { path: "", element: <AdminDashboard /> },
+      { path: "categories", element: <CategoriesForAdmin /> },
+      { path: "update-category/:categoryId", element: <UpdateCategoriesForAdmin /> },
+      { path: "drivers", element: <Drivers /> },
+      { path: "update-driver/:user_id", element: <UpdateDriver /> },
+      { path: "order_admin", element: <OrdersAdmin /> },
+      { path: "reviews_admin", element: <ReviewsAdmin /> },
+      { path: "role-permissions", element: <Role_Permissions /> },
+      { path: "shops-admin", element: <ShopsAdmin /> },
+      { path: "update-shop/:shopId", element: <UpdateShopAdmin /> },
+      { path: "users-admin", element: <UsersAdmin /> },
+      { path: "update-users-admin/:user_id", element: <UpdateUsersAdmin /> },
     ],
   },
 ]);

@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import Message from '../OwnerAdminMessage/message';
+
 const ShopOwnerDashboard = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
@@ -27,8 +28,9 @@ const ShopOwnerDashboard = () => {
 
   const decodedToken = jwtDecode(token);
   const shopId = decodedToken.shopId;
+  const userName = decodedToken.shopName; 
   console.log(decodedToken);
-  
+
   const getAllProductByShopId = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/product/${shopId}`, {
@@ -118,17 +120,39 @@ const ShopOwnerDashboard = () => {
     }
   };
 
+
+  useEffect(() => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then(permission => {
+        console.log("Notification permission:", permission);
+      });
+    } else {
+      console.log("Notification permission already granted");
+    }
+  }, []);
+  
   useEffect(() => {
     if (socket) {
       socket.on("connect", () => {
         setIsConnected(true);
       });
-
+  
       socket.on("connect_error", (error) => {
-        console.log(error);
         setIsConnected(false);
       });
-
+  
+      socket.on("message", (data) => {
+        console.log("Received message:", data);
+        if (Notification.permission === "granted") {
+          new Notification("New Message", {
+            body: `${data.name}: ${data.message}`,
+            icon: "/icons/envelope.svg"
+          });
+        } else {
+          console.log("Notification permission not granted");
+        }
+      });
+  
       return () => {
         socket.close();
         socket.removeAllListeners();
@@ -136,6 +160,17 @@ const ShopOwnerDashboard = () => {
       };
     }
   }, [socket]);
+  
+  // For testing
+  useEffect(() => {
+    if (Notification.permission === "granted") {
+      new Notification("Test Notification", {
+        body: "This is a test notification",
+        icon: "/icons/envelope.svg"
+      });
+    }
+  }, []);
+  
 
   // Toggle modal visibility and manage socket connection
   const toggleModal = () => {
@@ -150,7 +185,6 @@ const ShopOwnerDashboard = () => {
     }
   }
   
-
   return (
     <div className='bodyShop'>
       <FontAwesomeIcon
@@ -170,7 +204,7 @@ const ShopOwnerDashboard = () => {
       <h3>Contact Admin</h3>
       <div className='message-container'>
           {isConnected && (
-            <Message socket={socket} shop_id={shopId} to={20} />
+            <Message socket={socket} shop_id={shopId} to={20} senderName={userName} />
           )}
         </div>
       </Modal>
@@ -202,20 +236,19 @@ const ShopOwnerDashboard = () => {
                     setName(product.name);
                     setDescription(product.description);
                     setPrice(product.price);
-                    setImage(product.images);
                   }}>Update</button>
                 </div>
               )}
             </div>
           ) : null
         ))}
-      </div >
-      {message && <p>{message}</p>}
+      </div>
+      <div className={`message ${status ? "success" : "error"}`}>
+        {message && <p>{message}</p>}
+      </div>
     </div>
-    </div>
+  </div>
   );
 };
 
 export default ShopOwnerDashboard;
-
-
