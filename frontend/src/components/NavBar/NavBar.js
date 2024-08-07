@@ -126,6 +126,12 @@ const NavBar = () => {
               >
               Shops
               </NavLink>
+              <NavLink
+              to="/admin-dashboard/users-admin"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              >
+              Users
+              </NavLink>
               <NavLink to="/login" onClick={handleLogout}>
                 Logout
               </NavLink>

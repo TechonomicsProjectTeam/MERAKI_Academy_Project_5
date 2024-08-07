@@ -112,7 +112,7 @@ const ShopsAdmin = () => {
         </thead>
         <tbody>
           {shops.map((shop) => (
-            <tr key={shop.shop_id} className={shop.isBanned ? "disabled" : ""}>
+            <tr key={shop.shop_id} className={shop.is_deleted ? "line-through" : ""}>
               <td>{shop.shop_id}</td>
               <td>{shop.name}</td>
               <td>{shop.email}</td>
@@ -127,15 +127,13 @@ const ShopsAdmin = () => {
                 />
                 <FontAwesomeIcon
                   icon={faBan}
-                  className="banButton"
-                  onClick={() => handleShowModal(shop.shop_id, "ban")}
-                  disabled={shop.isBanned}
+                  className={`banButton ${shop.is_deleted ? "disabled" : ""}`}
+                  onClick={() => !shop.is_deleted && handleShowModal(shop.shop_id, "ban")}
                 />
                 <FontAwesomeIcon
                   icon={faUndo}
-                  className="unbanButton"
-                  onClick={() => handleShowModal(shop.shop_id, "unban")}
-                  disabled={!shop.isBanned}
+                  className={`unbanButton ${!shop.is_deleted ? "disabled" : ""}`}
+                  onClick={() => shop.is_deleted && handleShowModal(shop.shop_id, "unban")}
                 />
                 <FontAwesomeIcon
                   icon={faTrash}
@@ -155,7 +153,7 @@ const ShopsAdmin = () => {
         <Modal.Body>
           {modalAction === "delete" && "Are you sure you want to delete this shop?"}
           {modalAction === "ban" && "Are you sure you want to ban this shop?"}
-          {modalAction === "unan" && "Are you sure you want to unban this shop?"}
+          {modalAction === "unban" && "Are you sure you want to unban this shop?"}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

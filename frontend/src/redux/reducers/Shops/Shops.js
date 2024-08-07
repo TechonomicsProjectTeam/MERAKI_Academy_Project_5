@@ -24,14 +24,16 @@ export const shopsSlice = createSlice({
       );
     },
     banShopById: (state, action) => {
-      state.shops = state.shops.map((shop) => 
-        shop.shop_id === action.payload.shop_id ? { ...shop, isBanned: true } : shop
-      );
+      const shopIndex = state.shops.findIndex(shop => shop.shop_id === action.payload.shop_id);
+      if (shopIndex !== -1) {
+        state.shops[shopIndex].is_deleted = true;
+      }
     },
     unBanShopById: (state, action) => {
-      state.shops = state.shops.map((shop) => 
-        shop.shop_id === action.payload.shop_id ? { ...shop, isBanned: false } : shop
-      );
+      const shopIndex = state.shops.findIndex(shop => shop.shop_id === action.payload.shop_id);
+      if (shopIndex !== -1) {
+        state.shops[shopIndex].is_deleted = false;
+      }
     },
     setShopInfo: (state, action) => {
       const { name, images } = action.payload;

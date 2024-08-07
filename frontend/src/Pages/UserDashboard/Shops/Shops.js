@@ -116,7 +116,7 @@ const Shops = () => {
                 key={shop.shop_id}
                 onClick={() => handleShopClick(shop.shop_id, shop.name)}
               >
-                <img src={shop.image} alt={`${shop.name}`} />
+                <img src={shop.images} alt={`${shop.name}`} />
                 <h3>{shop.name}</h3>
                 <p>{shop.description}</p>
               </li>

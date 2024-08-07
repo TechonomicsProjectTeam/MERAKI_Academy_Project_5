@@ -1,130 +1,132 @@
-/* ShopsAdmin.css */
+/* Shops.css */
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .shopsAdmin {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-  }
-  
-  .shopsAdmin h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333333;
-  }
-  
-  .shopsTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .shopsTable th,
-  .shopsTable td {
-    padding: 12px 15px;
-    text-align: left;
-  }
-  
-  .shopsTable thead {
-    background-color: #f1f1f1;
-    border-bottom: 2px solid #dddddd;
-  }
-  
-  .shopsTable tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .shopsTable tbody tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .shopsTable th {
-    background-color: #4CAF50;
-    color: #ffffff;
-    text-transform: uppercase;
-  }
-  
-  .shopsTable td img {
-    border-radius: 4px;
-  }
-  
-  .shopsTable .disabled {
-    text-decoration: line-through;
-    color: #cccccc;
-  }
-  
-  .banButton,
-  .unbanButton,
-  .deleteButton {
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  
-  .banButton {
-    color: #ff0000;
-  }
-  
-  .unbanButton {
-    color: #4CAF50;
-  }
-  
-  .deleteButton {
-    color: #ff0000;
-  }
-  
-  .banButton[disabled],
-  .unbanButton[disabled] {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-  
-  .modal-title {
-    font-weight: bold;
-  }
-  
-  .modal-body {
-    font-size: 1rem;
-  }
-  
-  .modal-footer .btn {
-    min-width: 100px;
-  }
-  
-  .modal-footer .btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-  }
-  
-  .modal-footer .btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-  }
-  
-  @media (max-width: 768px) {
-    .shopsTable th,
-    .shopsTable td {
-      padding: 8px 10px;
-    }
-  
-    .shopsAdmin {
-      padding: 15px;
-    }
-  }
-  .editButton {
-    color: #007bff;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  
-  .editButton:hover {
-    color: #0056b3;
-  }
+/* Container Styling */
+.ShopsAdmin {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ShopsAdmin h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #343a40;
+  font-size: 28px;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+thead {
+  background-color: #343a40;
+  color: white;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+td {
+  font-size: 16px;
+  color: #495057;
+}
+
+th {
+  font-size: 18px;
+}
+
+tr {
+  position: relative;
+}
+
+tr.line-through td {
+  text-decoration: line-through;
+  color: #d9534f;
+}
+
+td svg {
+  margin: 0 10px;
+  cursor: pointer;
+  color: #007bff;
+  transition: color 0.3s ease;
+}
+
+td svg:hover {
+  color: #0056b3;
+}
+
+td svg.fa-ban {
+  color: #dc3545;
+}
+
+td svg.fa-undo {
+  color: #28a745;
+}
+
+td svg.fa-trash {
+  color: #6c757d;
+}
+
+/* Modal Custom Styling */
+.modal-content {
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.modal-body {
+  font-size: 16px;
+  color: #6c757d;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+.modal-footer .btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  transition: background-color 0.3s ease;
+}
+
+.modal-footer .btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.modal-footer .btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  transition: background-color 0.3s ease;
+}
+
+.modal-footer .btn-danger:hover {
+  background-color: #c82333;
+}
