@@ -9,6 +9,87 @@ const client = new OAuth2Client({
   redirectUri: process.env.redirectUri,
 });
 
+const sendSms = require("./twilioService");
+
+const otpStore = {};
+const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
+
+const forgotPassword = async (req, res) => {
+  const email = req.body.email.toLowerCase();
+
+  try {
+    const userQuery = `SELECT * FROM users WHERE email = $1 AND is_deleted = 0`;
+    const userResult = await pool.query(userQuery, [email]);
+
+    if (userResult.rowCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const otp = generateOtp();
+    otpStore[email] = otp;
+
+    await sendSms("+962795294786", `Your OTP for password reset is ${otp}`);
+
+    res
+      .status(200)
+      .json({ success: true, message: "OTP sent to your phone number" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: err.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    const email = decoded.email;
+
+    const encryptedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+    const updateQuery = `UPDATE users SET password = $1 WHERE email = $2 AND is_deleted = 0 RETURNING *`;
+    const updateResult = await pool.query(updateQuery, [
+      encryptedPassword,
+      email,
+    ]);
+
+    if (updateResult.rowCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found or already deleted" });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "Password reset successfully" });
+  } catch (err) {
+    res
+      .status(400)
+      .json({
+        success: false,
+        message: "Invalid or expired token",
+        error: err.message,
+      });
+  }
+};
+
+const verifyOtp = (req, res) => {
+  const { email, otp } = req.body;
+
+  if (otpStore[email] === otp) {
+    delete otpStore[email];
+    const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: "15m" });
+
+    res.status(200).json({ success: true, message: "OTP verified", token });
+  } else {
+    res.status(400).json({ success: false, message: "Invalid OTP" });
+  }
+};
+
 const googleLogin = async (req, res) => {
   try {
     const { token } = req.body;
@@ -240,12 +321,12 @@ const login = (req, res) => {
     .catch((err) => {
       return res.status(403).json({
         success: false,
-        message: "The email doesn’t exist or the password you’ve entered is incorrect",
+        message:
+          "The email doesn’t exist or the password you’ve entered is incorrect",
         err,
       });
     });
 };
-
 
 // Update User By ID
 const updateUserById = async (req, res) => {
@@ -363,7 +444,6 @@ const deleteUserById = (req, res) => {
     });
 };
 
-
 // Get All Users
 const getAllUsers = (req, res) => {
   pool
@@ -407,7 +487,7 @@ const getUserById = (req, res) => {
 
 const getUsersByRoleId = async (req, res) => {
   const { role_id } = req.params;
-  
+
   // Validate role_id is a number
   if (isNaN(role_id)) {
     return res.status(400).json({
@@ -474,7 +554,9 @@ const banUserById = (req, res) => {
 const unBanUserById = (req, res) => {
   const user_id = req.params.user_id;
   pool
-    .query(`UPDATE users SET is_deleted = 0 WHERE user_id = $1 RETURNING *`, [user_id])
+    .query(`UPDATE users SET is_deleted = 0 WHERE user_id = $1 RETURNING *`, [
+      user_id,
+    ])
     .then((result) => {
       if (result.rows.length === 0) {
         return res.status(404).json({
@@ -503,7 +585,7 @@ const getAllDrivers = (req, res) => {
     .then((result) => {
       res.status(200).json({
         success: true,
-        message: 'All Drivers',
+        message: "All Drivers",
         drivers: result.rows,
       });
     })
@@ -522,7 +604,7 @@ const getUser = (req, res) => {
     .then((result) => {
       res.status(200).json({
         success: true,
-        message: 'All user',
+        message: "All user",
         drivers: result.rows,
       });
     })
@@ -534,10 +616,6 @@ const getUser = (req, res) => {
       });
     });
 };
-
-
-
-
 
 module.exports = {
   register,
@@ -552,4 +630,7 @@ module.exports = {
   unBanUserById,
   getAllDrivers,
   getUser,
+  forgotPassword,
+  verifyOtp,
+  resetPassword,
 };
