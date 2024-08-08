@@ -97,6 +97,7 @@ const BestRatedShops = () => {
   }, [bestRatedShops]);
 
   const handleShopClick = (shopId, shopName) => {
+    localStorage.setItem('selectedShopId', shopId);
     axios
       .get(`http://localhost:5000/product/${shopId}`)
       .then((response) => {
