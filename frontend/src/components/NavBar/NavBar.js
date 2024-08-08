@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import "../NavBar/Style.css";
 import { clearCartState } from "../../redux/reducers/Carts/Carts";
-
+import logo from "../../image/logo.png"
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const NavBar = () => {
     <div className="NavBar">
       <div className="user-info">
         
-      <img src='./image\logo.png' alt="Logo" className="logo-img" />
+      <img src={logo} alt="Logo" className="logo-img"  />
         {imageUrl && <img src={imageUrl} alt="User" className="user-image" />}
         {username && <span className="user-name"> {username}</span>}
 
