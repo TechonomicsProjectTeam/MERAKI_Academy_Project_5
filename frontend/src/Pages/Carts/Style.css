@@ -36,6 +36,7 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  
 }
 
 .Cart .li img.cart-item-image {
@@ -58,6 +59,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+ 
 }
 
 .Cart .icon {
@@ -65,6 +67,8 @@
   color: #78a6d3;
   cursor: pointer;
   transition: color 0.3s;
+  width: 20px;
+  height: 30px;
 }
 
 .Cart .icon:hover {
@@ -92,7 +96,7 @@
 .Cart .clear-cart-button {
   padding: 10px 20px;
   background-color: #dc3545;
-  margin-left: 304px;
+  margin-left: 204px;
   border: none;
   border-radius: 4px;
   color: white;
@@ -100,6 +104,8 @@
   cursor: pointer;
   transition: background-color 0.3s;
   margin-top: 30px;
+  width: 500px;
+  
 }
 
 .Cart .clear-cart-button:hover {
@@ -109,6 +115,8 @@
 .payment-buttons {
   margin-top: 20px;
   text-align: center;
+  width: 500px;
+  margin-left: 204px;
 }
 
 .payment-buttons button {
