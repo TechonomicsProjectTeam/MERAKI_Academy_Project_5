@@ -94,6 +94,7 @@ const Register = () => {
   return (
     <div className="bodyRegister">
     <div className="Register">
+      <h1>Register</h1>
       <form onSubmit={createNewUser}>
         <input
           type="text"
@@ -114,6 +115,7 @@ const Register = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+        className="userName"
           type="text"
           placeholder="Username"
           value={userName}
@@ -126,6 +128,7 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
+        className="phoneNumber"
           type="text"
           placeholder="Phone Number"
           value={phoneNumber}
@@ -136,8 +139,9 @@ const Register = () => {
           <input type="file" id="image" name="image" accept="image/*" onChange={handleFileChange} />
         </div>
         <div>
-          <label>
+          <label className="lable">
             <input
+            className="checkbox"
               type="checkbox"
               checked={roleId === 2}
               onChange={(e) => setRoleId(e.target.checked ? 2 : 1)}
@@ -145,12 +149,16 @@ const Register = () => {
             Register as Driver
           </label>
         </div>
+        <div>
+        <div>
         <button className="regButton" type="submit">Register</button>
-        <div className="login-link">
-          <p>Already have an account? <a href="/login">Login here</a></p>
-        </div>
-        <div className="owner_register-link">
-          <p>Register as an owner? <a href="/owner-register">Register here</a></p>
+         </div>
+           <div className="login-links">
+            <p>Already have an account? <a href="/login">Login here</a></p>
+          </div>
+          <div className="owner_register-link">
+            <p>Register as an owner? <a href="/owner-register">Register here</a></p>
+          </div>
         </div>
       </form>
       {status ? (

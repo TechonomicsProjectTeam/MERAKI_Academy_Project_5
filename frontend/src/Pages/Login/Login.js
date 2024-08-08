@@ -102,38 +102,43 @@ const Login = () => {
   };
 
   return (
-    <div className="body">
-      <div className="Form">
-        <p className="Title">Login:</p>
-        <form onSubmit={login}>
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button className="button" type="submit">Login</button>
-        </form>
-        <div className="forgot-password-link">
-          <p>
-            <a href="#" onClick={navigateToForgotPassword}>Forgot Password?</a>
-          </p>
-        </div>
-             <div className="owner_register-link">
-             <p>Register as an user? <a href="/register">Register here</a></p>
-        </div>
-        <div className="google-login">
-          <button onClick={() => handleGoogleLoginSuccess()} className="google-login-button">
-            Login with Google
-          </button>
-        </div>
-        {message && <div className="ErrorMessage">{message}</div>}
-      </div>
+<div className="body">
+  <div className="form-container">
+    <div className="image-container">
+      <img src="https://img.freepik.com/premium-vector/free-vector-login-concept-illustration_713576-106.jpg?w=740" alt="Background Image" />
     </div>
+    <div className="form-content">
+      <p className="title">Login:</p>
+      <form className="forms" onSubmit={login}>
+        <input
+          type="email"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button className="button" type="submit">Login</button>
+      </form>
+      <div className="forgot-password">
+        <p>
+          <a href="#" onClick={navigateToForgotPassword}>Forgot Password?</a>
+        </p>
+      </div>
+      <div className="owner_register-links">
+        <p>Register as a user? <a href="/register">Register here</a></p>
+      </div>
+      <div className="google-login">
+        <button onClick={() => handleGoogleLoginSuccess()} className="google-login-button">
+          Login with Google
+        </button>
+      </div>
+      {message && <div className="error-message">{message}</div>}
+    </div>
+  </div>
+</div>
   );
 };
 
