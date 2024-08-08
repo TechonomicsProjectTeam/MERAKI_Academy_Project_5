@@ -217,9 +217,9 @@ const ReviewsComponent = ({ productId }) => {
                     </button>
                   </div>
                 ) : (
-                  <button onClick={() => handleEditReview(review)}>Edit</button>
+                  <button className="edit" onClick={() => handleEditReview(review)}>Edit</button>
                 )}
-                <button onClick={() => handleDeleteReview(review.review_id)}>
+                <button className="delete" onClick={() => handleDeleteReview(review.review_id)}>
                   Delete
                 </button>
               </div>
@@ -231,6 +231,7 @@ const ReviewsComponent = ({ productId }) => {
           <div>
             {[1, 2, 3, 4, 5].map((star) => (
               <span
+              className="span"
                 key={star}
                 onClick={() => handleStarClick(star)}
                 style={{
@@ -257,7 +258,7 @@ const ReviewsComponent = ({ productId }) => {
               })
             }
           />
-          <button onClick={handleAddReview}>Add Review</button>
+          <button className="addReview" onClick={handleAddReview}>Add Review</button>
         </div>
       )}
     </div>

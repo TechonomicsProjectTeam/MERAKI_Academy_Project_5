@@ -1,75 +1,187 @@
-.Orders {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-    max-width: 800px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-  }
-  
-  .Orders > div {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    background-color: #f9f9f9;
-  }
-  
-  .Orders h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.2rem;
-    color: #333;
-  }
-  
-  .Orders p {
-    margin: 0.5rem 0;
-    color: #555;
-  }
-  
-  .Orders ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .Orders li {
-    border-top: 1px solid #ddd;
-    padding: 0.5rem 0;
-  }
-  
-  .Orders li:first-child {
-    border-top: none;
-  }
-  
-  .Orders h4 {
-    margin: 0.5rem 0;
-    font-size: 1.1rem;
-    color: #666;
-  }
-  
-  .Orders button {
-    margin: 0.5rem 0.5rem 0 0;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .Orders button:hover {
-    background-color: #ddd;
-  }
-  
-  .Orders button:active {
-    background-color: #ccc;
-  }
-  
-  .Orders button:first-child {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .Orders button:last-child {
-    background-color: #f44336;
-    color: white;
-  }
-  
+.Orderss {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 100px;
+}
+
+.Orderss > div {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-method, .from, .order-id, .status {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.label {
+  font-weight: bold;
+  color: #333;
+}
+
+.product {
+  margin-top: 20px;
+  text-align: center; /* Center the products section */
+}
+
+.product h4 {
+  margin-bottom: 20px; /* Increase margin to better separate from product list */
+  font-size: 18px;
+  color: #333;
+}
+
+.product ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+}
+
+.product li {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fafafa;
+  width: 900px; /* Make the product box take full width */
+  max-width: 500px; /* Set a maximum width for better readability */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  text-align: center; /* Center text */
+}
+
+.product-info {
+  margin: 5px 0;
+}
+
+.product-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.accept {
+  padding: 10px 15px;
+  font-size: 16px;
+  color: white;
+  background-color: #78a6d3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 250px;
+  width: 320px;
+}
+
+.accept:hover {
+  background-color: #2e5174;
+}
+
+.accept:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.footer {
+  background-color: #020202;
+  color: #fff;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: center; /* لتوسيط النص */
+}
+
+.footer-top {
+  display: flex;
+  justify-content: center; /* لتوسيط الأعمدة */
+  flex-wrap: wrap;
+  margin-top: 50px;
+  /* margin-bottom: 20px; */
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  margin: 10px;
+  max-width: 200px; /* لتحديد عرض الأعمدة */
+}
+
+.footer-column h3 {
+  border-bottom: 2px solid #555;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 1.2rem; /* حجم النص لعناوين الأعمدة */
+  color:#555;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column li {
+  margin: 5px 0;
+  font-size: 0.8rem; /* حجم النص للعناصر */
+}
+
+.footer-column a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.7rem; /* حجم النص للروابط */
+}
+
+.footer-column a:hover {
+  text-decoration: underline;
+}
+
+.social-media {
+  display: flex;
+  justify-content: center; /* لتوسيط الأيقونات */
+  gap: 10px;
+}
+
+.social-media a {
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.footer-bottom {
+  border-top: 1px solid #555;
+  padding-top: 10px;
+}
+
+.footer-bottom ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* لتوسيط الروابط */
+  gap: 15px;
+  margin-bottom: 10px;
+  font-size: 0.9rem; /* حجم النص للروابط في الأسفل */
+}
+
+.footer-bottom li {
+  display: inline;
+}
+
+.footer-bottom a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom p {
+  margin: 5px 0;
+  font-size: 0.9rem; /* حجم النص للفقرات في الأسفل */
+  color:#555;
+}

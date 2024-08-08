@@ -98,10 +98,28 @@
   align-self: center; /* لضمان محاذاة الخط في المنتصف */
 }
 
+.allShop{
+  font-size: 27px;
+  color: #605f5f;
+  position: relative;
+  margin-bottom: 50px;
+}
+
 .Shops h3 {
   margin-top: 10px;
   font-size: 1.5em;
   color: #333;
+  position: relative;
+}
+
+.allShop::after {
+  content: "";
+  display: block;
+  width: 130px; /* عرض الخط */
+  height: 2px; /* سمك الخط */
+  background-color: #f1c40f; /* لون أصفر */
+  margin-left: 670px;
+  margin-top: 10px;
 }
 
 .Shops p {
