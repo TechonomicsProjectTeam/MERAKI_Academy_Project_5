@@ -1,5 +1,5 @@
 const twilio = require('twilio');
-const client = twilio('ACd3d682fbc313f529a98aa0d31d336af7', '3fe0c8c542262885d1be87184b652d33');
+const client = twilio(process.env.TWILIO_AUTH, process.env.TWILIO_NUM);
 
 const sendSms = (phoneNumber, message) => {
     return client.messages.create({
