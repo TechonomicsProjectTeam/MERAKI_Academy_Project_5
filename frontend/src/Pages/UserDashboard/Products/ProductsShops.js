@@ -172,21 +172,23 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
   );
 
   return (
+    <>
     <div>
       {selectedProduct ? (
         <>
           <div className="product-details-container">
             <div className="product-Image">
-              <h3>{selectedProduct.name}</h3>
               <div className="product-image-container">
                 <img src={selectedProduct.images} alt={selectedProduct.name} />
               </div>
             </div>
             <div className="Product-details">
+              <h3>{selectedProduct.name}</h3>
               <p>{selectedProduct.description}</p>
               <p>Price: ${selectedProduct.price}</p>
               <div>
                 <input
+                   className='inputs'
                   type="number"
                   value={quantities[selectedProduct.product_id] || 1}
                   min="1"
@@ -213,6 +215,7 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
           <div className='rating-section'>
             <h3>Rate this Shop</h3>
             <Rating
+              classNames="rating"
               count={5}
               value={rating}
               onChange={handleRatingChange}
@@ -233,27 +236,90 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
             />
           </div>
 
-          <h2>Products</h2>
+          <h2 className='products'>Products</h2>
           <ul className="product-list">
             {filteredProducts.slice(from, to).map((product) => (
               <li key={product.product_id} onClick={() => handleProductClick(product)}>
-                <h3>{product.name}</h3>
                 <div className="product-image-container">
                   <img src={product.images} alt={product.name} />
                 </div>
-                <p>Price: ${product.price}</p>
+                <div className="separator"/>
+              <h3>{product.name}</h3>
+              <p>Price: ${product.price}</p>
               </li>
             ))}
           </ul>
           {to < filteredProducts.length && (
-            <button onClick={handleShowMore}>Show More</button>
+            <button className='showMore' onClick={handleShowMore}>Show More</button>
           )}
-          {from > 0 && <button onClick={handleShowLess}>Show Less</button>}
+          {from > 0 && <button  className='showLess'  onClick={handleShowLess}>Show Less</button>}
           
           {showLoginPrompt && <LoginPrompt />}
         </>
       )}
     </div>
+
+     <footer class="footer">
+      <div class="footer-top">
+       <div class="footer-column">
+         <h3>Restaurants</h3>
+            <ul>
+             <li>Cozy Pizza</li>
+             <li>Sizzle Grill</li>
+             <li>MindHub</li>
+             <li>WOK U LIKE</li>
+             <li>McDonald's</li>
+             <li>More Restaurants...</li>
+            </ul>
+        </div>
+     
+        <div class="footer-column">
+          <h3>Popular Areas</h3>
+            <ul>
+             <li>Al Mala'ab</li>
+             <li>Al Huson</li>
+             <li>Al Sareeh</li>
+             <li>Al Mohammadiyeh Amman</li>
+             <li>Bait Ras</li>
+             <li>More Areas...</li>
+            </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Cities</h3>
+            <ul>
+              <li>Ajloun</li>
+              <li>Amman</li>
+              <li>Aqaba</li>
+              <li>Irbid</li>
+              <li>Jerash</li>
+              <li>More Cities...</li>
+           </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Follow us on</h3>
+            <ul class="social-media">
+             <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+             <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+             <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+             <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+             <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="footer-bottom">
+            <ul>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Terms and Conditions</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Sitemap</a></li>
+           </ul>
+             <p>©2024 QuickServ.com</p>
+             <p>For any support or help you can contact us via our Live Chat</p>
+       </div>
+    </footer> 
+</>
   );
 };
 

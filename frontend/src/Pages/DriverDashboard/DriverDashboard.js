@@ -75,7 +75,8 @@ const DriverDashboard = () => {
   };
 
   return (
-    <div className="Orders">
+    <>
+    <div className="Orderss">
     {orders.map((order) => (
       <div key={order.order_id}>
         <p className="payment-method">
@@ -91,11 +92,12 @@ const DriverDashboard = () => {
           <span className="label">Status:</span> {order.status}
         </p>
         {order.products && order.products.length > 0 && (
-          <div className="products">
-            <h4>Products:</h4>
+          <div className="product">
+            {/* <h4 >Products:</h4> */}
             <ul>
               {order.products.map((product) => (
                 <li key={product.product_id}>
+                   <h4 >Products:</h4>
                   <p className="product-info">
                     <span className="product-label">Name:</span> {product.name}
                   </p>
@@ -125,12 +127,84 @@ const DriverDashboard = () => {
         )}
         {!hiddenButtons[order.order_id] && (
           <>
-            <button onClick={() => handleAccept(order.order_id)}>Accept</button>
+            <button className="accept" onClick={() => handleAccept(order.order_id)}>Accept</button>
           </>
         )}
       </div>
     ))}
   </div>
+
+<footer class="footer">
+<div class="footer-top">
+  <div class="footer-column">
+    <h3>Restaurants</h3>
+    <ul>
+      <li>Cozy Pizza</li>
+      <li>Sizzle Grill</li>
+      <li>MindHub</li>
+      <li>WOK U LIKE</li>
+      <li>McDonald's</li>
+      <li>More Restaurants...</li>
+    </ul>
+  </div>
+  {/* <div class="footer-column">
+    <h3>Popular Cuisines</h3>
+    <ul>
+      <li>American</li>
+      <li>Arabic</li>
+      <li>Asian</li>
+      <li>Beverages</li>
+      <li>Breakfast</li>
+      <li>More Cuisines...</li>
+    </ul>
+  </div> */}
+  <div class="footer-column">
+    <h3>Popular Areas</h3>
+    <ul>
+      <li>Al Mala'ab</li>
+      <li>Al Huson</li>
+      <li>Al Sareeh</li>
+      <li>Al Mohammadiyeh Amman</li>
+      <li>Bait Ras</li>
+      <li>More Areas...</li>
+    </ul>
+  </div>
+  <div class="footer-column">
+    <h3>Cities</h3>
+    <ul>
+      <li>Ajloun</li>
+      <li>Amman</li>
+      <li>Aqaba</li>
+      <li>Irbid</li>
+      <li>Jerash</li>
+      <li>More Cities...</li>
+    </ul>
+  </div>
+  <div class="footer-column">
+    <h3>Follow us on</h3>
+    <ul class="social-media">
+      <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+      <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+      <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+      <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+      <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+    </ul>
+  </div>
+</div>
+<div class="footer-bottom">
+  <ul>
+    <li><a href="#">Careers</a></li>
+    <li><a href="#">Terms and Conditions</a></li>
+    <li><a href="#">FAQ</a></li>
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Contact Us</a></li>
+    <li><a href="#">Sitemap</a></li>
+  </ul>
+  <p>©2024 QuickServ.com</p>
+  <p>For any support or help you can contact us via our Live Chat</p>
+</div>
+</footer>
+  </>
   );
 };
 

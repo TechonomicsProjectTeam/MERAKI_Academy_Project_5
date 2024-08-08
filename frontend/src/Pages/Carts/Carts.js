@@ -173,6 +173,7 @@ const Carts = () => {
   const totalPriceIncludingDelivery = (parseFloat(totalItemPrices) + deliveryFee).toFixed(2);
 
   return (
+    <>
     <div className="Cartss">
       <div className="Cart">
         <h2 className="h2">Shopping Cart</h2>
@@ -182,7 +183,6 @@ const Carts = () => {
               <li className="li" key={item.product_id}>
                 <img src={item.images} alt={item.name} className="cart-item-image" />
                 <p className="p">{item.name}
-                  <br />
                   <br />
                   price: JD {calculateTotalPrice(item.price, item.quantity)}
                 </p>
@@ -209,9 +209,11 @@ const Carts = () => {
         ) : (
           <p className="p">No items in cart</p>
         )}
+        <div className="price-details-container">
         <h3>Total Price of Items: JD {totalItemPrices}</h3>
         <h3>Delivery Fee: JD {deliveryFee.toFixed(2)}</h3>
         <h3>Total Price (including delivery): JD {totalPriceIncludingDelivery}</h3>
+        </div>
         <button className="clear-cart-button" onClick={deleteAllProductsFromCart}>
           Remove All Products
         </button>
@@ -229,6 +231,78 @@ const Carts = () => {
         </div>
       </div>
     </div>
+   
+    <footer class="footer">
+  <div class="footer-top">
+    <div class="footer-column">
+      <h3>Restaurants</h3>
+      <ul>
+        <li>Cozy Pizza</li>
+        <li>Sizzle Grill</li>
+        <li>MindHub</li>
+        <li>WOK U LIKE</li>
+        <li>McDonald's</li>
+        <li>More Restaurants...</li>
+      </ul>
+    </div>
+    {/* <div class="footer-column">
+      <h3>Popular Cuisines</h3>
+      <ul>
+        <li>American</li>
+        <li>Arabic</li>
+        <li>Asian</li>
+        <li>Beverages</li>
+        <li>Breakfast</li>
+        <li>More Cuisines...</li>
+      </ul>
+    </div> */}
+    <div class="footer-column">
+      <h3>Popular Areas</h3>
+      <ul>
+        <li>Al Mala'ab</li>
+        <li>Al Huson</li>
+        <li>Al Sareeh</li>
+        <li>Al Mohammadiyeh Amman</li>
+        <li>Bait Ras</li>
+        <li>More Areas...</li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3>Cities</h3>
+      <ul>
+        <li>Ajloun</li>
+        <li>Amman</li>
+        <li>Aqaba</li>
+        <li>Irbid</li>
+        <li>Jerash</li>
+        <li>More Cities...</li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3>Follow us on</h3>
+      <ul class="social-media">
+        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <ul>
+      <li><a href="#">Careers</a></li>
+      <li><a href="#">Terms and Conditions</a></li>
+      <li><a href="#">FAQ</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Contact Us</a></li>
+      <li><a href="#">Sitemap</a></li>
+    </ul>
+    <p>©2024 QuickServ.com</p>
+    <p>For any support or help you can contact us via our Live Chat</p>
+  </div>
+</footer>
+    </>
   );
 };
 

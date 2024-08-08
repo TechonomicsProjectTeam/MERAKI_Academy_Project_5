@@ -1,164 +1,262 @@
 .container.app-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 600px;
-    overflow: hidden;
-    margin-top: 100px; /* Adjust as needed */
-  }
-  
-  /* Style the user list section */
-  .drivers-list {
-    background-color: #2b2e4a;
-    color: white;
-    overflow-y: auto;
-    padding: 20px;
-    box-sizing: border-box;
-    height: 100%; /* Ensure it takes full height */
-  }
-  
-  /* Title inside user list */
-  .drivers-list h5 {
-    margin-bottom: 20px;
-    font-size: 18px;
-  }
-  
-  /* Style each driver card */
-  .driver-card {
-    display: flex;
-    align-items: center;
-    width: 400px;
-    padding: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    border-radius: 5px; /* Add some border radius */
-    transition: background-color 0.3s ease; /* Smooth transition */
-  }
-  
-  .driver-card:hover {
-    background-color: #3a3f6f; /* Light hover effect */
-  }
-  
-  .driver-card.selected {
-    background-color: #f3dc77; /* Highlight selected driver */
-  }
-  
-  /* Style the image inside driver card */
-  .driver-card img {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-  }
-  
-  /* Style driver name */
-  .driver-card h6 {
-    margin: 0;
-    font-size: 16px;
-  }
-  
-  /* Style chat section */
-  .chat-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #f5f5f5;
-    box-sizing: border-box;
-    height: 100%;
-  }
-  
-  /* Header for the chat section */
-  .chat-header {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .chat-header img {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-  }
-  
-  .chat-header h5 {
-    margin: 0;
-  }
-  
-  /* Style message list */
-  .message-list {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-  }
-  
-  /* Style each message */
-  .message {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-radius: 20px;
-    margin-bottom: 10px;
-    max-width: 100%;
-  }
-  
-  /* Style for sent messages */
-  .message.sent {
-    background-color: #dcf8c6;
-    align-self: flex-end;
-    flex-direction: row-reverse;
-  }
-  
-  /* Style for received messages */
-  .message.received {
-    background-color: #ffffff;
-    align-self: flex-start;
-  }
-  
-  /* Style message image */
-  .message img {
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    margin: 0 10px;
-  }
-  
-  /* Style message text */
-  .message p {
-    margin: 0;
-  }
-  
-  /* Style input group */
-  .input-group {
-    display: flex;
-    padding: 20px;
-    background-color: #ffffff;
-    border-top: 1px solid #ddd;
-  }
-  
-  /* Style input field */
-  .input-group input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    margin-right: 10px;
-    font-size: 16px;
-  }
-  
-  .btn{
-    width: 100px;
-    margin-left: 500px;
-  }
-  
-  /* Style send button */
-  .input-group button {
-    padding: 6px 12px;
-    border-radius: 20px;
-    border: none;
-    background-color: #4caf50;
-    color: white;
-    font-size: 14px;
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 600px;
+  overflow: hidden;
+  margin-top: 100px; /* Adjust as needed */
+}
+
+/* Style the user list section */
+.drivers-list {
+  background-color: #2b2e4a;
+  color: white;
+  overflow-y: visible;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100%; /* Ensure it takes full height */
+}
+
+/* Title inside user list */
+.drivers-list h5 {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+/* Style each driver card */
+.driver-card {
+  display: flex;
+  align-items: center;
+  width: 400px;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 5px; /* Add some border radius */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.driver-card:hover {
+  background-color: #3a3f6f; /* Light hover effect */
+}
+
+.driver-card.selected {
+  background-color: #78a6d3 /* Highlight selected driver */
+}
+
+/* Style the image inside driver card */
+.driver-card img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+/* Style driver name */
+.driver-card h6 {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* Style chat section */
+.chat-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(206, 210, 222);
+  box-sizing: border-box;
+  height: 100%;
+}
+
+/* Header for the chat section */
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
+.chat-header img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.chat-header h5 {
+  margin: 0;
+}
+
+/* Style message list */
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Style each message */
+.message {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  max-width: 100%;
+  color: #020202;
+}
+
+/* Style for sent messages */
+.message.sent {
+  background-color: #f6f8c6;
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+/* Style for received messages */
+.message.received {
+  background-color: #ffffff;
+  align-self: flex-start;
+}
+
+/* Style message image */
+.message img {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin: 0 10px;
+}
+
+/* Style message text */
+.message p {
+  margin: 0;
+}
+
+/* Style input group */
+.input-group {
+  display: flex;
+  padding: 20px;
+  background-color: #ffffff;
+  border-top: 1px solid #ddd;
+}
+
+/* Style input field */
+.input-group input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.btn{
+  width: 100px;
+  margin-left: 500px;
+}
+
+/* Style send button */
+.input-group button {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  background-color: #78a6d3;
+  color: white;
+  font-size: 14px;
+}
+
+
+.footer {
+background-color: #020202;
+color: #fff;
+padding: 20px;
+font-family: Arial, sans-serif;
+text-align: center; /* لتوسيط النص */
+}
+
+.footer-top {
+display: flex;
+justify-content: center; /* لتوسيط الأعمدة */
+flex-wrap: wrap;
+margin-top: 50px;
+/* margin-bottom: 20px; */
+}
+
+.footer-column {
+flex: 1;
+min-width: 200px;
+margin: 10px;
+max-width: 200px; /* لتحديد عرض الأعمدة */
+}
+
+.footer-column h3 {
+border-bottom: 2px solid #555;
+padding-bottom: 10px;
+margin-bottom: 10px;
+font-size: 1.2rem; /* حجم النص لعناوين الأعمدة */
+color:#555;
+}
+
+.footer-column ul {
+list-style: none;
+padding: 0;
+}
+
+.footer-column li {
+margin: 5px 0;
+font-size: 0.8rem; /* حجم النص للعناصر */
+}
+
+.footer-column a {
+color: #fff;
+text-decoration: none;
+font-size: 0.7rem; /* حجم النص للروابط */
+}
+
+.footer-column a:hover {
+text-decoration: underline;
+}
+
+.social-media {
+display: flex;
+justify-content: center; /* لتوسيط الأيقونات */
+gap: 10px;
+}
+
+.social-media a {
+color: #fff;
+font-size: 1.5em;
+}
+
+.footer-bottom {
+border-top: 1px solid #555;
+padding-top: 10px;
+}
+
+.footer-bottom ul {
+list-style: none;
+padding: 0;
+display: flex;
+justify-content: center; /* لتوسيط الروابط */
+gap: 15px;
+margin-bottom: 10px;
+font-size: 0.9rem; /* حجم النص للروابط في الأسفل */
+}
+
+.footer-bottom li {
+display: inline;
+}
+
+.footer-bottom a {
+color: #fff;
+text-decoration: none;
+}
+
+.footer-bottom a:hover {
+text-decoration: underline;
+}
+
+.footer-bottom p {
+margin: 5px 0;
+font-size: 0.9rem; /* حجم النص للفقرات في الأسفل */
+color:#555;
+}

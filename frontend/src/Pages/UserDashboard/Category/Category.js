@@ -98,7 +98,6 @@ const Category = () => {
     </div>
   </div>
 </div>
-
 <footer class="footer">
   <div class="footer-top">
     <div class="footer-column">
@@ -165,7 +164,7 @@ const Category = () => {
       <li><a href="#">Contact Us</a></li>
       <li><a href="#">Sitemap</a></li>
     </ul>
-    <p>©2024 Talabat.com</p>
+    <p>©2024 QuickServ.com</p>
     <p>For any support or help you can contact us via our Live Chat</p>
   </div>
 </footer>
