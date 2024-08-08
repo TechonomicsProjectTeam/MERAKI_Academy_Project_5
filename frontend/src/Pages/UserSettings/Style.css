@@ -1,6 +1,6 @@
 .editUser {
     max-width: 600px;
-    margin: auto;
+    margin-top: 100px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -10,6 +10,7 @@
   .editUser form {
     display: flex;
     flex-direction: column;
+    margin-top: 50px;
   }
 
   .editUser input {
@@ -23,7 +24,7 @@
   }
 
   .editUser input[type="email"] {
-    border-color: #007bff;
+    border-color: #78a6d3;
   }
 
   .editUser input[type="file"] {
@@ -41,12 +42,13 @@
     margin-bottom: 5px;
     font-weight: bold;
   }
+  
 
   .editUser button {
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
-    background-color: #007bff;
+    background-color: #78a6d3;
     color: white;
     font-size: 16px;
     cursor: pointer;
@@ -55,7 +57,7 @@
   }
 
   .editUser button:hover {
-    background-color: #0056b3;
+    background-color:#78a6d3;
   }
 
   .editUser p {
@@ -69,4 +71,100 @@
 
   .editUser p.error {
     color: #dc3545;
+  }
+
+  .footer {
+    background-color: #020202;
+    color: #fff;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    text-align: center; /* لتوسيط النص */
+  }
+  
+  .footer-top {
+    display: flex;
+    justify-content: center; /* لتوسيط الأعمدة */
+    flex-wrap: wrap;
+    margin-top: 50px;
+    /* margin-bottom: 20px; */
+  }
+  
+  .footer-column {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+    max-width: 200px; /* لتحديد عرض الأعمدة */
+  }
+  
+  .footer-column h3 {
+    border-bottom: 2px solid #555;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-size: 1.2rem; /* حجم النص لعناوين الأعمدة */
+    color:#555;
+  }
+  
+  .footer-column ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-column li {
+    margin: 5px 0;
+    font-size: 0.8rem; /* حجم النص للعناصر */
+  }
+  
+  .footer-column a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.7rem; /* حجم النص للروابط */
+  }
+  
+  .footer-column a:hover {
+    text-decoration: underline;
+  }
+  
+  .social-media {
+    display: flex;
+    justify-content: center; /* لتوسيط الأيقونات */
+    gap: 10px;
+  }
+  
+  .social-media a {
+    color: #fff;
+    font-size: 1.5em;
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid #555;
+    padding-top: 10px;
+  }
+  
+  .footer-bottom ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* لتوسيط الروابط */
+    gap: 15px;
+    margin-bottom: 10px;
+    font-size: 0.9rem; /* حجم النص للروابط في الأسفل */
+  }
+  
+  .footer-bottom li {
+    display: inline;
+  }
+  
+  .footer-bottom a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .footer-bottom a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer-bottom p {
+    margin: 5px 0;
+    font-size: 0.9rem; /* حجم النص للفقرات في الأسفل */
+    color:#555;
   }

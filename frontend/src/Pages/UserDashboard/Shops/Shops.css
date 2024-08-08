@@ -1,3 +1,5 @@
+
+
 .Shops {
   text-align: center;
   padding: 20px;
@@ -5,10 +7,32 @@
   margin-top: 90px;
 }
 
+
+
 .Shops h1 {
   font-size: 2.5em;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
+
+.Shops h2{
+  margin-bottom: 35px;
+  font-size: 29px;
+  color: #505050;
+  position: relative;
+
+}
+
+.Shops h2::after {
+  content: "";
+  display: block;
+  width: 100px; /* عرض الخط */
+  height: 2px; /* سمك الخط */
+  background-color: #f1c40f; /* لون أصفر */
+ /* المسافة بين الخط والنص */
+margin-left: 690px;
+margin-top: 10px;
+}
+
 
 .Shops p {
   font-size: 1.2em;
@@ -78,7 +102,7 @@
 
 .Shops li:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),0 0 15px rgba(120, 166, 211, 0.8),0 0 15px rgba(241, 196, 15, 0.8);
 }
 
 .Shops img {
@@ -100,9 +124,10 @@
 
 .Shops h3 {
   margin-top: 10px;
-  font-size: 1.5em;
-  color: #333;
+  font-size: 1.2em;
+  color: #505050;
 }
+
 
 .Shops p {
   color: #666;

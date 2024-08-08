@@ -116,6 +116,7 @@ const UserSettings = () => {
   };
 
   return (
+    <>
     <div className="editUser">
       <form onSubmit={editUser}>
         <input
@@ -156,10 +157,83 @@ const UserSettings = () => {
           <label htmlFor="image">Upload an Image:</label>
           <input type="file" id="image" name="image" accept="image/*" onChange={handleFileChange} />
         </div>
-        <button type="submit">Update User</button>
+        <button className="uppdate" type="submit">Update User</button>
       </form>
       {message && <p>{message}</p>}
     </div>
+
+      
+    <footer class="footer">
+  <div class="footer-top">
+    <div class="footer-column">
+      <h3>Restaurants</h3>
+      <ul>
+        <li>Cozy Pizza</li>
+        <li>Sizzle Grill</li>
+        <li>MindHub</li>
+        <li>WOK U LIKE</li>
+        <li>McDonald's</li>
+        <li>More Restaurants...</li>
+      </ul>
+    </div>
+    {/* <div class="footer-column">
+      <h3>Popular Cuisines</h3>
+      <ul>
+        <li>American</li>
+        <li>Arabic</li>
+        <li>Asian</li>
+        <li>Beverages</li>
+        <li>Breakfast</li>
+        <li>More Cuisines...</li>
+      </ul>
+    </div> */}
+    <div class="footer-column">
+      <h3>Popular Areas</h3>
+      <ul>
+        <li>Al Mala'ab</li>
+        <li>Al Huson</li>
+        <li>Al Sareeh</li>
+        <li>Al Mohammadiyeh Amman</li>
+        <li>Bait Ras</li>
+        <li>More Areas...</li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3>Cities</h3>
+      <ul>
+        <li>Ajloun</li>
+        <li>Amman</li>
+        <li>Aqaba</li>
+        <li>Irbid</li>
+        <li>Jerash</li>
+        <li>More Cities...</li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3>Follow us on</h3>
+      <ul class="social-media">
+        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <ul>
+      <li><a href="#">Careers</a></li>
+      <li><a href="#">Terms and Conditions</a></li>
+      <li><a href="#">FAQ</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Contact Us</a></li>
+      <li><a href="#">Sitemap</a></li>
+    </ul>
+    <p>©2024 QuickServ.com</p>
+    <p>For any support or help you can contact us via our Live Chat</p>
+  </div>
+</footer>
+    </>
   );
 };
 

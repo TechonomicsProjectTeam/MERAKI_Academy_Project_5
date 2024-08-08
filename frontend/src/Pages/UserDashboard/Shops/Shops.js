@@ -96,15 +96,15 @@ const Shops = () => {
 
     {/* <h1>Shops</h1> */}
     {city && <p>You are in: {city}</p>}
-    <button className="navigate-back" onClick={() => navigate(-1)}>
+    {/* <button className="navigate-back" onClick={() => navigate(-1)}>
       <FontAwesomeIcon icon={faArrowLeft} />
     </button>
     <button className="navigate-front" onClick={() => navigate(+1)}>
       <FontAwesomeIcon icon={faArrowRight} />
-    </button>
+    </button> */}
     {filteredShops?.length > 0 && (
-      <div>
-        <h3>All Shops in {city}</h3>
+      <div className="shop-product">
+        <h2>All Shops in {city}</h2>
         <ul>
           {filteredShops.map((shop) => (
             <li key={shop.shop_id} onClick={() => handleShopClick(shop.shop_id, shop.name)}>
