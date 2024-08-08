@@ -10,6 +10,9 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   
 }
+.add-to-cart-style{
+  display: flex;
+}
 
 .search-icon {
   color: #28598a;
