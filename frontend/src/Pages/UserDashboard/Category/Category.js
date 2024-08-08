@@ -26,6 +26,7 @@ const Category = () => {
   }, [dispatch]);
 
   const handleCategoryClick = (categoryId, categoryName) => {
+    localStorage.setItem('selectedCategory', categoryId);
     axios
       .get(`http://localhost:5000/shop/category/${categoryId}`)
       .then((response) => {

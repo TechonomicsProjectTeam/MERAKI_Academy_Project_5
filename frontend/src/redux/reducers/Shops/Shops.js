@@ -7,6 +7,7 @@ export const shopsSlice = createSlice({
     images: null,
     name: null,
     bestRatedShops: [],
+    selectedShopId: null, 
   },
   reducers: {
     getShops: (state, action) => {
@@ -48,6 +49,9 @@ export const shopsSlice = createSlice({
     setBestRatedShops: (state, action) => {
       state.bestRatedShops = action.payload;
     },
+    setSelectedShopId: (state, action) => { 
+      state.selectedShopId = action.payload;
+    },
   }
 });
 
@@ -60,7 +64,10 @@ export const {
   unBanShopById, 
   setShopInfo, 
   setShopsByCategory, 
-  setBestRatedShops 
+  setBestRatedShops, 
+  setSelectedShopId 
 } = shopsSlice.actions;
+
+
 
 export default shopsSlice.reducer;
