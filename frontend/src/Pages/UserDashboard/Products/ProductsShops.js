@@ -186,7 +186,7 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
               <h3>{selectedProduct.name}</h3>
               <p>{selectedProduct.description}</p>
               <p>Price: ${selectedProduct.price}</p>
-              <div>
+              <div className='add-to-cart-style'>
                 <input
                    className='inputs'
                   type="number"
