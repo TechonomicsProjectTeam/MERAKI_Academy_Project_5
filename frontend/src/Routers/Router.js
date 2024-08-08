@@ -1,5 +1,3 @@
-// src/router.jsx
-
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../Layouts/MainLayout";
@@ -33,6 +31,10 @@ import ChatDriver from "../Pages/Chat/ChatDriver";
 import ChatUser from "../Pages/Chat/ChatUser";
 import UsersAdmin from "../Pages/AdminDashboard/Users/UsersAdmin";
 import UpdateUsersAdmin from "../Pages/AdminDashboard/Users/UpdateUsersAdmin";
+import ForgotPassword from "../Pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "../Pages/ResetPassword/ResetPassword";
+import VerifyOtp from "../Pages/VerifyOTP/VerifyOTP";
+
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +52,18 @@ export const router = createBrowserRouter([
   {
     path: "/owner-login",
     element: <OwnerLogin />,
+  },
+  {
+    path: "/forgot-password" ,
+    element: <ForgotPassword/>
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPassword/>
+  },
+  {
+    path:"/verify-otp",
+    element: <VerifyOtp/>
   },
   {
     path: "/",

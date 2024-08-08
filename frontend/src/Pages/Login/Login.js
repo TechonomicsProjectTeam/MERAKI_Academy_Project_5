@@ -97,6 +97,9 @@ const Login = () => {
     flow: 'auth-code',
     scope: 'email profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid',
   });
+   const navigateToForgotPassword = () => {
+    navigate("/forgot-password");
+  };
 
   return (
     <div className="body">
@@ -115,6 +118,11 @@ const Login = () => {
           />
           <button className="button" type="submit">Login</button>
         </form>
+        <div className="forgot-password-link">
+          <p>
+            <a href="#" onClick={navigateToForgotPassword}>Forgot Password?</a>
+          </p>
+        </div>
              <div className="owner_register-link">
              <p>Register as an user? <a href="/register">Register here</a></p>
         </div>
