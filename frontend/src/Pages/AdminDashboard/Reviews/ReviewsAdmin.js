@@ -60,6 +60,7 @@ const ReviewsAdmin = () => {
               <td>{review.review_text}</td>
               <td>
                 <FontAwesomeIcon 
+                   className="deleteButton"
                   icon={faTrash} 
                   onClick={() => handleDelete(review.product_id, review.review_id)} 
                 />

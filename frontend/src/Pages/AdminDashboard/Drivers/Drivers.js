@@ -118,10 +118,15 @@ const Drivers = () => {
               <td>{driver.first_name} {driver.last_name}</td>
               <td>{driver.email}</td>
               <td>
-                <FontAwesomeIcon icon={faEdit} onClick={() => handleUpdate(driver.user_id)} />
-                <FontAwesomeIcon icon={faBan} onClick={() => handleBan(driver.user_id)} />
+                <FontAwesomeIcon className="editButton" icon={faEdit} onClick={() => handleUpdate(driver.user_id)} />
+                &nbsp;
+                <FontAwesomeIcon className='banButton ' icon={faBan} onClick={() => handleBan(driver.user_id)} />
+                &nbsp;
+                &nbsp;
                 <FontAwesomeIcon icon={faUndo} onClick={() => handleUnBan(driver.user_id)} />
-                <FontAwesomeIcon icon={faTrash} onClick={() => handleShowModal(driver.user_id)} />
+                &nbsp;
+                &nbsp;
+                <FontAwesomeIcon    className="deleteButton" icon={faTrash} onClick={() => handleShowModal(driver.user_id)} />
               </td>
             </tr>
           ))}
