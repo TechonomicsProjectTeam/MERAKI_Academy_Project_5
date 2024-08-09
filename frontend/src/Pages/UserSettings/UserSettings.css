@@ -1,20 +1,24 @@
-.editUser {
+.edit_user {
   max-width: 600px;
-  margin-top: 100px;
+  margin: 100px auto; /* Center the form horizontally */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content horizontally */
 }
 
-.editUser form {
+.edit_user form {
   display: flex;
   flex-wrap: wrap; 
   gap: 20px;
   margin-top: 50px;
+  width: 100%; /* Ensure form takes full width inside the container */
 }
 
-.editUser input {
+.edit_user input {
   flex: 1 1 calc(33.33% - 20px); 
   padding: 10px;
   margin: 10px 0;
@@ -24,28 +28,28 @@
   box-sizing: border-box; 
 }
 
-.editUser input[type="email"] {
+.edit_user input[type="email"] {
   border-color: #78a6d3;
 }
 
-.editUser input[type="file"] {
+.edit_user input[type="file"] {
   padding: 0;
   width: auto;
 }
 
-.editUser .file-input-container {
+.edit_user .file-input-container {
   display: flex;
   flex-direction: column;
   margin: 10px 0;
   flex: 1 1 100%; 
 }
 
-.editUser .file-input-container label {
+.edit_user .file-input-container label {
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-.editUser button {
+.edit_user button {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -58,20 +62,21 @@
   flex: 1 1 100%;
 }
 
-.editUser button:hover {
+.edit_user button:hover {
   background-color: #5a91c2;
 }
 
-.editUser p {
+.edit_user p {
   margin-top: 15px;
   font-size: 16px;
   flex: 1 1 100%; 
+  text-align: center;
 }
 
-.editUser p.success {
+.edit_user p.success {
   color: #28a745;
 }
 
-.editUser p.error {
+.edit_user p.error {
   color: #dc3545;
 }
