@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { setLogout } from '../redux/reducers/Auth/Auth';
 import { useDispatch } from "react-redux";
@@ -7,16 +7,22 @@ import "./AdminLayout.css";
 const AdminLayout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch(setLogout());
     navigate("/login");
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
-        <nav className="col-md-2 d-none d-md-block sidebar">
+        <i className="fas fa-bars hamburger-icon d-md-none" onClick={toggleSidebar}></i>
+        <nav className={`col-md-2 sidebar ${isSidebarOpen ? 'open' : 'd-none d-md-block'}`}>
           <div className="sidebar-sticky">
             <ul className="nav flex-column">
               <li className="nav-item">
