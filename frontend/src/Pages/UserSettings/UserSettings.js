@@ -27,7 +27,7 @@ const UserSettings = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const result = await axios.get(`http://localhost:5000/users/${user_id}`);
+        const result = await axios.get(`https://quickserv.onrender.com/users/${user_id}`);
         if (result.data.success) {
           const user = result.data.users[0];
           console.log(user);
@@ -71,7 +71,7 @@ const UserSettings = () => {
     };
 
     try {
-      const result = await axios.put(`http://localhost:5000/users/${user_id}`, updatedData);
+      const result = await axios.put(`https://quickserv.onrender.com/users/${user_id}`, updatedData);
       if (result.data.success) {
         console.log(result.data);
         dispatch(updateUserById(result.data.updateUser));

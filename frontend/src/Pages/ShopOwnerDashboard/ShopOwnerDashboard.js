@@ -33,7 +33,7 @@ const ShopOwnerDashboard = () => {
 
   const getAllProductByShopId = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/product/${shopId}`, {
+      const response = await axios.get(`https://quickserv.onrender.com/product/${shopId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -51,7 +51,7 @@ const ShopOwnerDashboard = () => {
 
   const deleteProductById = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/product/${id}`, {
+      await axios.delete(`https://quickserv.onrender.com/product/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -81,7 +81,7 @@ const ShopOwnerDashboard = () => {
     };
 
     try {
-      const response = await axios.put(`http://localhost:5000/product/${id}`, updatedData, {
+      const response = await axios.put(`https://quickserv.onrender.com/product/${id}`, updatedData, {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -18,7 +18,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchUserOrders = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/orders/order-products/${user_id}`, {
+        const response = await axios.get(`https://quickserv.onrender.com/orders/order-products/${user_id}`, {
           headers: {
             authorization: `Bearer ${token}`,
           },

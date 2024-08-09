@@ -11,7 +11,7 @@ const ReviewsAdmin = () => {
   const [reviews, setLocalReviews] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/review')
+    axios.get('https://quickserv.onrender.com/review')
       .then((response) => {
         dispatch(setReviews(response.data.reviews));
         setLocalReviews(response.data.reviews); 
@@ -26,7 +26,7 @@ const ReviewsAdmin = () => {
   }, [reviewsFromStore]);
 
   const handleDelete = (product_id, review_id) => {
-    axios.delete(`http://localhost:5000/review/${review_id}`)
+    axios.delete(`https://quickserv.onrender.com/review/${review_id}`)
       .then(() => {
         setLocalReviews(reviews.filter(review => review.review_id !== review_id)); 
         dispatch(deleteReview({ product_id, review_id }));

@@ -31,7 +31,7 @@ const Carts = () => {
 
   const getCartIdByUserId = async () => {
     try {
-      const result = await axios.get(`http://localhost:5000/carts/cart/userId`, {
+      const result = await axios.get(`https://quickserv.onrender.com/carts/cart/userId`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch(SetCartId({ cartId: result.data.cart[0].cart_id }));
@@ -42,7 +42,7 @@ const Carts = () => {
 
   const getCartProductByCartId = async () => {
     try {
-      const result = await axios.get(`http://localhost:5000/carts/`, {
+      const result = await axios.get(`https://quickserv.onrender.com/carts/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch(setProductFromCart({ products: result.data.products }));
@@ -65,7 +65,7 @@ const Carts = () => {
   const increaseProductQuantity = async (productId, quantity) => {
     try {
       await axios.post(
-        `http://localhost:5000/carts/${productId}`,
+        `https://quickserv.onrender.com/carts/${productId}`,
         { cart_id: cartId, quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -78,7 +78,7 @@ const Carts = () => {
   const decreaseProductQuantity = async (productId) => {
     try {
       await axios.post(
-        `http://localhost:5000/carts/decrease/${cartId}/products/${productId}`,
+        `https://quickserv.onrender.com/carts/decrease/${cartId}/products/${productId}`,
         null,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -91,7 +91,7 @@ const Carts = () => {
   const deleteProductFromCart = async (productId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/carts/cart/${cartId}/product/${productId}`,
+        `https://quickserv.onrender.com/carts/cart/${cartId}/product/${productId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       dispatch(deleteProductCartById({ product_id: productId }));
@@ -102,7 +102,7 @@ const Carts = () => {
 
   const deleteAllProductsFromCart = async () => {
     try {
-      await axios.delete(`http://localhost:5000/carts/${cartId}/products`, {
+      await axios.delete(`https://quickserv.onrender.com/carts/${cartId}/products`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch(deleteAllProductFromCart());
@@ -113,7 +113,7 @@ const Carts = () => {
 
   const createOrder = async (paymentMethod) => {
     try {
-      const result = await axios.post("http://localhost:5000/orders/", {
+      const result = await axios.post("https://quickserv.onrender.com/orders/", {
         cartId: cartId,
         paymentMethod: paymentMethod,
       },

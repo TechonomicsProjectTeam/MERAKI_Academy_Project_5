@@ -28,7 +28,7 @@ const Shops = () => {
   useEffect(() => {
     if (categoryId) {
       axios
-        .get(`http://localhost:5000/shop/category/${categoryId}`)
+        .get(`https://quickserv.onrender.com/shop/category/${categoryId}`)
         .then((response) => {
           if (response.data.success) {
             dispatch(setShopsByCategory(response.data.shops));
@@ -53,7 +53,7 @@ const Shops = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/get-api-key`
+          `https://quickserv.onrender.com/api/get-api-key`
         );
         const apiKey = response.data.apiKey;
 
@@ -99,7 +99,7 @@ const Shops = () => {
     localStorage.setItem('selectedShopId', shopId);
 
     axios
-      .get(`http://localhost:5000/product/${shopId}`)
+      .get(`https://quickserv.onrender.com/product/${shopId}`)
       .then((response) => {
         if (response.data.success) {
           dispatch(setProducts(response.data.products));

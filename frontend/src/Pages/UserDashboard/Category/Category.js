@@ -14,7 +14,7 @@ const Category = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/categories/')
+      .get('https://quickserv.onrender.com/categories/')
       .then((response) => {
         if (response.data.success) {
           dispatch(getCategories(response.data.category));
@@ -28,7 +28,7 @@ const Category = () => {
   const handleCategoryClick = (categoryId, categoryName) => {
     localStorage.setItem('selectedCategory', categoryId);
     axios
-      .get(`http://localhost:5000/shop/category/${categoryId}`)
+      .get(`https://quickserv.onrender.com/shop/category/${categoryId}`)
       .then((response) => {
         if (response.data.success) {
           dispatch(setShopsByCategory(response.data.shops));

@@ -55,7 +55,7 @@ const Chat = () => {
   useEffect(() => {
     const fetchDrivers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/users/user_driver/drivers');
+        const response = await axios.get('https://quickserv.onrender.com/users/user_driver/drivers');
         setDrivers(response.data.drivers);
         console.log(response);
       } catch (error) {

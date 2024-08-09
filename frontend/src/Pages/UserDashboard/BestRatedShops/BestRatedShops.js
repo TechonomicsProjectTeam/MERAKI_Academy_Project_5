@@ -20,7 +20,7 @@ const BestRatedShops = () => {
     const fetchBestRatedShops = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/shop/shops/best-rated"
+          "https://quickserv.onrender.com/shop/shops/best-rated"
         );
         if (response.data.success) {
           console.log("Best Rated Shops fetched:", response.data.shops);
@@ -50,7 +50,7 @@ const BestRatedShops = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/get-api-key`
+          `https://quickserv.onrender.com/api/get-api-key`
         );
         const apiKey = response.data.apiKey;
 
@@ -99,7 +99,7 @@ const BestRatedShops = () => {
   const handleShopClick = (shopId, shopName) => {
     localStorage.setItem('selectedShopId', shopId);
     axios
-      .get(`http://localhost:5000/product/${shopId}`)
+      .get(`https://quickserv.onrender.com/product/${shopId}`)
       .then((response) => {
         if (response.data.success) {
           dispatch(setProducts(response.data.products));

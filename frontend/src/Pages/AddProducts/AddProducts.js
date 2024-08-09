@@ -36,7 +36,7 @@ const Product = ()=>{
   };
   
 
-  axios.post("http://localhost:5000/product/",newProduct,{headers:{
+  axios.post("https://quickserv.onrender.com/product/",newProduct,{headers:{
     Authorization:`Bearer ${token}` 
   }})
   .then((result)=>{

@@ -28,7 +28,7 @@ const ReviewsComponent = ({ productId }) => {
   useEffect(() => {
     if (productId) {
       axios
-        .get(`http://localhost:5000/review/${productId}`)
+        .get(`https://quickserv.onrender.com/review/${productId}`)
         .then((response) => {
           if (response.data.success) {
             dispatch(
@@ -52,7 +52,7 @@ const ReviewsComponent = ({ productId }) => {
 
     try {
       const result = await axios.post(
-        `http://localhost:5000/review/${productId}`,
+        `https://quickserv.onrender.com/review/${productId}`,
         newReview,
         {
           headers: {
@@ -88,7 +88,7 @@ const ReviewsComponent = ({ productId }) => {
   const handleUpdateReview = async (review_id) => {
     try {
       const result = await axios.put(
-        `http://localhost:5000/review/${review_id}`,
+        `https://quickserv.onrender.com/review/${review_id}`,
         editReviewData,
         {
           headers: {
@@ -115,7 +115,7 @@ const ReviewsComponent = ({ productId }) => {
   const handleDeleteReview = async (review_id) => {
     try {
       const result = await axios.delete(
-        `http://localhost:5000/review/${review_id}`,
+        `https://quickserv.onrender.com/review/${review_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

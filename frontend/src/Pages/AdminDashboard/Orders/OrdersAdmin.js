@@ -11,7 +11,7 @@ const OrdersAdmin = () => {
  
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/orders"); 
+        const response = await axios.get("https://quickserv.onrender.com/orders"); 
         console.log(response.data);
         
         dispatch(getOrders(response.data.result));

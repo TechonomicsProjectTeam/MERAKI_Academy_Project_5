@@ -28,7 +28,7 @@ const ShopOwnerSettings = () => {
   useEffect(() => {
     const fetchShopData = async () => {
       try {
-        const result = await axios.get(`http://localhost:5000/shop/${shop_id}`);
+        const result = await axios.get(`https://quickserv.onrender.com/shop/${shop_id}`);
         console.log(result.data.shops);
         if (result.data.success) {
           const shop = result.data.shops[0];
@@ -72,7 +72,7 @@ const ShopOwnerSettings = () => {
     console.log("Updated Data:", updatedData);
   
     try {
-      const result = await axios.put(`http://localhost:5000/shop/${shop_id}`, updatedData);
+      const result = await axios.put(`https://quickserv.onrender.com/shop/${shop_id}`, updatedData);
       if (result.data.success) {
         console.log(result.data.shop);
         dispatch(updateShopById(result.data.shop));

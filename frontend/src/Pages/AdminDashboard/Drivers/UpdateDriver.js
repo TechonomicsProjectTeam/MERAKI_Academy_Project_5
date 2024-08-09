@@ -23,7 +23,7 @@ const UpdateDriver = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const result = await axios.get(`http://localhost:5000/users/${user_id}`);
+        const result = await axios.get(`https://quickserv.onrender.com/users/${user_id}`);
         if (result.data.success) {
           const user = result.data.users[0];
           setFirst_name(user.first_name || "");
@@ -65,7 +65,7 @@ const UpdateDriver = () => {
     };
 
     try {
-      const result = await axios.put(`http://localhost:5000/users/${user_id}`, updatedData);
+      const result = await axios.put(`https://quickserv.onrender.com/users/${user_id}`, updatedData);
       if (result.data.success) {
         dispatch(updateUserById(result.data.updateUser));
         dispatch(setUserInfo({ username: result.data.updateUser.username, images: result.data.updateUser.images }));
