@@ -185,7 +185,7 @@ const OwnerRegister = () => {
             <p>Already have an account? <a href="/owner-login">Login here</a></p>
           </div>
           <div className="register-link">
-            <p>Register as an user? <a href="/">Register here</a></p>
+            <p>Register as an user? <a href="/register">Register here</a></p>
           </div>
         </div>
       </div>

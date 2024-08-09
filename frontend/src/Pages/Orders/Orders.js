@@ -14,7 +14,7 @@ const Orders = () => {
   const decodedToken = jwtDecode(token);
   const user_id = decodedToken.userId;
   console.log(userOrders);
-
+  
   useEffect(() => {
     const fetchUserOrders = async () => {
       try {
@@ -53,7 +53,7 @@ const Orders = () => {
     return () => {
       ws.close();
     };
-  }, [dispatch, user_id, token]);
+  }, [dispatch, user_id, token , userOrders]);
 
   const ordersGroupedByOrderId = userOrders.reduce((acc, order) => {
     if (!acc[order.order_id]) {
