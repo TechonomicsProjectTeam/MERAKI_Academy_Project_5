@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -6,11 +6,13 @@ import { getCategories } from '../../../redux/reducers/Categories/Categories';
 import { setShopsByCategory } from '../../../redux/reducers/Shops/Shops';
 import BestRatedShops from '../BestRatedShops/BestRatedShops';
 import "../Category/Category.css";
+import ContactUs from '../ContactUs/ContactUs';
 
 const Category = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const categories = useSelector((state) => state.category.categories);
+  const [showContactUs, setShowContactUs] = useState(false);
 
   useEffect(() => {
     axios
@@ -38,6 +40,16 @@ const Category = () => {
       .catch((error) => {
         console.error('Error fetching shops by category:', error);
       });
+  };
+
+  const handleContactUsClick = (e) => {
+    e.preventDefault();
+    setShowContactUs(true);
+    console.log("contact us ");
+  };
+
+  const handleCloseContactUs = () => {
+    setShowContactUs(false);
   };
 
   return (
@@ -161,12 +173,13 @@ const Category = () => {
       <li><a href="#">Terms and Conditions</a></li>
       <li><a href="#">FAQ</a></li>
       <li><a href="#">Privacy Policy</a></li>
-      <li><a href="#">Contact Us</a></li>
+      <li><a onClick={handleContactUsClick} style={{cursor: 'pointer'}}>Contact Us</a></li>
       <li><a href="#">Sitemap</a></li>
     </ul>
     <p>©2024 QuickServ.com</p>
     <p>For any support or help you can contact us via our Live Chat</p>
   </div>
+  {showContactUs && <ContactUs onClose={handleCloseContactUs} />}
 </footer>
     </>
   );

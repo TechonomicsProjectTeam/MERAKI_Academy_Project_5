@@ -37,31 +37,26 @@ const ContactUs = ({ onClose }) => {
   };
 
   return (
-    <MDBContainer>
-      <MDBRow className="justify-content-center">
-        <MDBCol md="6">
-          <MDBCard>
-            <MDBCardBody>
-              <MDBCardTitle>Contact Us</MDBCardTitle>
-              <button className="btn-close" onClick={onClose}></button>
-              <form ref={form} onSubmit={sendEmail}>
-                <label>Name</label>
-                <MDBInput type="text" name="from_name" required className="mb-2" />
-                <label>Email</label>
-                <MDBInput type="email" name="email_id" required className="mb-2" />
-                <label>Message</label>
-                <MDBInput type="textarea" name="message" required className="mb-2" />
-                {/* Hidden input field for multiple recipients */}
-                <input type="hidden" name="to_email" />
-                <MDBBtn type="submit" className="mt-2">
-                  Send
-                </MDBBtn>
-              </form>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+    <div className="contact-us-modal show">
+    <div className="contact-us-card">
+      <button className="btn-close" onClick={onClose}></button>
+      <h3 className='contactt'>Contact Us</h3>
+      <form className="contact-us-form">
+        <label htmlFor="name">Name</label>
+        <input type="text" id="name" name="from_name" required />
+        
+        <label htmlFor="email">Email</label>
+        <input type="email" id="email" name="email_id" required />
+        
+        <label htmlFor="message">Message</label>
+        <textarea id="message" name="message" required></textarea>
+        
+        <input type="hidden" name="to_email" />
+        
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
   );
 };
 

@@ -207,7 +207,7 @@ const Carts = () => {
             ))}
           </ul>
         ) : (
-          <p className="p">No items in cart</p>
+          <p className="paragraph">No items in cart</p>
         )}
         <div className="price-details-container">
         <h3>Total Price of Items: JD {totalItemPrices}</h3>

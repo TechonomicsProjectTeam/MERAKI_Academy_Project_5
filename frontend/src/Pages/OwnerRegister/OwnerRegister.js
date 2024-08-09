@@ -124,6 +124,7 @@ const OwnerRegister = () => {
               onChange={(e) => setName(e.target.value)}
             />
             <textarea
+    
               placeholder="Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -146,14 +147,14 @@ const OwnerRegister = () => {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
-            <input  type="file" onChange={handleFileChange} />
+            <input className="handel" type="file" onChange={handleFileChange} />
             <div className="categories">
               <h2 className="select">Select Category</h2>
               <select
                 value={category_id}
                 onChange={(e) => setCategory_id(e.target.value)}
               >
-                <option value="" disabled>Select a category</option>
+                <option  value="" disabled>Select a category</option>
                 {categories.map((category) => (
                   <option
                     key={category.category_id}
@@ -165,7 +166,7 @@ const OwnerRegister = () => {
               </select>
             </div>
             <div className="city">
-              <h2 className="selects">Select City</h2>
+              <h2 className="select">Select City</h2>
               <select
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
@@ -179,7 +180,7 @@ const OwnerRegister = () => {
                 ))}
               </select>
             </div>
-            <button type="submit">Create Shop</button>
+            <button className="shopButton" type="submit">Create Shop</button>
           </form>
           <div className="login-link">
             <p>Already have an account? <a href="/owner-login">Login here</a></p>
