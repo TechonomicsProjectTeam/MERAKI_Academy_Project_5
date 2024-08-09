@@ -30,7 +30,7 @@ label {
 .settingInput{
     width: 750px;
 }
-
+.ShopOwnerSettings
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -44,7 +44,7 @@ input[type="file"] {
   flex: 1 1 calc(50% - 15px); /* ensures padding is included in the element's total width and height */
   /* width: 750px; */
 }
-
+.ShopOwnerSettings
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../redux/reducers/Categories/Categories"; 
 import { addShops } from "../../redux/reducers/Shops/Shops";
 import { useNavigate } from "react-router-dom";
-import "../OwnerRegister/Style.css";
+import "../OwnerRegister/OwnerRegister.css";
 
 const OwnerRegister = () => {
   const dispatch = useDispatch();
