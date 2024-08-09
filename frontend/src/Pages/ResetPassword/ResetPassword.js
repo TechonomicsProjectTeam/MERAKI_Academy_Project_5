@@ -12,7 +12,7 @@ const ResetPassword = () => {
     const token = localStorage.getItem('resetToken'); 
 
     try {
-      await axios.post("http://localhost:5000/users/reset-password", {
+      await axios.post("https://quickserv.onrender.com/users/reset-password", {
         token,
         newPassword
       });

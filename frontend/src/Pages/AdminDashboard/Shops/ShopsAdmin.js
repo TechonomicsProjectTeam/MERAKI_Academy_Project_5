@@ -19,7 +19,7 @@ const ShopsAdmin = () => {
   useEffect(() => {
     const fetchShops = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/shop/");
+        const response = await axios.get("https://quickserv.onrender.com/shop/");
         dispatch(getShops(response.data.shops));
       } catch (error) {
         console.error("Error fetching shops:", error);
@@ -31,7 +31,7 @@ const ShopsAdmin = () => {
 
   const handleBan = async (shop_id) => {
     try {
-      const response = await axios.put(`http://localhost:5000/shop/ban/${shop_id}`);
+      const response = await axios.put(`https://quickserv.onrender.com/shop/ban/${shop_id}`);
       if (response.data.success) {
         dispatch(banShopById({ shop_id }));
       } else {
@@ -44,7 +44,7 @@ const ShopsAdmin = () => {
 
   const handleUnBan = async (shop_id) => {
     try {
-      const response = await axios.put(`http://localhost:5000/shop/unBan/${shop_id}`);
+      const response = await axios.put(`https://quickserv.onrender.com/shop/unBan/${shop_id}`);
       if (response.data.success) {
         dispatch(unBanShopById({ shop_id }));
       } else {
@@ -57,7 +57,7 @@ const ShopsAdmin = () => {
 
   const handleDelete = async (shop_id) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/shop/hard-delete/${shop_id}`);
+      const response = await axios.delete(`https://quickserv.onrender.com/shop/hard-delete/${shop_id}`);
       if (response.data.success) {
         dispatch(deleteShopById({ shop_id }));
       } else {

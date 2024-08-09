@@ -55,7 +55,7 @@ const AdminDashboard = () => {
 
   const getAllShops = () => {
     axios
-      .get("http://localhost:5000/shop/", {
+      .get("https://quickserv.onrender.com/shop/", {
         headers: {
           authorization: `Bearer ${token}`,
         },

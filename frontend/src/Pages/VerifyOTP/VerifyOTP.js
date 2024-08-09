@@ -12,7 +12,7 @@ const VerifyOtp = () => {
     const email = localStorage.getItem('resetEmail'); // Get email from local storage
 
     try {
-      const response = await axios.post("http://localhost:5000/users/verify-otp", { 
+      const response = await axios.post("https://quickserv.onrender.com/users/verify-otp", { 
         email, 
         otp 
       });

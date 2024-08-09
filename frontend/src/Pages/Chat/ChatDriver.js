@@ -49,7 +49,7 @@ const Apps = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/users/user_user/user');
+        const response = await axios.get('https://quickserv.onrender.com/users/user_user/user');
         setUsers(response.data.drivers);
         console.log(response.data);
       } catch (error) {

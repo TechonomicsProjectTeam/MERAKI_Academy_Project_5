@@ -34,7 +34,7 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
   useEffect(() => {
     if (shopId) {
       axios
-        .get(`http://localhost:5000/product/${shopId}`)
+        .get(`https://quickserv.onrender.com/product/${shopId}`)
         .then((response) => {
           if (response.data.success) {
             dispatch(setProducts(response.data.products));
@@ -51,7 +51,7 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
       const fetchCartId = async () => {
         try {
           const result = await axios.get(
-            `http://localhost:5000/carts/cart/userId`,
+            `https://quickserv.onrender.com/carts/cart/userId`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -76,7 +76,7 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
     const quantity = quantities[product.product_id] || 1;
     try {
       const result = await axios.post(
-        `http://localhost:5000/carts/${product.product_id}`,
+        `https://quickserv.onrender.com/carts/${product.product_id}`,
         {
           cart_id: cartId,
           quantity,
@@ -142,7 +142,7 @@ const ProductsShops = ({ showProducts, setShowProducts, showShops, setShowShops 
 
     try {
       const result = await axios.post(
-        `http://localhost:5000/shop/shops/rating`,
+        `https://quickserv.onrender.com/shop/shops/rating`,
         {
           name: shopName,
           user_id: userId,

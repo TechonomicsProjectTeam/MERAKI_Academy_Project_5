@@ -2,7 +2,7 @@
   //  const bestRatedShops = useSelector((state) => state.shops.bestRatedShops);
   //   const fetchBestRatedShops = () => async (dispatch) => {
 //     try {
-//       const response = await axios.get("http://localhost:5000/shop/shops/best-rated");
+//       const response = await axios.get("https://quickserv.onrender.com/shop/shops/best-rated");
 //       if (response.data.success) {
 //         dispatch(setBestRatedShops(response.data.shops));
 //       }
@@ -19,7 +19,7 @@
 //   const handleUpdateShopRating = async (shopId, newRating) => {
 //     try {
 //       const response = await axios.post(
-//         `http://localhost:5000/shop/shops/rating`,
+//         `https://quickserv.onrender.com/shop/shops/rating`,
 //         { shop_id: shopId, rating: newRating },
 //         {
 //           headers: {
@@ -42,7 +42,7 @@
 //     if (selectedShop) {
 //       try {
 //         const response = await axios.post(
-//           `http://localhost:5000/shop/shops/rating`,
+//           `https://quickserv.onrender.com/shop/shops/rating`,
 //           { shop_id: selectedShop, rating: newRating },
 //           {
 //             headers: {

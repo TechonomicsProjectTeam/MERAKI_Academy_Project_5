@@ -14,7 +14,7 @@ const CategoriesForAdmin = () => {
 
     useEffect(() => {
         axios
-            .get('http://localhost:5000/categories/')
+            .get('https://quickserv.onrender.com/categories/')
             .then((response) => {
                 if (response.data.success) {
                     dispatch(getCategories(response.data.category));

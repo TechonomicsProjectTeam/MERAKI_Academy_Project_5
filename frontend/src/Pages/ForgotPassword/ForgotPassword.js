@@ -10,7 +10,7 @@ const ForgotPassword = () => {
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/users/forgot-password", { email });
+      await axios.post("https://quickserv.onrender.com/users/forgot-password", { email });
       localStorage.setItem('resetEmail', email); // Save email to local storage
       setMessage("An OTP has been sent to your email.");
       navigate("/verify-otp");

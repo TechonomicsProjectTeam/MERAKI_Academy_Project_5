@@ -19,7 +19,7 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post("http://localhost:5000/users/login", {
+      const result = await axios.post("https://quickserv.onrender.com/users/login", {
         email,
         password,
       });
@@ -50,7 +50,7 @@ const Login = () => {
 
   const getUserInfo = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/users/${userId}`);
+      const response = await axios.get(`https://quickserv.onrender.com/users/${userId}`);
       const userInfo = response.data.users;
       dispatch(setUserInfo({
         username: userInfo[0].username,
@@ -67,7 +67,7 @@ const Login = () => {
         console.log(response);
         const googleToken = response.code;
 
-        const result = await axios.post("http://localhost:5000/users/google-login", { token: googleToken });
+        const result = await axios.post("https://quickserv.onrender.com/users/google-login", { token: googleToken });
         const token = result.data.token;
         const decodedToken = jwtDecode(token);
 

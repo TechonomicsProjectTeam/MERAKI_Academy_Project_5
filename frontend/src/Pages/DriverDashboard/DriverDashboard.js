@@ -11,7 +11,7 @@ const DriverDashboard = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/orders");
+      const response = await axios.get("https://quickserv.onrender.com/orders");
       if (response.data.success) {
         dispatch(getOrders(response.data.result));
       }
@@ -47,7 +47,7 @@ const DriverDashboard = () => {
   const changeOrderStatus = async (order_id, status) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/orders/${order_id}/status`,
+        `https://quickserv.onrender.com/orders/${order_id}/status`,
         { status },
         {
           headers: {

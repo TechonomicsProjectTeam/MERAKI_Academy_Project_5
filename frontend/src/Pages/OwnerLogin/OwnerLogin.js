@@ -17,7 +17,7 @@ const OwnerLogin = () => {
   const login = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post("http://localhost:5000/shop/shop_login", {
+      const result = await axios.post("https://quickserv.onrender.com/shop/shop_login", {
         email,
         password,
       });
@@ -40,7 +40,7 @@ const OwnerLogin = () => {
   };
   const getUserInfo = async (shopId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/shop/${shopId}`);
+      const response = await axios.get(`https://quickserv.onrender.com/shop/${shopId}`);
       const userInfo = response.data.shops;
       console.log(response.data);
       console.log(userInfo[0].name);

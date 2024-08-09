@@ -10,7 +10,7 @@ const Role_Permissions = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/roles/role-permissions')
+      .get('https://quickserv.onrender.com/roles/role-permissions')
       .then((response) => {
         dispatch(getRolePermissions(response.data.result));
       })

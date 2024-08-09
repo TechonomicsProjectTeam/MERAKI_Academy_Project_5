@@ -96,7 +96,7 @@ const UpdateShopAdmin = () => {
     };
 
     try {
-      const result = await axios.put(`http://localhost:5000/shop/${shopId}`, updatedData);
+      const result = await axios.put(`https://quickserv.onrender.com/shop/${shopId}`, updatedData);
       if (result.data.success) {
         dispatch(updateShopById(result.data.shop));
         dispatch(setShopInfo({ name: result.data.shop.name, images: result.data.shop.images }));

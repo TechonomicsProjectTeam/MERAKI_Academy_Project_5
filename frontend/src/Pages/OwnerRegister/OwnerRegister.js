@@ -36,7 +36,7 @@ const OwnerRegister = () => {
       }
     }
     try {
-      const result = await axios.post("http://localhost:5000/shop/", {
+      const result = await axios.post("https://quickserv.onrender.com/shop/", {
         name,
         description,
         email,
@@ -94,7 +94,7 @@ const OwnerRegister = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/categories/")
+      .get("https://quickserv.onrender.com/categories/")
       .then((response) => {
         if (response.data.success) {
           console.log(response.data.category);

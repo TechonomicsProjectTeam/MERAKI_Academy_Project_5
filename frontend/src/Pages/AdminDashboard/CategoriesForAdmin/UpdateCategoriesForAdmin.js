@@ -39,7 +39,7 @@ const UpdateCategoriesForAdmin = () => {
             }
         }
 
-        axios.put(`http://localhost:5000/categories/${category.category_id}`, {
+        axios.put(`https://quickserv.onrender.com/categories/${category.category_id}`, {
             name,
             description,
             images: imageUrl,

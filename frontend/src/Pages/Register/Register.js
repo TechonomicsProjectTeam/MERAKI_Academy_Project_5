@@ -32,7 +32,7 @@ const Register = () => {
     }
 
     try {
-      const result = await axios.post("http://localhost:5000/users/register", {
+      const result = await axios.post("https://quickserv.onrender.com/users/register", {
         first_name: firstName,
         last_name: lastName,
         email,

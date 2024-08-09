@@ -19,7 +19,7 @@ const UsersAdmin = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5000/users/role/1');
+        const response = await fetch('https://quickserv.onrender.com/users/role/1');
         const data = await response.json();
         if (data.success) {
           dispatch(setUsers(data.users));
@@ -36,7 +36,7 @@ const UsersAdmin = () => {
 
   const handleBan = async (user_id) => {
     try {
-      const response = await fetch(`http://localhost:5000/users/ban/${user_id}`, {
+      const response = await fetch(`https://quickserv.onrender.com/users/ban/${user_id}`, {
         method: 'DELETE',
       });
       const data = await response.json();
@@ -52,7 +52,7 @@ const UsersAdmin = () => {
 
   const handleUnBan = async (user_id) => {
     try {
-      const response = await fetch(`http://localhost:5000/users/unBan/${user_id}`, {
+      const response = await fetch(`https://quickserv.onrender.com/users/unBan/${user_id}`, {
         method: 'PATCH',
       });
       const data = await response.json();
@@ -68,7 +68,7 @@ const UsersAdmin = () => {
 
   const handleDelete = async (user_id) => {
     try {
-      const response = await fetch(`http://localhost:5000/users/${user_id}`, {
+      const response = await fetch(`https://quickserv.onrender.com/users/${user_id}`, {
         method: 'DELETE',
       });
       const data = await response.json();
