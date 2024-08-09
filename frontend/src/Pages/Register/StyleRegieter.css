@@ -120,7 +120,7 @@
 }
 
 .regButton {
-  width: 100%; 
+  width: 300px; 
   max-width: 500px;
   padding: 12px;
   background-color: #78a6d3;
@@ -131,6 +131,7 @@
   cursor: pointer;
   margin: 10px auto 0; 
   transition: background-color 0.3s ease;
+  margin-left: 300px;
 }
 
 .regButton:hover {
@@ -141,6 +142,7 @@
 .owner_register-link {
   text-align: center;
   margin-top: 10px;
+  padding-left: 300px;
 }
 
 .login-links a,

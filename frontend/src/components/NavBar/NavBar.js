@@ -27,7 +27,7 @@ const NavBar = () => {
   return (
     <div className="NavBar">
       {isLoggedIn ? (
-        parseInt(roleId) === 1 ? (
+        parseInt(roleId) === 1 || parseInt(roleId) === 2 ? (
           <div className="user-info">
             <img src={logo} alt="Logo" className="logo-img" />
             {imageUrl && (

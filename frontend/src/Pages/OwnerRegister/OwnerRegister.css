@@ -19,6 +19,7 @@
   gap: 20px;
 }
 
+
 .OwnerRegister h1 {
   text-align: center;
   margin-bottom: 20px;
@@ -33,6 +34,10 @@
   justify-content: space-between;
 }
 
+.select{
+  font-size: 15px;
+}
+
 .OwnerRegister input,
 .OwnerRegister textarea,
 .OwnerRegister select {
@@ -45,13 +50,15 @@
   margin-bottom: 10px;
 }
 
+
 .OwnerRegister textarea {
-  height: 48px;
+  height: 38px;
   resize: none;
 }
 
 .OwnerRegister select {
-  height: 48px;
+  height: 45px;
+  width: 555px;
 }
 
 .file-input-container {
@@ -59,7 +66,7 @@
 }
 
 .OwnerRegister button {
-  width: 100%;
+  width: 300px;
   max-width: 500px;
   padding: 12px;
   background-color: #78a6d3;
@@ -71,6 +78,7 @@
   margin-top: 10px;
   transition: background-color 0.3s ease;
   align-self: center;
+  margin-left: 450px;
 }
 
 .OwnerRegister button:hover {
@@ -84,6 +92,7 @@
 .login-link, .register-link {
   text-align: center;
   margin-top: 20px;
+  padding-left: 70px;
 }
 
 .login-link a, .register-link a {
