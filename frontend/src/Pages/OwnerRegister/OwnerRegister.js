@@ -146,9 +146,9 @@ const OwnerRegister = () => {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
-            <input type="file" onChange={handleFileChange} />
+            <input  type="file" onChange={handleFileChange} />
             <div className="categories">
-              <h2>Select Category</h2>
+              <h2 className="select">Select Category</h2>
               <select
                 value={category_id}
                 onChange={(e) => setCategory_id(e.target.value)}
@@ -165,7 +165,7 @@ const OwnerRegister = () => {
               </select>
             </div>
             <div className="city">
-              <h2>Select City</h2>
+              <h2 className="selects">Select City</h2>
               <select
                 value={city}
                 onChange={(e) => setCity(e.target.value)}

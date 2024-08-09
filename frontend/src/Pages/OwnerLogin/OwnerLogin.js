@@ -55,10 +55,14 @@ const OwnerLogin = () => {
     }
   };
   return (
-    <div className="Oner">
-    <div className="Form">
-      <p className="Title">Owner Login:</p>
-      <form onSubmit={login}>
+    <div className="body">
+      <div className="form-container">
+       <div className="image-container">
+        <img src="https://img.freepik.com/premium-vector/free-vector-login-concept-illustration_713576-106.jpg?w=740" alt="Background Image" />
+       </div>
+       <div className="form-content">
+      <p className="title">Owner Login:</p>
+      <form className="forms"  onSubmit={login}>
         <input
           type="email"
           placeholder="Email"
@@ -69,13 +73,16 @@ const OwnerLogin = () => {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="buttonLogin" type="submit">Login</button>
+        <button className="button" type="submit">Login</button>
        
       </form>
-      <div className="owner_register-link">
+      <br/>
+      <div className="owner_register-links">
           <p>Register as an owner? <a href="owner-register">Register here</a></p>
         </div>
-      {message && <div className="ErrorMessage">{message}</div>}
+        
+      {message && <div className="error-message">{message}</div>}
+      </div>
     </div>
     </div>
   );

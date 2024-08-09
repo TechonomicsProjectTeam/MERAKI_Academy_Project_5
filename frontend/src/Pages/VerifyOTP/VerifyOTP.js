@@ -28,18 +28,20 @@ const VerifyOtp = () => {
   };
 
   return (
-    <div>
-      <h2>Verify OTP</h2>
-      <form onSubmit={handleVerifyOtp}>
+    <div className="body" >
+      <div className="Form">
+       <h2 className="title">Verify OTP</h2>
+        <form className="forms" onSubmit={handleVerifyOtp}>
         <input 
           type="text" 
           placeholder="Enter OTP" 
           value={otp} 
           onChange={(e) => setOtp(e.target.value)} 
         />
-        <button type="submit">Verify OTP</button>
-      </form>
-      {message && <p>{message}</p>}
+        <button className="button" type="submit">Verify OTP</button>
+       </form>
+       {message && <div className="error-message">{message}</div>}
+      </div>
     </div>
   );
 };
