@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import "../NavBar/Style.css";
 import { clearCartState } from "../../redux/reducers/Carts/Carts";
-import logo from "../../image/logo.png"
+import logo from "../../image/logo.png";
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,13 +26,26 @@ const NavBar = () => {
 
   return (
     <div className="NavBar">
-      <div className="user-info">
-        
-      <img src={logo} alt="Logo" className="logo-img"  />
-        {imageUrl && <img src={imageUrl} alt="User" className="user-image" />}
-        {username && <span className="user-name"> {username}</span>}
+      {isLoggedIn ? (
+        parseInt(roleId) === 1 ? (
+          <div className="user-info">
+            <img src={logo} alt="Logo" className="logo-img" />
+            {imageUrl && (
+              <img src={imageUrl} alt="User" className="user-image" />
+            )}
+            {username && <span className="user-name">{username}</span>}
+          </div>
+        ) : parseInt(roleId) === 3 ? (
+          <div className="user-info">
+            <img src={logo} alt="Logo" className="logo-img" />
+            {shopImage && (
+              <img src={shopImage} alt="Shop" className="user-image" />
+            )}
+            {shopName && <span className="user-name"> {shopName} </span>}
+          </div>
+        ) : null
+      ) : null}
 
-      </div>
       <div className="cart-icon">
         {/* <NavLink to="/cart">
             <FontAwesomeIcon icon={faShoppingCart} />
@@ -42,10 +55,6 @@ const NavBar = () => {
         {isLoggedIn ? (
           parseInt(roleId) === 3 ? (
             <>
-              <div className="user-info">
-                {shopImage && <img src={shopImage} alt="Shop" className="user-image" />}
-                {shopName && <span className="user-name">Welcome {shopName} !!</span>}
-              </div>
               <NavLink
                 to="/shop-owner-dashboard"
                 className={({ isActive }) => (isActive ? "active" : "")}
@@ -107,33 +116,34 @@ const NavBar = () => {
                 Drivers
               </NavLink>
               <NavLink
-              to="/admin-dashboard/order_admin"
-              className={({ isActive }) => (isActive ? "active" : "")}
+                to="/admin-dashboard/order_admin"
+                className={({ isActive }) => (isActive ? "active" : "")}
               >
-              Orders
-              </NavLink>
-              <NavLink 
-              to="/admin-dashboard/reviews_admin"
-              className={({ isActive }) => (isActive ? "active" : "")}
-              >
-              Reviews
-              </NavLink>
-              <NavLink to="/admin-dashboard/role-permissions"
-              className={({ isActive }) => (isActive ? "active" : "")}
-              >
-              Roles
+                Orders
               </NavLink>
               <NavLink
-              to="/admin-dashboard/shops-admin"
-              className={({ isActive }) => (isActive ? "active" : "")}
+                to="/admin-dashboard/reviews_admin"
+                className={({ isActive }) => (isActive ? "active" : "")}
               >
-              Shops
+                Reviews
               </NavLink>
               <NavLink
-              to="/admin-dashboard/users-admin"
-              className={({ isActive }) => (isActive ? "active" : "")}
+                to="/admin-dashboard/role-permissions"
+                className={({ isActive }) => (isActive ? "active" : "")}
               >
-              Users
+                Roles
+              </NavLink>
+              <NavLink
+                to="/admin-dashboard/shops-admin"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Shops
+              </NavLink>
+              <NavLink
+                to="/admin-dashboard/users-admin"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Users
               </NavLink>
               <NavLink to="/login" onClick={handleLogout}>
                 Logout
