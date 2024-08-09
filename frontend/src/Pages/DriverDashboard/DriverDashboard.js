@@ -25,7 +25,7 @@ const DriverDashboard = () => {
   }, [orders]);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://quickserv.onrender.com");
+    const ws = new WebSocket("ws://localhost:5000");
 
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
