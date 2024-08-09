@@ -1,0 +1,251 @@
+.bodyShop {
+  padding: 30px;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+
+.contact-icon {
+  color: #007bff;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-icon:hover {
+  color: #0056b3;
+  transform: scale(1.1);
+}
+.component{
+  padding-left: 590px;
+  margin-bottom: 30px;
+  font-size: 30px;
+  color: #727171;
+}
+
+.Modal {
+  position: relative;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.Productss {
+  margin-top: 80px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns per row */
+  gap: 20px; /* Space between product items */
+}
+
+.products-item {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.products-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-details img {
+  width: 200px; /* Set fixed width */
+  height: 200px; /* Set fixed height */
+  object-fit: cover; /* Ensure image covers the area without distortion */
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.text-container {
+  margin: 10px 0;
+}
+
+.formss input {
+  display: block;
+ width: 700px;
+  /* width: calc(100% - 24px); Adjust for padding */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.btn-save, .btn-cancel, .btn-delete, .btn-update {
+  width: 400px; /* Make buttons the same width as container */
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.btn-save {
+  background-color: #78a6d3;
+  color: #fff;
+}
+
+.btn-cancel {
+  background-color: #ff2007;
+  color: #fff;
+}
+
+.btn-delete {
+  background-color: #ff2007;
+  color: #fff;
+}
+
+.btn-update {
+  background-color: #78a6d3;
+  color: #fff;
+}
+
+.btn-save:hover {
+  background-color: #0d4b89;
+}
+
+.btn-cancel:hover {
+  background-color: #c82333;
+}
+
+.btn-delete:hover {
+  background-color: #e00400;
+}
+
+.btn-update:hover {
+  background-color: #138496;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+
+.footer {
+  background-color: #020202;
+  color: #fff;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: center; /* لتوسيط النص */
+}
+
+.footer-top {
+  display: flex;
+  justify-content: center; /* لتوسيط الأعمدة */
+  flex-wrap: wrap;
+  margin-top: 50px;
+  /* margin-bottom: 20px; */
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  margin: 10px;
+  max-width: 200px; /* لتحديد عرض الأعمدة */
+}
+
+.footer-column h3 {
+  border-bottom: 2px solid #555;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 1.2rem; /* حجم النص لعناوين الأعمدة */
+  color:#555;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column li {
+  margin: 5px 0;
+  font-size: 0.8rem; /* حجم النص للعناصر */
+}
+
+.footer-column a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.7rem; /* حجم النص للروابط */
+}
+
+.footer-column a:hover {
+  text-decoration: underline;
+}
+
+.social-media {
+  display: flex;
+  justify-content: center; /* لتوسيط الأيقونات */
+  gap: 10px;
+}
+
+.social-media a {
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.footer-bottom {
+  border-top: 1px solid #555;
+  padding-top: 10px;
+}
+
+.footer-bottom ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* لتوسيط الروابط */
+  gap: 15px;
+  margin-bottom: 10px;
+  font-size: 0.9rem; /* حجم النص للروابط في الأسفل */
+}
+
+.footer-bottom li {
+  display: inline;
+}
+
+.footer-bottom a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom p {
+  margin: 5px 0;
+  font-size: 0.9rem; /* حجم النص للفقرات في الأسفل */
+  color:#555;
+}

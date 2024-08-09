@@ -139,7 +139,10 @@ const Apps = () => {
         </div>
       </div>
     </div>
-
+    <br/>
+    <br/>
+    <br/>
+    
 <footer class="footer">
 <div class="footer-top">
   <div class="footer-column">

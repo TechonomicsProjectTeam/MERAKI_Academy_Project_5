@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {jwtDecode} from "jwt-decode"; 
 import { updateShopById, setShopInfo } from "../../redux/reducers/Shops/Shops";
-
+import "./StyleSetting.css"
 const cities = ["Amman", "Balqa", "Zarqa", "Madaba", "Irbid", "Ajloun", "Jarash", "Mafraq", "Karak", "Tafilah", "Ma'an", "Aqaba"];
 
 const ShopOwnerSettings = () => {
@@ -114,33 +114,41 @@ const ShopOwnerSettings = () => {
   };
 
   return (
+    <>
     <div className="ShopOwnerSettings">
-      <h2>Shop Owner Settings</h2>
-      <form onSubmit={editShop}>
+      <h2 className="oowner">Shop Owner Settings</h2>
+      <form className="formOwner" onSubmit={editShop}>
         <label>
           Name:
+          <br/>
           {console.log(name)}
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <input className="settingInput"  type="text" value={name} onChange={(e) => setName(e.target.value)} />
         </label>
         <label>
           Description:
-          <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+          <br/>
+         
+          <input className="settingInput"  type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
         </label>
         <label>
           Email:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <br/>
+          <input className="settingInput"  type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </label>
         <label>
           Password:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <br/>
+          <input className="settingInput"  type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </label>
         <label>
           Phone Number:
-          <input type="text" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
+          <br/>
+          <input className="settingInput" type="text" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
         </label>
         <label>
           City:
-          <select value={city} onChange={(e) => setCity(e.target.value)}>
+          <br/>
+          <select className="settingInput"  value={city} onChange={(e) => setCity(e.target.value)}>
             <option value="" disabled>Select a city</option>
             {cities.map((cityName) => (
               <option key={cityName} value={cityName}>{cityName}</option>
@@ -149,12 +157,85 @@ const ShopOwnerSettings = () => {
         </label>
         <div className="file-input-container">
           <label htmlFor="image">Upload an Image:</label>
-          <input type="file" id="image" name="image" accept="image/*" onChange={handleFileChange} />
+          <input className="settingInput"  type="file" id="image" name="image" accept="image/*" onChange={handleFileChange} />
         </div>
-        <button type="submit">Update Shop</button>
+        <button className="button-setting" type="submit">Update Shop</button>
       </form>
       {message && <p className={status ? "success" : "error"}>{message}</p>}
     </div>
+    <br/>
+    <br/>
+<footer class="footer">
+<div class="footer-top">
+  <div class="footer-column">
+    <h3>Restaurants</h3>
+    <ul>
+      <li>Cozy Pizza</li>
+      <li>Sizzle Grill</li>
+      <li>MindHub</li>
+      <li>WOK U LIKE</li>
+      <li>McDonald's</li>
+      <li>More Restaurants...</li>
+    </ul>
+  </div>
+  {/* <div class="footer-column">
+    <h3>Popular Cuisines</h3>
+    <ul>
+      <li>American</li>
+      <li>Arabic</li>
+      <li>Asian</li>
+      <li>Beverages</li>
+      <li>Breakfast</li>
+      <li>More Cuisines...</li>
+    </ul>
+  </div> */}
+  <div class="footer-column">
+    <h3>Popular Areas</h3>
+    <ul>
+      <li>Al Mala'ab</li>
+      <li>Al Huson</li>
+      <li>Al Sareeh</li>
+      <li>Al Mohammadiyeh Amman</li>
+      <li>Bait Ras</li>
+      <li>More Areas...</li>
+    </ul>
+  </div>
+  <div class="footer-column">
+    <h3>Cities</h3>
+    <ul>
+      <li>Ajloun</li>
+      <li>Amman</li>
+      <li>Aqaba</li>
+      <li>Irbid</li>
+      <li>Jerash</li>
+      <li>More Cities...</li>
+    </ul>
+  </div>
+  <div class="footer-column">
+    <h3>Follow us on</h3>
+    <ul class="social-media">
+      <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+      <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+      <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+      <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+      <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+    </ul>
+  </div>
+</div>
+<div class="footer-bottom">
+  <ul>
+    <li><a href="#">Careers</a></li>
+    <li><a href="#">Terms and Conditions</a></li>
+    <li><a href="#">FAQ</a></li>
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Contact Us</a></li>
+    <li><a href="#">Sitemap</a></li>
+  </ul>
+  <p>©2024 QuickServ.com</p>
+  <p>For any support or help you can contact us via our Live Chat</p>
+</div>
+</footer>
+  </>
   );
 };
 

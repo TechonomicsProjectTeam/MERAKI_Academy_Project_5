@@ -1,0 +1,201 @@
+.ShopOwnerSettings {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 100px;
+}
+
+.oowner {
+  text-align: center;
+  color: #615f5f;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* Form Elements */
+.formOwner {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+  
+}
+.settingInput{
+    width: 750px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+input[type="file"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+  flex: 1 1 calc(50% - 15px); /* ensures padding is included in the element's total width and height */
+  /* width: 750px; */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+input[type="file"] {
+  margin-top: 10px;
+  padding: 0; /* Removes padding to fit better */
+  font-size: 14px; /* Adjusts font size for file input */
+}
+
+/* File Input Container */
+.file-input-container {
+  margin-bottom: 20px;
+}
+
+.file-input-container label {
+  font-weight: 500;
+  color: #333;
+}
+
+/* Button */
+.button-setting {
+  background-color: #78a6d3;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: center;
+}
+
+.button-setting:hover {
+  background-color: #0056b3;
+}
+
+/* Status Messages */
+.success,
+.error {
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.success {
+  background-color: #155724;
+}
+
+.error {
+  background-color: #721c24;
+}
+
+.footer {
+  background-color: #020202;
+  color: #fff;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: center; /* لتوسيط النص */
+}
+
+.footer-top {
+  display: flex;
+  justify-content: center; /* لتوسيط الأعمدة */
+  flex-wrap: wrap;
+  margin-top: 50px;
+  /* margin-bottom: 20px; */
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  margin: 10px;
+  max-width: 200px; /* لتحديد عرض الأعمدة */
+}
+
+.footer-column h3 {
+  border-bottom: 2px solid #555;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 1.2rem; /* حجم النص لعناوين الأعمدة */
+  color:#555;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column li {
+  margin: 5px 0;
+  font-size: 0.8rem; /* حجم النص للعناصر */
+}
+
+.footer-column a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.7rem; /* حجم النص للروابط */
+}
+
+.footer-column a:hover {
+  text-decoration: underline;
+}
+
+.social-media {
+  display: flex;
+  justify-content: center; /* لتوسيط الأيقونات */
+  gap: 10px;
+}
+
+.social-media a {
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.footer-bottom {
+  border-top: 1px solid #555;
+  padding-top: 10px;
+}
+
+.footer-bottom ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* لتوسيط الروابط */
+  gap: 15px;
+  margin-bottom: 10px;
+  font-size: 0.9rem; /* حجم النص للروابط في الأسفل */
+}
+
+.footer-bottom li {
+  display: inline;
+}
+
+.footer-bottom a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom p {
+  margin: 5px 0;
+  font-size: 0.9rem; /* حجم النص للفقرات في الأسفل */
+  color:#555;
+}

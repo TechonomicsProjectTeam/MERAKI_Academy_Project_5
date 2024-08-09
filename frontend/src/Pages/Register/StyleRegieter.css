@@ -43,16 +43,25 @@
   flex: 1 1 calc(50% - 15px); /* Adjust the width to take up half the space minus the gap */
 }
 .phoneNumber{
-  margin-top: 10px;
+  margin-top: 3px;
 }
 .userName{
-  margin-top: 10px;
+  margin-top: 3px;
 }
 .lable {
   display: flex;
   align-items: center; 
   gap: 10px; 
   margin-left: 500px;
+}
+.upload{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+  flex: 1 1 calc(50% - 15px);
+  width: 1143px;
 }
 
 .checkbox {

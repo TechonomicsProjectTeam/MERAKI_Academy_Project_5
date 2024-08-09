@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUsers } from "../../redux/reducers/Users/Users";
 import { useNavigate } from "react-router-dom";
-import "../Register/Style.css"
+import "../Register/StyleRegieter.css"
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -135,8 +135,8 @@ const Register = () => {
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
         <div className="file-input-container">
-          <label htmlFor="image">Upload an Image:</label>
-          <input type="file" id="image" name="image" accept="image/*" onChange={handleFileChange} />
+          <label  htmlFor="image">Upload an Image:</label>
+          <input className="upload" type="file" id="image" name="image" accept="image/*" onChange={handleFileChange} />
         </div>
         <div>
           <label className="lable">
