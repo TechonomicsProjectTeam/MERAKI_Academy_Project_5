@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setProducts, deleteProductsById, updateProductsById } from '../../redux/reducers/Products/Products';
 import {jwtDecode} from "jwt-decode"; 
-import "./Style.css";
+import "./StyleOwner.css";
 import socketInit from '../../socket.server';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
@@ -186,68 +186,147 @@ const ShopOwnerDashboard = () => {
   }
   
   return (
-    <div className='bodyShop'>
-      <FontAwesomeIcon
-        icon={faMessage}
-        size='2x'
-        onClick={toggleModal}
-        className="contact-icon"
-      />
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={toggleModal}
-        contentLabel="Contact Modal"
-        ariaHideApp={false}
-        className="Modal"
-        overlayClassName="Overlay"
-      >
-      <h3>Contact Admin</h3>
-      <div className='message-container'>
-          {isConnected && (
-            <Message socket={socket} shop_id={shopId} to={20} senderName={userName} />
-          )}
-        </div>
-      </Modal>
-    <div className='Products'>
-      <h1 className='h11'>Products Component</h1>
-      <div className='divv' >
-        {products?.map((product) => (
-          console.log(product),
-          product && product.product_id ? (
-            <div className='product-item' key={product.product_id}>
-              {selectedProductId === product.product_id ? (
-                <form className='forms'>
-                  <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-                  <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-                  <input type="text" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
-                  <input type="file" onChange={handleFileChange} />
-                  <button className='btn-save' type="button" onClick={() => handleUpdateProduct(product.product_id)}>Save</button>
-                  <button className='btn-cancel' type="button" onClick={() => setSelectedProductId(null)}>Cancel</button>
-                </form>
-              ) : (
-                <div className='divv' >
+    <>
+<div className='bodyShop'>
+  <FontAwesomeIcon
+    icon={faMessage}
+    size='2x'
+    onClick={toggleModal}
+    className="contact-icon"
+  />
+  <Modal
+    isOpen={isOpen}
+    onRequestClose={toggleModal}
+    contentLabel="Contact Modal"
+    ariaHideApp={false}
+    className="Modal"
+    overlayClassName="Overlay"
+  >
+    <h3>Contact Admin</h3>
+    <div className='message-container'>
+      {isConnected && (
+        <Message socket={socket} shop_id={shopId} to={20} senderName={userName} />
+      )}
+    </div>
+  </Modal>
+
+  <div className='Productss'>
+    <h1 className='component'>Products Component</h1>
+    <div className='products-grid'>
+      {products?.map((product) => (
+        product && product.product_id ? (
+          <div className='products-item' key={product.product_id}>
+            {selectedProductId === product.product_id ? (
+              <form className='formss'>
+                <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+                <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                <input type="text" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
+                <input type="file" onChange={handleFileChange} />
+                <button className='btn-save' type="button" onClick={() => handleUpdateProduct(product.product_id)}>Save</button>
+                <br/>
+                <br/>
+                <button className='btn-cancel' type="button" onClick={() => setSelectedProductId(null)}>Cancel</button>
+              </form>
+            ) : (
+              <div className='product-details'>
+                <img src={product.images} alt={product.name} />
+                <div className='text-container'>
                   <h3>{product.name}</h3>
                   <p>{product.description}</p>
                   <p>{product.price}</p>
-                  {product.images && <img src={product.images} alt={product.name}  />}
-                  <button className='btn-delete' onClick={() => deleteProductById(product.product_id)}>Delete</button>
-                  <button className='btn-update' onClick={() => {
-                    setSelectedProductId(product.product_id);
-                    setName(product.name);
-                    setDescription(product.description);
-                    setPrice(product.price);
-                  }}>Update</button>
                 </div>
-              )}
-            </div>
-          ) : null
-        ))}
-      </div>
-      <div className={`message ${status ? "success" : "error"}`}>
-        {message && <p>{message}</p>}
-      </div>
+                <button className='btn-delete' onClick={() => deleteProductById(product.product_id)}>Delete</button>
+                <br/>
+                <br/>
+                <button className='btn-update' onClick={() => {
+                  setSelectedProductId(product.product_id);
+                  setName(product.name);
+                  setDescription(product.description);
+                  setPrice(product.price);
+                }}>Update</button>
+              </div>
+            )}
+          </div>
+        ) : null
+      ))}
+    </div>
+    <div className={`message ${status ? "success" : "error"}`}>
+      {message && <p>{message}</p>}
     </div>
   </div>
+</div>
+
+<footer class="footer">
+<div class="footer-top">
+  <div class="footer-column">
+    <h3>Restaurants</h3>
+    <ul>
+      <li>Cozy Pizza</li>
+      <li>Sizzle Grill</li>
+      <li>MindHub</li>
+      <li>WOK U LIKE</li>
+      <li>McDonald's</li>
+      <li>More Restaurants...</li>
+    </ul>
+  </div>
+  {/* <div class="footer-column">
+    <h3>Popular Cuisines</h3>
+    <ul>
+      <li>American</li>
+      <li>Arabic</li>
+      <li>Asian</li>
+      <li>Beverages</li>
+      <li>Breakfast</li>
+      <li>More Cuisines...</li>
+    </ul>
+  </div> */}
+  <div class="footer-column">
+    <h3>Popular Areas</h3>
+    <ul>
+      <li>Al Mala'ab</li>
+      <li>Al Huson</li>
+      <li>Al Sareeh</li>
+      <li>Al Mohammadiyeh Amman</li>
+      <li>Bait Ras</li>
+      <li>More Areas...</li>
+    </ul>
+  </div>
+  <div class="footer-column">
+    <h3>Cities</h3>
+    <ul>
+      <li>Ajloun</li>
+      <li>Amman</li>
+      <li>Aqaba</li>
+      <li>Irbid</li>
+      <li>Jerash</li>
+      <li>More Cities...</li>
+    </ul>
+  </div>
+  <div class="footer-column">
+    <h3>Follow us on</h3>
+    <ul class="social-media">
+      <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+      <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+      <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+      <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+      <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+    </ul>
+  </div>
+</div>
+<div class="footer-bottom">
+  <ul>
+    <li><a href="#">Careers</a></li>
+    <li><a href="#">Terms and Conditions</a></li>
+    <li><a href="#">FAQ</a></li>
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Contact Us</a></li>
+    <li><a href="#">Sitemap</a></li>
+  </ul>
+  <p>©2024 QuickServ.com</p>
+  <p>For any support or help you can contact us via our Live Chat</p>
+</div>
+</footer>
+  </>
   );
 };
 

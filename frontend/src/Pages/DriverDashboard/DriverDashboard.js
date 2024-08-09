@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateOrderStatus, getOrders, setStatus, setHiddenButtons } from "../../redux/reducers/Orders/Orders";
 import axios from "axios";
-import "../DriverDashboard/Style.css";
+import "../DriverDashboard/StyleOrder.css";
 
 const DriverDashboard = () => {
   const orders = useSelector((state) => state.orders.orders);
@@ -76,7 +76,7 @@ const DriverDashboard = () => {
 
   return (
     <>
-    <div className="Orderss">
+    <div className="Orderrs">
     {orders.map((order) => (
       <div key={order.order_id}>
         <p className="payment-method">
