@@ -89,34 +89,34 @@ npm run start
 
 Now app ready to use
 
-![alt text](image.png)
+![alt text](images/image.png)
 
 ## 🎈 Usage <a name="usage"></a>
 
 - You have to **register first** to navigate our web app. 
 
 - You can register as a **User** or **Driver** like in the image below.
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 - Or you can register as an **Owner** as shown in the image below.
 ![alt text](image-2.png)
 - After registering, you can navigate through our categories from the **User Dashboard** to explore what categories we offer.
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 - You can then browse through each category's shops and rate every shop.
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 - Within each shop, you can view all available products. 
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 - Here, you can add a review or rating, or you can add the product to your cart.
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 - In the cart section, you can see what your cart looks like. You can adjust the quantity of products, remove them, or proceed to order the items in your cart.
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 - You can view your orders status and see who has accepted them.
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 - On the **Driver Dashboard**, you can accept any user's order, see who the user is, and how many products they have.
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 - On the **Owner Dashboard**, you can see how many products your shop has. You can edit or delete them, or add new products to your shop,or you can start chat with the admin.
-![alt text](image-10.png)
+![alt text](images/image-10.png)
 - On the **Admin Dashboard**, you can oversee all the products, categories, shops, users, reviews, orders, and drivers within the app or you can start chat with the a shop.
-![alt text](image-11.png)
+![alt text](images/image-11.png)
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
@@ -184,7 +184,7 @@ Your trello board link
 
 ## Data Flow <a name = "#data_flow"></a>
 
-![alt text](image-12.png)
+![alt text](images/image-12.png)
 
 ## ⚠️ Guided By <a name = "guided_by"></a>
 
