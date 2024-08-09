@@ -117,7 +117,7 @@ const UserSettings = () => {
 
   return (
     <>
-    <div className="editUser">
+    <div className="edit_user">
       <form onSubmit={editUser}>
         <input
           placeholder="FirstName"
