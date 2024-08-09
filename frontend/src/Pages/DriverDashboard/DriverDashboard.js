@@ -83,7 +83,7 @@ const DriverDashboard = () => {
           <span className="label">Payment Method:</span> {order.payment_method}
         </p>
         <p className="from">
-          <span className="label">From:</span> {order.user.username}
+          <span className="label">From:</span> {order?.user?.username}
         </p>
         <p className="order-id">
           <span className="label">Order:</span> {order.order_id}
